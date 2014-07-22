@@ -8,10 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		173106F3197F136500CD9B91 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173106F2197F136500CD9B91 /* AppDelegate.swift */; };
-		173106F5197F136500CD9B91 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173106F4197F136500CD9B91 /* ViewController.swift */; };
 		173106F8197F136500CD9B91 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 173106F6197F136500CD9B91 /* Main.storyboard */; };
 		173106FA197F136500CD9B91 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 173106F9197F136500CD9B91 /* Images.xcassets */; };
 		17310706197F136500CD9B91 /* pcmsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17310705197F136500CD9B91 /* pcmsTests.swift */; };
+		17310717197F1E2C00CD9B91 /* ItemsReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17310716197F1E2C00CD9B91 /* ItemsReaderViewController.swift */; };
+		17310719197F1F6500CD9B91 /* BarcodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17310718197F1F6500CD9B91 /* BarcodeScannerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,12 +29,13 @@
 		173106ED197F136500CD9B91 /* pcms.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pcms.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		173106F1197F136500CD9B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		173106F2197F136500CD9B91 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		173106F4197F136500CD9B91 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		173106F7197F136500CD9B91 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		173106F9197F136500CD9B91 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		173106FF197F136500CD9B91 /* pcmsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = pcmsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		17310704197F136500CD9B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17310705197F136500CD9B91 /* pcmsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pcmsTests.swift; sourceTree = "<group>"; };
+		17310716197F1E2C00CD9B91 /* ItemsReaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ItemsReaderViewController.swift; path = barcode/ItemsReaderViewController.swift; sourceTree = "<group>"; };
+		17310718197F1F6500CD9B91 /* BarcodeScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BarcodeScannerViewController.swift; path = barcode/BarcodeScannerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,9 +77,9 @@
 		173106EF197F136500CD9B91 /* pcms */ = {
 			isa = PBXGroup;
 			children = (
-				173106F2197F136500CD9B91 /* AppDelegate.swift */,
-				173106F4197F136500CD9B91 /* ViewController.swift */,
 				173106F6197F136500CD9B91 /* Main.storyboard */,
+				173106F2197F136500CD9B91 /* AppDelegate.swift */,
+				17310711197F14AA00CD9B91 /* barcode */,
 				173106F9197F136500CD9B91 /* Images.xcassets */,
 				173106F0197F136500CD9B91 /* Supporting Files */,
 			);
@@ -107,6 +109,15 @@
 				17310704197F136500CD9B91 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		17310711197F14AA00CD9B91 /* barcode */ = {
+			isa = PBXGroup;
+			children = (
+				17310716197F1E2C00CD9B91 /* ItemsReaderViewController.swift */,
+				17310718197F1F6500CD9B91 /* BarcodeScannerViewController.swift */,
+			);
+			name = barcode;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,8 +219,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				173106F5197F136500CD9B91 /* ViewController.swift in Sources */,
+				17310717197F1E2C00CD9B91 /* ItemsReaderViewController.swift in Sources */,
 				173106F3197F136500CD9B91 /* AppDelegate.swift in Sources */,
+				17310719197F1F6500CD9B91 /* BarcodeScannerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,8 +340,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = pcms/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -339,8 +353,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = pcms/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -397,6 +413,7 @@
 				1731070B197F136500CD9B91 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1731070C197F136500CD9B91 /* Build configuration list for PBXNativeTarget "pcmsTests" */ = {
 			isa = XCConfigurationList;
@@ -405,6 +422,7 @@
 				1731070E197F136500CD9B91 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
