@@ -18,7 +18,6 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 	var scannerInput: AVCaptureDeviceInput?
 	let scannerOutput = AVCaptureMetadataOutput()
 	var lastScanTime: NSDate
-	@IBOutlet weak var scannerPreviewView: UIView!
 	
 	init(coder aDecoder: NSCoder!) {
 		self.lastScanTime = NSDate.date()
@@ -99,10 +98,9 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 	func addScannerPreview() {
 		let previewLayer: AnyObject! = AVCaptureVideoPreviewLayer.layerWithSession(self.scannerSession)
 		if let scannerPreviewLayer: AVCaptureVideoPreviewLayer = previewLayer as? AVCaptureVideoPreviewLayer {
-			scannerPreviewLayer.frame = self.scannerPreviewView.frame
-			NSLog("%@ %@", scannerPreviewView.frame.width, scannerPreviewView.frame.height)
+			scannerPreviewLayer.frame = self.view.frame
 			scannerPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-			self.scannerPreviewView.layer.addSublayer(scannerPreviewLayer)
+			self.view.layer.addSublayer(scannerPreviewLayer)
 		} else {
 			NSLog("Error while setting up barcode scanner preview layer")
 			let alert = UIAlertView(title: "Error", message: "Unable to create barcode scanner preview", delegate: nil, cancelButtonTitle: "Ok")

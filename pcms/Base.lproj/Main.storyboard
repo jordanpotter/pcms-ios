@@ -45,8 +45,7 @@
                                         <exclude reference="SBl-cH-jeB"/>
                                     </mask>
                                 </variation>
-                                <variation key="widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="0.0" y="20" width="400" height="200"/>
+                                <variation key="widthClass=compact">
                                     <mask key="constraints">
                                         <include reference="SBl-cH-jeB"/>
                                     </mask>
@@ -57,9 +56,6 @@
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="llT-pY-4ki" userLabel="Items Table">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <variation key="widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="0.0" y="220" width="400" height="380"/>
-                                </variation>
                                 <connections>
                                     <segue destination="872-Go-ntV" kind="embed" id="8Xy-Zf-uwO"/>
                                 </connections>
@@ -85,13 +81,13 @@
                                 <exclude reference="llT-pY-4ki"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="r8H-6s-4Zu"/>
                                 <exclude reference="m2O-ae-wSa"/>
                                 <exclude reference="sLg-FL-ZxH"/>
                                 <exclude reference="sWp-hw-gqK"/>
                                 <exclude reference="9Ti-Uq-CO7"/>
                                 <exclude reference="Vrp-Wc-InL"/>
                                 <exclude reference="YWH-4a-cyK"/>
-                                <exclude reference="r8H-6s-4Zu"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -100,13 +96,13 @@
                                 <include reference="llT-pY-4ki"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="r8H-6s-4Zu"/>
                                 <include reference="m2O-ae-wSa"/>
                                 <include reference="sLg-FL-ZxH"/>
                                 <include reference="sWp-hw-gqK"/>
                                 <include reference="9Ti-Uq-CO7"/>
                                 <include reference="Vrp-Wc-InL"/>
                                 <include reference="YWH-4a-cyK"/>
-                                <include reference="r8H-6s-4Zu"/>
                             </mask>
                         </variation>
                     </view>
@@ -127,45 +123,8 @@
                     <view key="view" contentMode="scaleToFill" id="mjP-wF-4wK">
                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zz5-ph-q9r" userLabel="Barcode Scanner Preview">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="zz5-ph-q9r" secondAttribute="trailing" id="Bd8-Zx-mMk"/>
-                            <constraint firstItem="vD3-4l-jbd" firstAttribute="top" secondItem="zz5-ph-q9r" secondAttribute="bottom" id="C1U-pl-h9X"/>
-                            <constraint firstItem="zz5-ph-q9r" firstAttribute="leading" secondItem="mjP-wF-4wK" secondAttribute="leading" id="bED-1Y-LFL"/>
-                            <constraint firstItem="zz5-ph-q9r" firstAttribute="top" secondItem="Fsc-ja-4U6" secondAttribute="bottom" id="pAa-Ue-veK"/>
-                        </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="zz5-ph-q9r"/>
-                            </mask>
-                            <mask key="constraints">
-                                <exclude reference="C1U-pl-h9X"/>
-                                <exclude reference="Bd8-Zx-mMk"/>
-                                <exclude reference="bED-1Y-LFL"/>
-                                <exclude reference="pAa-Ue-veK"/>
-                            </mask>
-                        </variation>
-                        <variation key="widthClass=compact">
-                            <mask key="subviews">
-                                <include reference="zz5-ph-q9r"/>
-                            </mask>
-                            <mask key="constraints">
-                                <include reference="C1U-pl-h9X"/>
-                                <include reference="Bd8-Zx-mMk"/>
-                                <include reference="bED-1Y-LFL"/>
-                                <include reference="pAa-Ue-veK"/>
-                            </mask>
-                        </variation>
                     </view>
-                    <connections>
-                        <outlet property="scannerPreviewView" destination="zz5-ph-q9r" id="qia-p2-9zg"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WBD-6E-uBR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -176,6 +135,7 @@
             <objects>
                 <tableViewController id="872-Go-ntV" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="MtL-IF-4CD">
+                        <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
