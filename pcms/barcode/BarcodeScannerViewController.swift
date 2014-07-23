@@ -10,18 +10,23 @@ import Foundation
 import UIKit
 import AVFoundation
 
+let NEW_ITEM_NOTIFICATION = "new item notification"
+
 class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
 	let scannerSession = AVCaptureSession()
 	let scannerDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
 	var scannerInput: AVCaptureDeviceInput?
 	let scannerOutput: AVCaptureMetadataOutput = AVCaptureMetadataOutput()
+	var lastScanTime: NSDate
 	
 	init(coder aDecoder: NSCoder!) {
+		self.lastScanTime = NSDate.date()
 		super.init(coder: aDecoder)
 		setupScanner()
 	}
 	
 	init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!)  {
+		self.lastScanTime = NSDate.date()
 		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 		setupScanner()
 	}
@@ -29,7 +34,16 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		addScannerPreview()
+	}
+	
+	override func viewWillAppear(animated: Bool) {
+		super.viewDidAppear(animated)
 		scannerSession.startRunning()
+	}
+	
+	override func viewWillDisappear(animated: Bool) {
+		super.viewWillDisappear(animated)
+		scannerSession.stopRunning()
 	}
 	
 	func setupScanner() {
@@ -86,9 +100,15 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 	}
 	
 	func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!)  {
+		if self.lastScanTime.dateByAddingTimeInterval(0.5).compare(NSDate.date()) != NSComparisonResult.OrderedAscending {
+			return
+		}
+		
+		self.lastScanTime = NSDate.date()
+		
 		for metadataObject in metadataObjects {
 			if let machineReadableCodeObject: AVMetadataMachineReadableCodeObject = metadataObject as? AVMetadataMachineReadableCodeObject {
-				NSLog("Found %s", machineReadableCodeObject.stringValue)
+				NSNotificationCenter.defaultCenter().postNotificationName(NEW_ITEM_NOTIFICATION, object: machineReadableCodeObject.stringValue)
 			} else {
 				NSLog("Unrecognized type read %@", metadataObject.type)
 			}
