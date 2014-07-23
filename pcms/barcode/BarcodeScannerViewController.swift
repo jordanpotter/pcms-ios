@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import AVFoundation
+import AudioToolbox
 
 class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
 	let scannerSession = AVCaptureSession()
@@ -80,6 +81,13 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 	}
 	
 	func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!)  {
-		NSLog("TODO: need to handle captured output")
+		for metadataObject in metadataObjects {
+			if let machineReadableCodeObject: AVMetadataMachineReadableCodeObject = metadataObject as? AVMetadataMachineReadableCodeObject {
+				NSLog("Found %s", machineReadableCodeObject.stringValue)
+				AudioServicesPlayAlertSound(UInt32(kSystemSoundID_Vibrate))
+			} else {
+				NSLog("Unrecognized type read %@", metadataObject.type)
+			}
+		}
 	}
 }
