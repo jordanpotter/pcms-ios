@@ -8,10 +8,15 @@
 
 import Foundation
 import UIKit
+import AudioToolbox
 
 class ItemsReaderViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+	}
+	
+	func vibrate() {
+		AudioServicesPlayAlertSound(UInt32(kSystemSoundID_Vibrate))
 	}
 }
