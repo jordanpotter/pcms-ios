@@ -100,6 +100,7 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 		let previewLayer: AnyObject! = AVCaptureVideoPreviewLayer.layerWithSession(self.scannerSession)
 		if let scannerPreviewLayer: AVCaptureVideoPreviewLayer = previewLayer as? AVCaptureVideoPreviewLayer {
 			scannerPreviewLayer.frame = self.scannerPreviewView.frame
+			NSLog("%@ %@", scannerPreviewView.frame.width, scannerPreviewView.frame.height)
 			scannerPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
 			self.scannerPreviewView.layer.addSublayer(scannerPreviewLayer)
 		} else {
