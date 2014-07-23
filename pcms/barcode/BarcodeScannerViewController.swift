@@ -18,6 +18,7 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 	var scannerInput: AVCaptureDeviceInput?
 	let scannerOutput: AVCaptureMetadataOutput = AVCaptureMetadataOutput()
 	var lastScanTime: NSDate
+	@IBOutlet weak var scannerPreviewView: UIView!
 	
 	init(coder aDecoder: NSCoder!) {
 		self.lastScanTime = NSDate.date()
@@ -31,14 +32,15 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 		setupScanner()
 	}
 	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		addScannerPreview()
-	}
-	
 	override func viewWillAppear(animated: Bool) {
 		super.viewDidAppear(animated)
 		scannerSession.startRunning()
+	}
+	
+	override func viewDidAppear(animated: Bool) {
+		super.viewDidAppear(animated)
+		addScannerPreview()
+		NSLog("TODO: check if this adds multiple previews stacked on top of each other")
 	}
 	
 	override func viewWillDisappear(animated: Bool) {
@@ -91,9 +93,9 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 	func addScannerPreview() {
 		let previewLayer: AnyObject! = AVCaptureVideoPreviewLayer.layerWithSession(self.scannerSession)
 		if let scannerPreviewLayer: AVCaptureVideoPreviewLayer = previewLayer as? AVCaptureVideoPreviewLayer {
-			scannerPreviewLayer.frame = self.view.frame
+			scannerPreviewLayer.frame = self.scannerPreviewView.frame
 			scannerPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-			self.view.layer.addSublayer(scannerPreviewLayer)
+			self.scannerPreviewView.layer.addSublayer(scannerPreviewLayer)
 		} else {
 			NSLog("Error while setting up barcode scanner preview layer")
 		}

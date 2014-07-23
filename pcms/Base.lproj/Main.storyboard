@@ -41,7 +41,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="PAv-7y-ulA" secondAttribute="trailing" id="Wcr-z9-rSM"/>
+                            <constraint firstAttribute="trailing" secondItem="PAv-7y-ulA" secondAttribute="trailing" id="m2O-ae-wSa"/>
                             <constraint firstItem="PAv-7y-ulA" firstAttribute="top" secondItem="sOw-CL-ZaR" secondAttribute="bottom" id="sLg-FL-ZxH"/>
                             <constraint firstItem="PAv-7y-ulA" firstAttribute="leading" secondItem="eUy-d4-Rz1" secondAttribute="leading" id="sWp-hw-gqK"/>
                         </constraints>
@@ -50,7 +50,7 @@
                                 <exclude reference="PAv-7y-ulA"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="Wcr-z9-rSM"/>
+                                <exclude reference="m2O-ae-wSa"/>
                                 <exclude reference="sLg-FL-ZxH"/>
                                 <exclude reference="sWp-hw-gqK"/>
                             </mask>
@@ -60,7 +60,7 @@
                                 <include reference="PAv-7y-ulA"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="Wcr-z9-rSM"/>
+                                <include reference="m2O-ae-wSa"/>
                                 <include reference="sLg-FL-ZxH"/>
                                 <include reference="sWp-hw-gqK"/>
                             </mask>
@@ -83,28 +83,44 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hello" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cxx-pB-b6H">
-                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="95" y="81" width="37" height="21"/>
-                                </variation>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zz5-ph-q9r" userLabel="Barcode Scanner Preview">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="zz5-ph-q9r" secondAttribute="trailing" id="Bd8-Zx-mMk"/>
+                            <constraint firstItem="vD3-4l-jbd" firstAttribute="top" secondItem="zz5-ph-q9r" secondAttribute="bottom" id="C1U-pl-h9X"/>
+                            <constraint firstItem="zz5-ph-q9r" firstAttribute="leading" secondItem="mjP-wF-4wK" secondAttribute="leading" id="bED-1Y-LFL"/>
+                            <constraint firstItem="zz5-ph-q9r" firstAttribute="top" secondItem="Fsc-ja-4U6" secondAttribute="bottom" id="pAa-Ue-veK"/>
+                        </constraints>
                         <variation key="default">
                             <mask key="subviews">
-                                <exclude reference="Cxx-pB-b6H"/>
+                                <exclude reference="zz5-ph-q9r"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="Bd8-Zx-mMk"/>
+                                <exclude reference="bED-1Y-LFL"/>
+                                <exclude reference="pAa-Ue-veK"/>
+                                <exclude reference="C1U-pl-h9X"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="subviews">
-                                <include reference="Cxx-pB-b6H"/>
+                                <include reference="zz5-ph-q9r"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="Bd8-Zx-mMk"/>
+                                <include reference="bED-1Y-LFL"/>
+                                <include reference="pAa-Ue-veK"/>
+                                <include reference="C1U-pl-h9X"/>
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="scannerPreviewView" destination="zz5-ph-q9r" id="qia-p2-9zg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WBD-6E-uBR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
