@@ -13,6 +13,11 @@ import AudioToolbox
 class ItemsReaderViewController: UIViewController {
 	var currentItems = Dictionary<String, Bool>()
 	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		self.title = "PCMS"
+	}
+	
 	override func viewWillAppear(animated: Bool) {
 		super.viewDidAppear(animated)
 		NSNotificationCenter.defaultCenter().addObserverForName(NEW_ITEM_NOTIFICATION, object:nil, queue:NSOperationQueue.mainQueue(), usingBlock:processNewItem)
