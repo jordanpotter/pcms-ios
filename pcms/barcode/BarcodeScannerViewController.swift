@@ -16,7 +16,7 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 	let scannerSession = AVCaptureSession()
 	let scannerDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
 	var scannerInput: AVCaptureDeviceInput?
-	let scannerOutput: AVCaptureMetadataOutput = AVCaptureMetadataOutput()
+	let scannerOutput = AVCaptureMetadataOutput()
 	var lastScanTime: NSDate
 	@IBOutlet weak var scannerPreviewView: UIView!
 	
@@ -49,45 +49,51 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 	}
 	
 	func setupScanner() {
-		setupScannerInput()
-		setupScannerConfiguration()
-		setupScannerOutput()
+		setupScannerInput() && setupScannerConfiguration() && setupScannerOutput()
 	}
 	
-	func setupScannerInput() {
+	func setupScannerInput() -> Bool {
 		var scannerError: NSError?
 		self.scannerInput = AVCaptureDeviceInput.deviceInputWithDevice(scannerDevice, error: &scannerError) as? AVCaptureDeviceInput
 		
 		if let error = scannerError {
 			NSLog("Error while creating barcode scanner input: %@", error)
+			let alert = UIAlertView(title: "Error", message: error.localizedDescription, delegate: nil, cancelButtonTitle: "Ok")
+			alert.show()
+			return false
 		} else {
 			self.scannerSession.addInput(self.scannerInput)
+			return true
 		}
 	}
 
-	func setupScannerConfiguration() {
+	func setupScannerConfiguration() -> Bool {
 		var lockError: NSError?
-		scannerDevice.lockForConfiguration(&lockError)
+		self.scannerDevice.lockForConfiguration(&lockError)
 		if let error = lockError {
 			NSLog("Error while configuring barcode scanner: %@", error)
-			return
+			let alert = UIAlertView(title: "Error", message: error.localizedDescription, delegate: nil, cancelButtonTitle: "Ok")
+			alert.show()
+			return false
 		}
 		
-		if scannerDevice.autoFocusRangeRestrictionSupported {
-			scannerDevice.autoFocusRangeRestriction = .Near
+		if self.scannerDevice.autoFocusRangeRestrictionSupported {
+			self.scannerDevice.autoFocusRangeRestriction = .Near
 		}
 		
-		if scannerDevice.focusPointOfInterestSupported {
-			scannerDevice.focusPointOfInterest = CGPoint(x: 0.5, y: 0.5)
+		if self.scannerDevice.focusPointOfInterestSupported {
+			self.scannerDevice.focusPointOfInterest = CGPoint(x: 0.5, y: 0.5)
 		}
 		
-		scannerDevice.unlockForConfiguration()
+		self.scannerDevice.unlockForConfiguration()
+		return true
 	}
 
-	func setupScannerOutput() {
+	func setupScannerOutput() -> Bool {
 		self.scannerOutput.setMetadataObjectsDelegate(self, queue:dispatch_get_main_queue())
 		self.scannerSession.addOutput(self.scannerOutput)
 		self.scannerOutput.metadataObjectTypes = self.scannerOutput.availableMetadataObjectTypes
+		return true
 	}
 
 	func addScannerPreview() {
@@ -98,11 +104,14 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 			self.scannerPreviewView.layer.addSublayer(scannerPreviewLayer)
 		} else {
 			NSLog("Error while setting up barcode scanner preview layer")
+			let alert = UIAlertView(title: "Error", message: "Unable to create barcode scanner preview", delegate: nil, cancelButtonTitle: "Ok")
+			alert.show()
 		}
 	}
 	
 	func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!)  {
-		if self.lastScanTime.dateByAddingTimeInterval(0.5).compare(NSDate.date()) != NSComparisonResult.OrderedAscending {
+		let enoughTimeHasPassed = self.lastScanTime.dateByAddingTimeInterval(0.5).compare(NSDate.date()) == NSComparisonResult.OrderedAscending
+		if !enoughTimeHasPassed {
 			return
 		}
 		
