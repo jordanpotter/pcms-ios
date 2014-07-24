@@ -12,8 +12,7 @@ import UIKit
 class ItemDetailsViewController: UIViewController {
 	var item: Item?
 	@IBOutlet weak var salesOrderButton: UIButton!
-	@IBOutlet weak var phaseButton: UIButton!
-	@IBOutlet weak var shelfTextField: UITextField!
+	@IBOutlet weak var notesTextView: UITextView!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -23,7 +22,6 @@ class ItemDetailsViewController: UIViewController {
 	
 	func setupUI() {
 		self.setTitleForAllButtonStates(self.salesOrderButton, title: self.item?.salesOrder)
-		self.setTitleForAllButtonStates(self.phaseButton, title: self.item?.phase)
 	}
 	
 	func setTitleForAllButtonStates(button: UIButton!, title:NSString?) {
@@ -38,14 +36,11 @@ class ItemDetailsViewController: UIViewController {
 	}
 	
 	func resignAllResponders() {
-		self.shelfTextField.resignFirstResponder()
+		self.notesTextView.resignFirstResponder()
 	}
 	
 	@IBAction func salesOrderButtonClicked() {
 		NSLog("sales order button clicked")
-	}
-	
-	@IBAction func phaseButtonClicked() {
-		NSLog("phase button clicked")
+		self.resignAllResponders()
 	}
 }
