@@ -32,7 +32,7 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 	}
 	
 	override func viewWillAppear(animated: Bool) {
-		super.viewDidAppear(animated)
+		super.viewWillAppear(animated)
 		scannerSession.startRunning()
 	}
 	

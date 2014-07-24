@@ -14,7 +14,7 @@ class ScannedItemsTableViewController: UITableViewController {
 	var currentItems = Array<Item>()
 	
 	override func viewWillAppear(animated: Bool) {
-		super.viewDidAppear(animated)
+		super.viewWillAppear(animated)
 		NSNotificationCenter.defaultCenter().addObserverForName(NEW_ITEM_NOTIFICATION, object:nil, queue:NSOperationQueue.mainQueue(), usingBlock:processNewItem)
 	}
 	
@@ -27,12 +27,9 @@ class ScannedItemsTableViewController: UITableViewController {
 		if segue.identifier == "show item details" {
 			let indexPath: NSIndexPath = self.tableView.indexPathForSelectedRow()
 			let selectedItem = self.currentItems[indexPath.row]
-			NSLog("need to prepare using item: %@", selectedItem.id)
 			
-			//				ReadChatViewController *readChatViewController = segue.destinationViewController;
-			//				readChatViewController.managedObjectContext = self.managedObjectContext;
-			//				readChatViewController.chat = chat;
-
+			let itemDetailsViewController: ItemDetailsViewController = segue.destinationViewController as ItemDetailsViewController
+			itemDetailsViewController.item = selectedItem
 		}
 	}
 	
