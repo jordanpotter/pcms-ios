@@ -23,6 +23,19 @@ class ScannedItemsTableViewController: UITableViewController {
 		NSNotificationCenter.defaultCenter().removeObserver(self, name:NEW_ITEM_NOTIFICATION, object:nil)
 	}
 	
+	override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+		if segue.identifier == "show item details" {
+			let indexPath: NSIndexPath = self.tableView.indexPathForSelectedRow()
+			let selectedItem = self.currentItems[indexPath.row]
+			NSLog("need to prepare using item: %@", selectedItem.id)
+			
+			//				ReadChatViewController *readChatViewController = segue.destinationViewController;
+			//				readChatViewController.managedObjectContext = self.managedObjectContext;
+			//				readChatViewController.chat = chat;
+
+		}
+	}
+	
 	func processNewItem(notification: NSNotification!) {
 		if let itemId: NSString = notification.object as? NSString {
 			if self.currentItems.filter({$0.id == itemId}).count == 0 {
