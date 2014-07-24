@@ -34,9 +34,13 @@ class ScannedItemsTableViewController: UITableViewController {
 	}
 	
 	func processNewItem(notification: NSNotification!) {
-		if let itemId: NSString = notification.object as? NSString {
-			if self.currentItems.filter({$0.id == itemId}).count == 0 {
-				let item = Item(id: itemId)
+		if let itemSerial: NSString = notification.object as? NSString {
+			if self.currentItems.filter({$0.serial == itemSerial}).count == 0 {
+				var item = Item(serial: itemSerial)
+				
+				NSLog("need to pull item info before adding to table")
+				item.saturateData(nil)
+				
 				self.currentItems.append(item)
 				self.tableView.reloadData()
 				self.vibrateDevice()
@@ -58,7 +62,7 @@ class ScannedItemsTableViewController: UITableViewController {
 	
 	override func tableView(tableView: UITableView?, cellForRowAtIndexPath indexPath: NSIndexPath?) -> UITableViewCell? {
 		let cell = tableView?.dequeueReusableCellWithIdentifier("scanned item cell") as? UITableViewCell
-		cell!.textLabel.text = self.currentItems[indexPath!.row].id
+		cell!.textLabel.text = self.currentItems[indexPath!.row].serial
 		return cell
 	}
 }
