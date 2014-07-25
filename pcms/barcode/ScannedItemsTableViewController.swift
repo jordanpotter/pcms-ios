@@ -61,8 +61,14 @@ class ScannedItemsTableViewController: UITableViewController {
 	}
 	
 	override func tableView(tableView: UITableView?, cellForRowAtIndexPath indexPath: NSIndexPath?) -> UITableViewCell? {
-		let cell = tableView?.dequeueReusableCellWithIdentifier("scanned item cell") as? UITableViewCell
-		cell!.textLabel.text = self.currentItems[indexPath!.row].serial
-		return cell
+		if let cell = tableView?.dequeueReusableCellWithIdentifier("scanned item cell") as? ScannedItemTableViewCell {
+			let item = self.currentItems[indexPath!.row]
+			cell.serial = item.serial
+			cell.phase = item.phase
+			cell.shelf = item.shelf
+			return cell
+		} else {
+			return nil
+		}
 	}
 }
