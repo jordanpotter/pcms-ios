@@ -69,6 +69,18 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDelegate, UIPicke
 		self.allowedSalesOrders.append("PD212R")
 	}
 	
+	override func viewWillAppear(animated: Bool) {
+		super.viewWillAppear(animated)
+		NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardDidShowNotification, object:nil, queue:NSOperationQueue.mainQueue(), usingBlock:keyboardAppeared)
+		NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillHideNotification, object:nil, queue:NSOperationQueue.mainQueue(), usingBlock:keyboardDisappeared)
+	}
+	
+	override func viewWillDisappear(animated: Bool) {
+		super.viewWillDisappear(animated)
+		NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardDidShowNotification, object:nil)
+		NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillHideNotification, object:nil)
+	}
+	
 	override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
 		if segue.identifier == "embed item dimensions" {
 			let dimensionsTableViewController = segue.destinationViewController as DimensionsTableViewController
@@ -96,6 +108,15 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDelegate, UIPicke
 	
 	func resignAllResponders() {
 		self.noteTextView.resignFirstResponder()
+	}
+	
+	func keyboardAppeared(notification: NSNotification!) {
+		let keyboardFrame = notification.userInfo[UIKeyboardFrameBeginUserInfoKey].CGRectValue
+//		self.bodyTextViewBottom.constant = self.bodyTextViewOriginalBottom + keyboardFrame.size.height;
+	}
+	
+	func keyboardDisappeared(notification: NSNotification!) {
+//		self.bodyTextViewBottom.constant = self.bodyTextViewOriginalBottom;
 	}
 	
 	@IBAction func salesOrderButtonClicked() {
