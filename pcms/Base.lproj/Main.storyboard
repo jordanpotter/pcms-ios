@@ -255,21 +255,23 @@
                                     <action selector="salesOrderButtonClicked" destination="bdA-0S-IKE" eventType="touchUpInside" id="iIa-4m-UgZ"/>
                                 </connections>
                             </button>
+                            <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bqh-Xq-fbS" userLabel="Sales Order Picker">
+                                <rect key="frame" x="0.0" y="-162" width="320" height="162"/>
+                            </pickerView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eIP-4H-YQR">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YzU-02-HsD" userLabel="Notes Text View">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YzU-02-HsD" userLabel="Note Text View">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.95777258211678828" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="WUi-9B-qwB">
                                         <variation key="widthClass=compact" constant="80"/>
                                     </constraint>
                                 </constraints>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <variation key="default">
@@ -326,6 +328,7 @@
                                 <variation key="widthClass=compact" constant="20"/>
                             </constraint>
                             <constraint firstItem="KRv-z6-neN" firstAttribute="leading" secondItem="YzU-02-HsD" secondAttribute="leading" id="Q5Y-Ee-KDC"/>
+                            <constraint firstItem="Bqh-Xq-fbS" firstAttribute="leading" secondItem="7rx-uP-JeU" secondAttribute="leading" id="Tu3-X6-Tuu"/>
                             <constraint firstItem="Wc8-SK-AJH" firstAttribute="top" secondItem="LzG-7f-2uo" secondAttribute="bottom" constant="23" id="Vlm-rM-sQb">
                                 <variation key="widthClass=compact" constant="10"/>
                             </constraint>
@@ -338,8 +341,12 @@
                             <constraint firstAttribute="trailing" secondItem="YzU-02-HsD" secondAttribute="trailing" constant="140" id="fSn-Gs-HTT">
                                 <variation key="widthClass=compact" constant="20"/>
                             </constraint>
+                            <constraint firstAttribute="trailing" secondItem="Bqh-Xq-fbS" secondAttribute="trailing" id="ff2-kV-5xb"/>
                             <constraint firstItem="LzG-7f-2uo" firstAttribute="top" secondItem="YzU-02-HsD" secondAttribute="bottom" constant="19" id="krU-q0-Hbw">
                                 <variation key="widthClass=compact" constant="15"/>
+                            </constraint>
+                            <constraint firstItem="rFJ-BA-TKj" firstAttribute="top" secondItem="Bqh-Xq-fbS" secondAttribute="bottom" constant="-24" id="wLg-3X-Ezx">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                             </constraint>
                             <constraint firstItem="KRv-z6-neN" firstAttribute="top" secondItem="I9J-qM-4DG" secondAttribute="bottom" constant="20" id="xia-Li-5kl"/>
                         </constraints>
@@ -347,6 +354,7 @@
                             <mask key="subviews">
                                 <exclude reference="KRv-z6-neN"/>
                                 <exclude reference="FIN-Cb-BuZ"/>
+                                <exclude reference="Bqh-Xq-fbS"/>
                                 <exclude reference="eIP-4H-YQR"/>
                                 <exclude reference="YzU-02-HsD"/>
                                 <exclude reference="LzG-7f-2uo"/>
@@ -359,14 +367,17 @@
                                 <exclude reference="9gV-0U-DgG"/>
                                 <exclude reference="Q5Y-Ee-KDC"/>
                                 <exclude reference="xia-Li-5kl"/>
-                                <exclude reference="krU-q0-Hbw"/>
                                 <exclude reference="YhJ-yN-xTE"/>
+                                <exclude reference="fQX-TE-Nuf"/>
+                                <exclude reference="fSn-Gs-HTT"/>
                                 <exclude reference="G9T-hH-XTm"/>
+                                <exclude reference="krU-q0-Hbw"/>
                                 <exclude reference="1Df-xZ-ajI"/>
                                 <exclude reference="Epy-wN-LdC"/>
                                 <exclude reference="Vlm-rM-sQb"/>
-                                <exclude reference="fQX-TE-Nuf"/>
-                                <exclude reference="fSn-Gs-HTT"/>
+                                <exclude reference="Tu3-X6-Tuu"/>
+                                <exclude reference="ff2-kV-5xb"/>
+                                <exclude reference="wLg-3X-Ezx"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -385,14 +396,24 @@
                                 <include reference="9gV-0U-DgG"/>
                                 <include reference="Q5Y-Ee-KDC"/>
                                 <include reference="xia-Li-5kl"/>
-                                <include reference="krU-q0-Hbw"/>
                                 <include reference="YhJ-yN-xTE"/>
+                                <include reference="fQX-TE-Nuf"/>
+                                <include reference="fSn-Gs-HTT"/>
                                 <include reference="G9T-hH-XTm"/>
+                                <include reference="krU-q0-Hbw"/>
                                 <include reference="1Df-xZ-ajI"/>
                                 <include reference="Epy-wN-LdC"/>
                                 <include reference="Vlm-rM-sQb"/>
-                                <include reference="fQX-TE-Nuf"/>
-                                <include reference="fSn-Gs-HTT"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="Bqh-Xq-fbS"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="Tu3-X6-Tuu"/>
+                                <include reference="ff2-kV-5xb"/>
+                                <include reference="wLg-3X-Ezx"/>
                             </mask>
                         </variation>
                         <connections>
@@ -400,17 +421,11 @@
                         </connections>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="cWG-aF-rJe">
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="MxN-pY-JOG">
-                            <connections>
-                                <action selector="saveItem:" destination="bdA-0S-IKE" id="GxS-OV-dmz"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="notesTextView" destination="YzU-02-HsD" id="6NX-hs-pSC"/>
+                        <outlet property="noteTextView" destination="YzU-02-HsD" id="ONL-8w-A3n"/>
                         <outlet property="salesOrderButton" destination="FIN-Cb-BuZ" id="SuG-vj-lBg"/>
+                        <outlet property="salesOrderPicker" destination="Bqh-Xq-fbS" id="J6V-7Q-QTb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aLM-3x-3cg" userLabel="First Responder" sceneMemberID="firstResponder"/>

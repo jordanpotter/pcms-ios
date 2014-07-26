@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Item {
+class Item {
 	var id: Int?
 	var serial: String
 	var salesOrder: String?
@@ -31,7 +31,7 @@ struct Item {
 		self.serial = serial
 	}
 	
-	mutating func saturateData(completionHandler: ((NSError?) -> ())?) {
+	func saturateData(completionHandler: ((NSError?) -> ())?) {
 		NSLog("TODO: load item data here")
 		self.id = 17
 		self.salesOrder = "sales order"
