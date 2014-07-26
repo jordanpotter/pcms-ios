@@ -69,6 +69,15 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDelegate, UIPicke
 		self.allowedSalesOrders.append("PD212R")
 	}
 	
+	override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+		if segue.identifier == "embed item dimensions" {
+			let dimensionsTableViewController = segue.destinationViewController as DimensionsTableViewController
+			if self.item {
+				dimensionsTableViewController.itemDimensions = self.item!.dimensions
+			}
+		}
+	}
+	
 	func updateUI() {
 		self.setTitleForAllButtonStates(self.salesOrderButton, title: self.newSalesOrder)
 		self.noteTextView.text = self.newNote

@@ -28,7 +28,7 @@ class ScannedItemsTableViewController: UITableViewController {
 			let indexPath: NSIndexPath = self.tableView.indexPathForSelectedRow()
 			let selectedItem = self.currentItems[indexPath.row]
 			
-			let itemDetailsViewController: ItemDetailsViewController = segue.destinationViewController as ItemDetailsViewController
+			let itemDetailsViewController = segue.destinationViewController as ItemDetailsViewController
 			itemDetailsViewController.item = selectedItem
 		}
 	}
@@ -50,10 +50,6 @@ class ScannedItemsTableViewController: UITableViewController {
 	
 	func vibrateDevice() {
 		AudioServicesPlayAlertSound(UInt32(kSystemSoundID_Vibrate))
-	}
-	
-	override func numberOfSectionsInTableView(tableView: UITableView?) -> Int {
-		return 1
 	}
 	
 	override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int {

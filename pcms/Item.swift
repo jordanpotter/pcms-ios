@@ -15,17 +15,7 @@ class Item {
 	var phase: String?
 	var shelf: String?
 	var note: String?
-	var width: Float?
-	var length: Float?
-	var area: Float? {
-		get {
-			if !self.width || !self.length {
-				return nil
-			} else {
-				return self.width! * self.length!
-			}
-		}
-	}
+	var dimensions = Array<ItemDimensions>()
 	
 	init(serial: String) {
 		self.serial = serial
@@ -34,13 +24,19 @@ class Item {
 	func saturateData(completionHandler: ((NSError?) -> ())?) {
 		NSLog("TODO: load item data here")
 		self.id = 17
-		self.salesOrder = "sales order"
-		self.phase = "phase"
-		self.shelf = "shelf 1"
-		self.width = 17.0
-		self.length = 13.9
-		self.note = "some note here"
+		self.salesOrder = "PT043R"
+		self.phase = "NC"
+		self.shelf = "D23"
+		self.note = "This is an excellent film full of great potential"
+		self.dimensions.append(ItemDimensions(width: 17.0, length: 19.3))
+		self.dimensions.append(ItemDimensions(width: 13.1, length: 19.8))
 		
 		completionHandler?(nil)
 	}
+}
+
+struct ItemDimensions {
+	var width: Float
+	var length: Float
+	var area: Float { return self.width * self.length }
 }
