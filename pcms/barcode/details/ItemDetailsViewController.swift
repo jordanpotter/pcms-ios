@@ -9,12 +9,13 @@
 import Foundation
 import UIKit
 
-class ItemDetailsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource  {
+class ItemDetailsViewController: UIViewController, UITextViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource  {
 	var item: Item?
 	var allowedSalesOrders = Array<String>()
 	var saveButton: UIBarButtonItem?
 	var setSalesOrderButton: UIBarButtonItem?
 	var cancelSetSalesOrderButton: UIBarButtonItem?
+	var noteTextViewOriginalBottom = 0.0
 	
 	var newSalesOrder: String?
 	var newNote: String?
@@ -23,6 +24,7 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDelegate, UIPicke
 	@IBOutlet weak var salesOrderPicker: UIPickerView!
 	@IBOutlet weak var salesOrderPickerOverlay: UIView!
 	@IBOutlet weak var noteTextView: UITextView!
+	@IBOutlet weak var noteTextViewBottom: NSLayoutConstraint!
 	
 	var settingSalesOrder: Bool {
 		get {
@@ -55,6 +57,8 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDelegate, UIPicke
 		self.setSalesOrderButton = UIBarButtonItem(title: "Select", style: .Plain, target: self, action: "setSalesOrder")
 		self.cancelSetSalesOrderButton = UIBarButtonItem(title: "Cancel", style: .Plain, target: self, action: "cancelSetSalesOrder")
 		
+		self.noteTextView.delegate = self
+		
 		self.salesOrderPicker.delegate = self
 		self.salesOrderPicker.dataSource = self
 		
@@ -73,6 +77,11 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDelegate, UIPicke
 		super.viewWillAppear(animated)
 		NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardDidShowNotification, object:nil, queue:NSOperationQueue.mainQueue(), usingBlock:keyboardAppeared)
 		NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillHideNotification, object:nil, queue:NSOperationQueue.mainQueue(), usingBlock:keyboardDisappeared)
+	}
+	
+	override func viewDidAppear(animated: Bool) {
+		super.viewDidAppear(animated)
+		self.noteTextViewOriginalBottom = Double(self.noteTextViewBottom.constant)
 	}
 	
 	override func viewWillDisappear(animated: Bool) {
@@ -111,12 +120,18 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDelegate, UIPicke
 	}
 	
 	func keyboardAppeared(notification: NSNotification!) {
-		let keyboardFrame = notification.userInfo[UIKeyboardFrameBeginUserInfoKey].CGRectValue
-//		self.bodyTextViewBottom.constant = self.bodyTextViewOriginalBottom + keyboardFrame.size.height;
+		if let rectValue = notification.userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue {
+			let keyboardFrame:CGRect = rectValue.CGRectValue()
+			self.noteTextViewBottom.constant = CGFloat(self.noteTextViewOriginalBottom) + keyboardFrame.size.height
+		}
 	}
 	
 	func keyboardDisappeared(notification: NSNotification!) {
-//		self.bodyTextViewBottom.constant = self.bodyTextViewOriginalBottom;
+		self.noteTextViewBottom.constant = CGFloat(self.noteTextViewOriginalBottom)
+	}
+	
+	func textViewDidEndEditing(textView: UITextView!) {
+		self.newNote = self.noteTextView.text
 	}
 	
 	@IBAction func salesOrderButtonClicked() {
@@ -131,10 +146,6 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDelegate, UIPicke
 				self.salesOrderPicker.selectRow(index, inComponent: 0, animated: false)
 			}
 		}
-	}
-	
-	func saveItem() {
-		NSLog("Need to save item")
 	}
 	
 	func setSalesOrder() {
@@ -157,5 +168,9 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDelegate, UIPicke
 	
 	func pickerView(pickerView: UIPickerView!, titleForRow row: Int, forComponent component: Int) -> String! {
 		return self.allowedSalesOrders[row]
+	}
+	
+	func saveItem() {
+		NSLog("Need to save item")
 	}
 }
