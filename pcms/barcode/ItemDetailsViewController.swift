@@ -21,6 +21,7 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDelegate, UIPicke
 	
 	@IBOutlet weak var salesOrderButton: UIButton!
 	@IBOutlet weak var salesOrderPicker: UIPickerView!
+	@IBOutlet weak var salesOrderPickerOverlay: UIView!
 	@IBOutlet weak var noteTextView: UITextView!
 	
 	var settingSalesOrder: Bool {
@@ -30,10 +31,12 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDelegate, UIPicke
 		set {
 			if newValue {
 				self.salesOrderPicker.hidden = false
+				self.salesOrderPickerOverlay.hidden = false
 				self.navigationItem.leftBarButtonItem = self.cancelSetSalesOrderButton
 				self.navigationItem.rightBarButtonItem = self.setSalesOrderButton
 			} else {
 				self.salesOrderPicker.hidden = true
+				self.salesOrderPickerOverlay.hidden = true
 				self.navigationItem.leftBarButtonItem = nil
 				self.navigationItem.rightBarButtonItem = self.saveButton
 			}
