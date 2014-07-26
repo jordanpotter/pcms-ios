@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6185.11" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1vT-5L-JxL">
     <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6190.4"/>
     </dependencies>
     <scenes>
@@ -266,12 +267,12 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wc8-SK-AJH">
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wc8-SK-AJH" userLabel="Dimensions Container">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="AYg-oO-rRX">
                                         <variation key="widthClass=compact" constant="120"/>
-                                        <variation key="heightClass=regular-widthClass=compact" constant="60"/>
+                                        <variation key="heightClass=regular-widthClass=compact" constant="75"/>
                                     </constraint>
                                 </constraints>
                                 <variation key="default">
@@ -463,7 +464,7 @@
         <scene sceneID="c0m-Ui-Kbo">
             <objects>
                 <tableViewController id="GGS-DE-SI9" customClass="DimensionsTableViewController" customModule="pcms" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="35" sectionHeaderHeight="22" sectionFooterHeight="22" id="RjW-Se-0Eh">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="35" sectionHeaderHeight="22" sectionFooterHeight="22" id="RjW-Se-0Eh">
                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
