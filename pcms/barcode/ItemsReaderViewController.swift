@@ -11,8 +11,4 @@ import UIKit
 
 class ItemsReaderViewController: UIViewController {
 
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		self.title = "PCMS"
-	}
 }

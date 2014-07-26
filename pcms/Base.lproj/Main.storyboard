@@ -186,12 +186,12 @@
                                             <exclude reference="LKr-De-Ral"/>
                                         </mask>
                                         <mask key="constraints">
-                                            <exclude reference="cLv-nX-SMx"/>
-                                            <exclude reference="xNn-Bh-tZq"/>
                                             <exclude reference="SDD-p4-yL3"/>
                                             <exclude reference="vjd-ag-n45"/>
                                             <exclude reference="wXX-lX-uR8"/>
                                             <exclude reference="cmq-jv-nnW"/>
+                                            <exclude reference="cLv-nX-SMx"/>
+                                            <exclude reference="xNn-Bh-tZq"/>
                                         </mask>
                                     </variation>
                                     <variation key="widthClass=compact">
@@ -201,12 +201,12 @@
                                             <include reference="LKr-De-Ral"/>
                                         </mask>
                                         <mask key="constraints">
-                                            <include reference="cLv-nX-SMx"/>
-                                            <include reference="xNn-Bh-tZq"/>
                                             <include reference="SDD-p4-yL3"/>
                                             <include reference="vjd-ag-n45"/>
                                             <include reference="wXX-lX-uR8"/>
                                             <include reference="cmq-jv-nnW"/>
+                                            <include reference="cLv-nX-SMx"/>
+                                            <include reference="xNn-Bh-tZq"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -399,6 +399,15 @@
                             <outletCollection property="gestureRecognizers" destination="vaU-pZ-Len" appends="YES" id="PpD-XR-FS6"/>
                         </connections>
                     </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="cWG-aF-rJe">
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="MxN-pY-JOG">
+                            <connections>
+                                <action selector="saveItem:" destination="bdA-0S-IKE" id="GxS-OV-dmz"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="notesTextView" destination="YzU-02-HsD" id="6NX-hs-pSC"/>
                         <outlet property="salesOrderButton" destination="FIN-Cb-BuZ" id="SuG-vj-lBg"/>

@@ -43,4 +43,8 @@ class ItemDetailsViewController: UIViewController {
 		NSLog("sales order button clicked")
 		self.resignAllResponders()
 	}
+	
+	@IBAction func saveItem(sender: UIBarButtonItem) {
+		NSLog("Need to save item")
+	}
 }
