@@ -49,7 +49,6 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		self.title = self.item?.serial
 		
 		self.newSalesOrder = self.item?.salesOrder
 		self.newNote = self.item?.note
@@ -67,6 +66,10 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		self.noteTextView.delegate = self
 		
 		self.updateUI()
+		
+		self.title = self.item?.serial
+		self.navigationItem.leftBarButtonItem = nil
+		self.navigationItem.rightBarButtonItem = self.saveButton
 		
 		NSLog("Need to pull possible sales orders here")
 		self.allowedSalesOrders.append("PD055R")
@@ -199,6 +202,14 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	}
 	
 	func saveItem() {
-		NSLog("Need to save item")
+		NSLog("Need to perform save request")
+		
+		if let item = self.item {
+			item.salesOrder = self.newSalesOrder
+			item.note = self.newNote
+			item.allDimensions = self.newAllDimensions!
+		}
+		
+		self.navigationController.popViewControllerAnimated(true)
 	}
 }
