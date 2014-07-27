@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class ItemDetailsViewController: UIViewController, UITextViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource  {
+class ItemDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource  {
 	var item: Item?
 	var allowedSalesOrders = Array<String>()
 	var saveButton: UIBarButtonItem?
@@ -23,6 +23,7 @@ class ItemDetailsViewController: UIViewController, UITextViewDelegate, UIPickerV
 	@IBOutlet weak var salesOrderButton: UIButton!
 	@IBOutlet weak var salesOrderPicker: UIPickerView!
 	@IBOutlet weak var salesOrderPickerOverlay: UIView!
+	@IBOutlet weak var dimensionsTableView: UITableView!
 	@IBOutlet weak var noteTextView: UITextView!
 	@IBOutlet weak var noteTextViewBottom: NSLayoutConstraint!
 	
@@ -57,10 +58,11 @@ class ItemDetailsViewController: UIViewController, UITextViewDelegate, UIPickerV
 		self.setSalesOrderButton = UIBarButtonItem(title: "Select", style: .Plain, target: self, action: "setSalesOrder")
 		self.cancelSetSalesOrderButton = UIBarButtonItem(title: "Cancel", style: .Plain, target: self, action: "cancelSetSalesOrder")
 		
-		self.noteTextView.delegate = self
-		
 		self.salesOrderPicker.delegate = self
 		self.salesOrderPicker.dataSource = self
+		self.dimensionsTableView.delegate = self
+		self.dimensionsTableView.dataSource = self
+		self.noteTextView.delegate = self
 		
 		self.updateUI()
 		
@@ -91,11 +93,13 @@ class ItemDetailsViewController: UIViewController, UITextViewDelegate, UIPickerV
 	}
 	
 	override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
-		if segue.identifier == "embed item dimensions" {
-			let dimensionsTableViewController = segue.destinationViewController as DimensionsTableViewController
-			if self.item {
-				dimensionsTableViewController.itemDimensions = self.item!.dimensions
-			}
+		NSLog("~~ %@", segue.identifier)
+		if segue.identifier == "show dimensions details" {
+			let indexPath: NSIndexPath = self.dimensionsTableView.indexPathForSelectedRow()
+			let selectedDimensions = self.item?.dimensions[indexPath.row]
+			
+			let dimensionsDetailsViewController = segue.destinationViewController as DimensionsDetailsViewController
+			dimensionsDetailsViewController.dimensions = selectedDimensions
 		}
 	}
 	
@@ -132,6 +136,27 @@ class ItemDetailsViewController: UIViewController, UITextViewDelegate, UIPickerV
 	
 	func textViewDidEndEditing(textView: UITextView!) {
 		self.newNote = self.noteTextView.text
+	}
+	
+	func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int {
+		if self.item? {
+			return self.item!.dimensions.count
+		} else {
+			return 0
+		}
+	}
+	
+	func tableView(tableView: UITableView?, cellForRowAtIndexPath indexPath: NSIndexPath?) -> UITableViewCell? {
+		if let cell = tableView?.dequeueReusableCellWithIdentifier("item dimensions cell") as? DimensionsTableViewCell {
+			if let dimensions = self.item?.dimensions[indexPath!.row] {
+				cell.length = dimensions.length
+				cell.width = dimensions.width
+				cell.area = dimensions.area
+			}
+			return cell
+		} else {
+			return nil
+		}
 	}
 	
 	@IBAction func salesOrderButtonClicked() {
