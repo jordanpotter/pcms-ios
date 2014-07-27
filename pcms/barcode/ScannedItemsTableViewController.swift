@@ -10,16 +10,25 @@ import Foundation
 import UIKit
 import AudioToolbox
 
-class ScannedItemsTableViewController: UITableViewController {
+class ScannedItemsTableViewController: UITableViewController, UIActionSheetDelegate {
 	var currentItems = Array<Item>()
+	var allowedPhases = Array<String>()
 	var clearItemsButton: UIBarButtonItem?
 	var batchUpdateButton: UIBarButtonItem?
+	var batchUpdateActionSheet: UIActionSheet?
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
 		self.clearItemsButton = UIBarButtonItem(title: "Clear All", style: .Plain, target: self, action: "clearItems")
 		self.batchUpdateButton = UIBarButtonItem(title: "Modify", style: .Plain, target: self, action: "batchUpdate")
+		
+		self.batchUpdateActionSheet = UIActionSheet()
+		self.batchUpdateActionSheet!.delegate = self
+		self.batchUpdateActionSheet!.addButtonWithTitle("Modify Phase")
+		self.batchUpdateActionSheet!.addButtonWithTitle("Modify Shelf")
+		self.batchUpdateActionSheet!.addButtonWithTitle("Close")
+		self.batchUpdateActionSheet!.cancelButtonIndex = 2
 
 		self.updateButtons()
 	}
@@ -43,9 +52,6 @@ class ScannedItemsTableViewController: UITableViewController {
 			
 			let itemDetailsViewController = segue.destinationViewController as ItemDetailsViewController
 			itemDetailsViewController.item = selectedItem
-		} else if segue.identifier == "show batch update" {
-			let batchUpdateViewController = segue.destinationViewController as BatchUpdateViewController
-			batchUpdateViewController.currentItems = self.currentItems
 		}
 	}
 	
@@ -75,6 +81,7 @@ class ScannedItemsTableViewController: UITableViewController {
 			}
 		}
 		
+		self.allowedPhases = getAllowedPhasesForItems(currentItems)		
 		self.updateButtons()
 	}
 	
@@ -85,7 +92,35 @@ class ScannedItemsTableViewController: UITableViewController {
 	}
 	
 	func batchUpdate() {
-		self.performSegueWithIdentifier("show batch update", sender: self)
+		self.batchUpdateActionSheet?.showInView(self.view)
+	}
+	
+	func actionSheet(actionSheet: UIActionSheet!, clickedButtonAtIndex buttonIndex: Int) {
+		if buttonIndex == 0 {
+			showBatchPhaseUpdate()
+		} else if buttonIndex == 1 {
+			showBatchShelfUpdate()
+		}
+	}
+	
+	func showBatchPhaseUpdate() {
+		
+	}
+	
+	func showBatchShelfUpdate() {
+		
+	}
+	
+	func numberOfComponentsInPickerView(pickerView: UIPickerView!) -> Int {
+		return 1
+	}
+	
+	func pickerView(pickerView: UIPickerView!, numberOfRowsInComponent component: Int) -> Int {
+		return self.allowedPhases.count
+	}
+	
+	func pickerView(pickerView: UIPickerView!, titleForRow row: Int, forComponent component: Int) -> String! {
+		return self.allowedPhases[row]
 	}
 	
 	func vibrateDevice() {
