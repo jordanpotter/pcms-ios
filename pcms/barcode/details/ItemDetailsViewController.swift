@@ -19,6 +19,7 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	
 	var newSalesOrder: String?
 	var newNote: String?
+	var newAllDimensions: Array<ItemDimensions>?
 	
 	@IBOutlet weak var salesOrderButton: UIButton!
 	@IBOutlet weak var salesOrderPicker: UIPickerView!
@@ -52,6 +53,8 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		
 		self.newSalesOrder = self.item?.salesOrder
 		self.newNote = self.item?.note
+		self.newAllDimensions = deepCopyItemAllDimensions(self.item?.allDimensions)
+		
 		self.settingSalesOrder = false
 		
 		self.saveButton = UIBarButtonItem(title: "Save", style: .Plain, target: self, action: "saveItem")
@@ -76,6 +79,8 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
+		self.dimensionsTableView.reloadData()
+		
 		NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardDidShowNotification, object:nil, queue:NSOperationQueue.mainQueue(), usingBlock:keyboardAppeared)
 		NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillHideNotification, object:nil, queue:NSOperationQueue.mainQueue(), usingBlock:keyboardDisappeared)
 	}
@@ -92,10 +97,9 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	}
 	
 	override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
-		NSLog("~~ %@", segue.identifier)
 		if segue.identifier == "show dimensions details" {
 			let indexPath: NSIndexPath = self.dimensionsTableView.indexPathForSelectedRow()
-			let selectedDimensions = self.item?.dimensions[indexPath.row]
+			let selectedDimensions = self.newAllDimensions?[indexPath.row]
 			
 			let dimensionsDetailsViewController = segue.destinationViewController as DimensionsDetailsViewController
 			dimensionsDetailsViewController.dimensions = selectedDimensions
@@ -138,8 +142,8 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	}
 	
 	func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int {
-		if self.item? {
-			return self.item!.dimensions.count
+		if let newAllDimensions = self.newAllDimensions {
+			return newAllDimensions.count
 		} else {
 			return 0
 		}
@@ -147,7 +151,7 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	
 	func tableView(tableView: UITableView?, cellForRowAtIndexPath indexPath: NSIndexPath?) -> UITableViewCell? {
 		if let cell = tableView?.dequeueReusableCellWithIdentifier("item dimensions cell") as? DimensionsTableViewCell {
-			if let dimensions = self.item?.dimensions[indexPath!.row] {
+			if let dimensions = self.newAllDimensions?[indexPath!.row] {
 				cell.length = dimensions.length
 				cell.width = dimensions.width
 				cell.area = dimensions.area

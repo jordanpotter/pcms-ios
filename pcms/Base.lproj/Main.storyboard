@@ -589,6 +589,14 @@
                     <view key="view" contentMode="scaleToFill" id="okG-3b-jDT">
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zac-Ms-HeJ" userLabel="Background Click Capture">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="cGw-CC-DrZ" appends="YES" id="59m-oa-Rn7"/>
+                                </connections>
+                            </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Length" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iuo-tH-UEC">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -599,7 +607,7 @@
                                 <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="97" id="tNs-Iv-vS7">
-                                        <variation key="heightClass=regular-widthClass=compact" constant="100"/>
+                                        <variation key="heightClass=regular-widthClass=compact" constant="120"/>
                                     </constraint>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -630,13 +638,25 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="iuo-tH-UEC" firstAttribute="leading" secondItem="okG-3b-jDT" secondAttribute="leading" constant="20" id="5Ql-dL-I5z"/>
+                            <constraint firstAttribute="trailing" secondItem="Zac-Ms-HeJ" secondAttribute="trailing" constant="112" id="695-ce-ndD">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
+                            <constraint firstItem="Zac-Ms-HeJ" firstAttribute="leading" secondItem="okG-3b-jDT" secondAttribute="leading" constant="88" id="AL6-C2-jO1">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
                             <constraint firstItem="3Mw-gI-PZ0" firstAttribute="top" secondItem="iuo-tH-UEC" secondAttribute="bottom" constant="7.5" id="Ek9-ng-Rqi">
                                 <variation key="heightClass=regular-widthClass=compact" constant="15"/>
                             </constraint>
                             <constraint firstItem="kdr-PV-x2f" firstAttribute="leading" secondItem="iuo-tH-UEC" secondAttribute="trailing" constant="8" id="NEf-hx-lrD">
-                                <variation key="heightClass=regular-widthClass=compact" constant="10"/>
+                                <variation key="heightClass=regular-widthClass=compact" constant="15"/>
                             </constraint>
                             <constraint firstItem="3Mw-gI-PZ0" firstAttribute="centerY" secondItem="jIW-Ra-mor" secondAttribute="centerY" constant="-0.25" id="NzT-OS-Sq0">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
+                            <constraint firstItem="tGN-mD-OTC" firstAttribute="top" secondItem="Zac-Ms-HeJ" secondAttribute="bottom" constant="118" id="OVg-KX-4Ia">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
+                            <constraint firstItem="Zac-Ms-HeJ" firstAttribute="top" secondItem="BMh-GA-qYi" secondAttribute="bottom" constant="106" id="TcQ-2E-LMp">
                                 <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                             </constraint>
                             <constraint firstItem="3Mw-gI-PZ0" firstAttribute="leading" secondItem="iuo-tH-UEC" secondAttribute="leading" id="e3R-su-6US"/>
@@ -651,6 +671,7 @@
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
+                                <exclude reference="Zac-Ms-HeJ"/>
                                 <exclude reference="iuo-tH-UEC"/>
                                 <exclude reference="kdr-PV-x2f"/>
                                 <exclude reference="3Mw-gI-PZ0"/>
@@ -666,10 +687,15 @@
                                 <exclude reference="kUb-xp-CWH"/>
                                 <exclude reference="urv-ww-d58"/>
                                 <exclude reference="kgc-yI-xNJ"/>
+                                <exclude reference="695-ce-ndD"/>
+                                <exclude reference="AL6-C2-jO1"/>
+                                <exclude reference="TcQ-2E-LMp"/>
+                                <exclude reference="OVg-KX-4Ia"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
+                                <include reference="Zac-Ms-HeJ"/>
                                 <include reference="iuo-tH-UEC"/>
                                 <include reference="kdr-PV-x2f"/>
                                 <include reference="3Mw-gI-PZ0"/>
@@ -685,11 +711,24 @@
                                 <include reference="kUb-xp-CWH"/>
                                 <include reference="urv-ww-d58"/>
                                 <include reference="kgc-yI-xNJ"/>
+                                <include reference="695-ce-ndD"/>
+                                <include reference="AL6-C2-jO1"/>
+                                <include reference="TcQ-2E-LMp"/>
+                                <include reference="OVg-KX-4Ia"/>
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="lengthTextField" destination="kdr-PV-x2f" id="bYa-le-O5d"/>
+                        <outlet property="widthTextField" destination="jIW-Ra-mor" id="3Sr-yh-GsJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Xt-4g-KNh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="cGw-CC-DrZ">
+                    <connections>
+                        <action selector="clickedBackground:" destination="wMT-1Z-81P" id="bFL-kh-d42"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2404.5" y="283.5"/>
         </scene>

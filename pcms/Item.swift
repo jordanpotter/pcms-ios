@@ -15,7 +15,7 @@ class Item {
 	var phase: String?
 	var shelf: String?
 	var note: String?
-	var dimensions = Array<ItemDimensions>()
+	var allDimensions = Array<ItemDimensions>()
 	
 	init(serial: String) {
 		self.serial = serial
@@ -28,15 +28,37 @@ class Item {
 		self.phase = "NC"
 		self.shelf = "D23"
 		self.note = "This is an excellent film full of great potential"
-		self.dimensions.append(ItemDimensions(width: 17.0, length: 19.3))
-		self.dimensions.append(ItemDimensions(width: 13.1, length: 19.8))
+		self.allDimensions.append(ItemDimensions(length: 17.0, width: 19.3))
+		self.allDimensions.append(ItemDimensions(length: 13.1, width: 19.8))
 		
 		completionHandler?(nil)
 	}
 }
 
-struct ItemDimensions {
-	var width: Float
+class ItemDimensions {
 	var length: Float
-	var area: Float { return self.width * self.length }
+	var width: Float
+	var area: Float { return self.length * self.width }
+	
+	init(length: Float, width: Float) {
+		self.length = length
+		self.width = width
+	}
+	
+	init(dimensions: ItemDimensions) {
+		self.width = dimensions.width
+		self.length = dimensions.length
+	}
+}
+
+func deepCopyItemAllDimensions(itemAllDimensions: Array<ItemDimensions>?) -> Array<ItemDimensions>? {
+	if let allDimensions = itemAllDimensions {
+		var itemAllDimensionsCopy = Array<ItemDimensions>()
+		for dimensions in allDimensions {
+			itemAllDimensionsCopy.append(ItemDimensions(dimensions: dimensions))
+		}
+		return itemAllDimensionsCopy
+	} else {
+		return nil
+	}
 }
