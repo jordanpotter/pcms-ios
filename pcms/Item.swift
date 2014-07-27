@@ -36,6 +36,11 @@ class Item {
 	}
 }
 
+func batchSaveItems(items: Array<Item>, completionHandler: ((NSError?) -> ())?) {
+	NSLog("TODO: need to batch save items")
+	completionHandler?(nil)
+}
+
 func getAllowedPhasesForItems(items: Array<Item>) -> Array<String> {
 	return ["some", "phases", "here"]
 }

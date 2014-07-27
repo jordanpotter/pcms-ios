@@ -10,12 +10,13 @@ import Foundation
 import UIKit
 import AudioToolbox
 
-class ScannedItemsTableViewController: UITableViewController, UIActionSheetDelegate {
+class ScannedItemsTableViewController: UITableViewController, UIActionSheetDelegate, UIAlertViewDelegate {
 	var currentItems = Array<Item>()
 	var allowedPhases = Array<String>()
 	var clearItemsButton: UIBarButtonItem?
 	var batchUpdateButton: UIBarButtonItem?
 	var batchUpdateActionSheet: UIActionSheet?
+	var batchUpdateShelfAlert: UIAlertView?
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -29,6 +30,14 @@ class ScannedItemsTableViewController: UITableViewController, UIActionSheetDeleg
 		self.batchUpdateActionSheet!.addButtonWithTitle("Modify Shelf")
 		self.batchUpdateActionSheet!.addButtonWithTitle("Close")
 		self.batchUpdateActionSheet!.cancelButtonIndex = 2
+		
+		self.batchUpdateShelfAlert = UIAlertView()
+		self.batchUpdateShelfAlert!.delegate = self
+		self.batchUpdateShelfAlert!.title = "Modify Shelf"
+		self.batchUpdateShelfAlert!.alertViewStyle = .PlainTextInput
+		self.batchUpdateShelfAlert!.addButtonWithTitle("Ok")
+		self.batchUpdateShelfAlert!.addButtonWithTitle("Cancel")
+		self.batchUpdateShelfAlert!.cancelButtonIndex = 1
 
 		self.updateButtons()
 	}
@@ -96,10 +105,24 @@ class ScannedItemsTableViewController: UITableViewController, UIActionSheetDeleg
 	}
 	
 	func actionSheet(actionSheet: UIActionSheet!, clickedButtonAtIndex buttonIndex: Int) {
-		if buttonIndex == 0 {
-			showBatchPhaseUpdate()
-		} else if buttonIndex == 1 {
-			showBatchShelfUpdate()
+		if actionSheet == self.batchUpdateActionSheet {
+			if buttonIndex == 0 {
+				showBatchPhaseUpdate()
+			} else if buttonIndex == 1 {
+				showBatchShelfUpdate()
+			}
+		}
+	}
+	
+	func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int) {
+		if alertView == self.batchUpdateShelfAlert {
+			if buttonIndex == 0 {
+				for item in self.currentItems {
+					item.shelf = self.batchUpdateShelfAlert!.textFieldAtIndex(0).text
+				}
+				self.tableView.reloadData()
+				batchSaveItems(self.currentItems, nil)
+			}
 		}
 	}
 	
@@ -108,7 +131,7 @@ class ScannedItemsTableViewController: UITableViewController, UIActionSheetDeleg
 	}
 	
 	func showBatchShelfUpdate() {
-		
+		self.batchUpdateShelfAlert!.show()
 	}
 	
 	func numberOfComponentsInPickerView(pickerView: UIPickerView!) -> Int {
