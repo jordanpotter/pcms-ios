@@ -127,10 +127,10 @@
 		17310711197F14AA00CD9B91 /* barcode */ = {
 			isa = PBXGroup;
 			children = (
-				17E0410F1982CF4400533967 /* ScannedItemTableViewCell.swift */,
 				17310716197F1E2C00CD9B91 /* ItemsReaderViewController.swift */,
 				17310718197F1F6500CD9B91 /* BarcodeScannerViewController.swift */,
 				17804D4819805ECD00AC101B /* ScannedItemsTableViewController.swift */,
+				17E0410F1982CF4400533967 /* ScannedItemTableViewCell.swift */,
 				17DA404819844C6100298B3B /* details */,
 			);
 			name = barcode;

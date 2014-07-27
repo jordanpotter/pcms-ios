@@ -12,6 +12,15 @@ import AudioToolbox
 
 class ScannedItemsTableViewController: UITableViewController {
 	var currentItems = Array<Item>()
+	var batchUpdateButton: UIBarButtonItem?
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
+		self.batchUpdateButton = UIBarButtonItem(title: "Modify", style: .Plain, target: self, action: "batchUpdate")
+
+		updateBatchUpdateButton()
+	}
 	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
@@ -33,6 +42,16 @@ class ScannedItemsTableViewController: UITableViewController {
 		}
 	}
 	
+	func updateBatchUpdateButton() {
+		if self.parentViewController {
+			if self.currentItems.isEmpty {
+				self.parentViewController.navigationItem.rightBarButtonItem = nil
+			} else {
+				self.parentViewController.navigationItem.rightBarButtonItem = self.batchUpdateButton
+			}
+		}
+	}
+	
 	func processNewItem(notification: NSNotification!) {
 		if let itemSerial: NSString = notification.object as? NSString {
 			if self.currentItems.filter({$0.serial == itemSerial}).count == 0 {
@@ -46,6 +65,12 @@ class ScannedItemsTableViewController: UITableViewController {
 				self.vibrateDevice()
 			}
 		}
+		
+		self.updateBatchUpdateButton()
+	}
+	
+	func batchUpdate() {
+		NSLog("need to perform batch update")
 	}
 	
 	func vibrateDevice() {
