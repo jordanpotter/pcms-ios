@@ -246,6 +246,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xLw-FQ-Ccy" userLabel="Background Click Capture">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="0.0" y="22" width="400" height="492"/>
+                                </variation>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="s0z-dV-Bi4" appends="YES" id="N7p-Qd-RYI"/>
+                                </connections>
+                            </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sales Order" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KRv-z6-neN">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -379,7 +390,7 @@
                                             <outlet property="areaLabel" destination="4pW-eC-RNt" id="bSd-pf-dFN"/>
                                             <outlet property="lengthLabel" destination="E1q-84-yZZ" id="Rbu-cH-rF9"/>
                                             <outlet property="widthLabel" destination="sYN-p2-c2T" id="NG6-Hm-hfV"/>
-                                            <segue destination="wMT-1Z-81P" kind="show" identifier="show dimensions details" id="4JV-c5-zFG"/>
+                                            <segue destination="wMT-1Z-81P" kind="show" identifier="show dimensions details" id="6BD-zi-QRg"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -466,6 +477,7 @@
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
+                                <exclude reference="xLw-FQ-Ccy"/>
                                 <exclude reference="KRv-z6-neN"/>
                                 <exclude reference="FIN-Cb-BuZ"/>
                                 <exclude reference="LzG-7f-2uo"/>
@@ -523,6 +535,7 @@
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
+                                <include reference="xLw-FQ-Ccy"/>
                                 <include reference="z0o-PJ-jk8"/>
                                 <include reference="0rX-P8-TaW"/>
                                 <include reference="Bqh-Xq-fbS"/>
@@ -544,9 +557,6 @@
                                 <include reference="YCO-g7-Num"/>
                             </mask>
                         </variation>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="vaU-pZ-Len" appends="YES" id="PpD-XR-FS6"/>
-                        </connections>
                     </view>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
@@ -560,9 +570,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aLM-3x-3cg" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="vaU-pZ-Len">
+                <tapGestureRecognizer id="s0z-dV-Bi4">
                     <connections>
-                        <action selector="clickedBackground:" destination="bdA-0S-IKE" id="3gp-2Z-ujt"/>
+                        <action selector="clickedBackground:" destination="bdA-0S-IKE" id="eC8-RN-166"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class ItemDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource  {
+class ItemDetailsViewController: UIViewController, UITableViewDataSource, UITextViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource  {
 	var item: Item?
 	var allowedSalesOrders = Array<String>()
 	var saveButton: UIBarButtonItem?
@@ -60,7 +60,6 @@ class ItemDetailsViewController: UIViewController, UITableViewDelegate, UITableV
 		
 		self.salesOrderPicker.delegate = self
 		self.salesOrderPicker.dataSource = self
-		self.dimensionsTableView.delegate = self
 		self.dimensionsTableView.dataSource = self
 		self.noteTextView.delegate = self
 		
