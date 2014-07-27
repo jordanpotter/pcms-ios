@@ -92,4 +92,14 @@ class ScannedItemsTableViewController: UITableViewController {
 			return nil
 		}
 	}
+	
+	override func tableView(tableView: UITableView!, canEditRowAtIndexPath indexPath: NSIndexPath!) -> Bool {
+		return true
+	}
+	
+	override func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!)  {
+		self.currentItems.removeAtIndex(indexPath.row)
+		self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+		self.updateBatchUpdateButton()
+	}
 }
