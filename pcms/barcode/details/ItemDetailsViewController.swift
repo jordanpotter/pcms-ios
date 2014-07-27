@@ -204,6 +204,11 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	func saveItem() {
 		NSLog("Need to perform save request")
 		
+		// This forces a sync with the note text view if the
+		// user clicks save while editng the note, since
+		// the "end editing" event won't fire in time
+		self.textViewDidEndEditing(self.noteTextView)
+		
 		if let item = self.item {
 			item.salesOrder = self.newSalesOrder
 			item.note = self.newNote
