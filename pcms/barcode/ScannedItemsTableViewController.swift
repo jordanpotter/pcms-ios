@@ -12,14 +12,16 @@ import AudioToolbox
 
 class ScannedItemsTableViewController: UITableViewController {
 	var currentItems = Array<Item>()
+	var clearItemsButton: UIBarButtonItem?
 	var batchUpdateButton: UIBarButtonItem?
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		self.clearItemsButton = UIBarButtonItem(title: "Clear All", style: .Plain, target: self, action: "clearItems")
 		self.batchUpdateButton = UIBarButtonItem(title: "Modify", style: .Plain, target: self, action: "batchUpdate")
 
-		updateBatchUpdateButton()
+		self.updateButtons()
 	}
 	
 	override func viewWillAppear(animated: Bool) {
@@ -42,11 +44,13 @@ class ScannedItemsTableViewController: UITableViewController {
 		}
 	}
 	
-	func updateBatchUpdateButton() {
+	func updateButtons() {
 		if self.parentViewController {
 			if self.currentItems.isEmpty {
+				self.parentViewController.navigationItem.leftBarButtonItem = nil
 				self.parentViewController.navigationItem.rightBarButtonItem = nil
 			} else {
+				self.parentViewController.navigationItem.leftBarButtonItem = self.clearItemsButton
 				self.parentViewController.navigationItem.rightBarButtonItem = self.batchUpdateButton
 			}
 		}
@@ -66,7 +70,13 @@ class ScannedItemsTableViewController: UITableViewController {
 			}
 		}
 		
-		self.updateBatchUpdateButton()
+		self.updateButtons()
+	}
+	
+	func clearItems() {
+		self.currentItems.removeAll(keepCapacity: false)
+		self.tableView.reloadData()
+		self.updateButtons()
 	}
 	
 	func batchUpdate() {
@@ -100,6 +110,6 @@ class ScannedItemsTableViewController: UITableViewController {
 	override func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!)  {
 		self.currentItems.removeAtIndex(indexPath.row)
 		self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-		self.updateBatchUpdateButton()
+		self.updateButtons()
 	}
 }
