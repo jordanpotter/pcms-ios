@@ -52,7 +52,10 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		
 		self.newSalesOrder = self.item?.salesOrder
 		self.newNote = self.item?.note
-		self.newAllDimensions = deepCopyItemAllDimensions(self.item?.allDimensions)
+		
+		if let item = self.item {
+			self.newAllDimensions = deepCopyItemAllDimensions(item.allDimensions)
+		}
 		
 		self.settingSalesOrder = false
 		

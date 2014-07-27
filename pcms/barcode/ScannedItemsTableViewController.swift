@@ -26,6 +26,8 @@ class ScannedItemsTableViewController: UITableViewController {
 	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
+		self.tableView.reloadData()
+		
 		NSNotificationCenter.defaultCenter().addObserverForName(NEW_ITEM_NOTIFICATION, object:nil, queue:NSOperationQueue.mainQueue(), usingBlock:processNewItem)
 	}
 	
@@ -41,6 +43,9 @@ class ScannedItemsTableViewController: UITableViewController {
 			
 			let itemDetailsViewController = segue.destinationViewController as ItemDetailsViewController
 			itemDetailsViewController.item = selectedItem
+		} else if segue.identifier == "show batch update" {
+			let batchUpdateViewController = segue.destinationViewController as BatchUpdateViewController
+			batchUpdateViewController.currentItems = self.currentItems
 		}
 	}
 	
@@ -80,7 +85,7 @@ class ScannedItemsTableViewController: UITableViewController {
 	}
 	
 	func batchUpdate() {
-		NSLog("need to perform batch update")
+		self.performSegueWithIdentifier("show batch update", sender: self)
 	}
 	
 	func vibrateDevice() {

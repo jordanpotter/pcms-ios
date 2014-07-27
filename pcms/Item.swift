@@ -30,9 +30,14 @@ class Item {
 		self.note = "This is an excellent film full of great potential"
 		self.allDimensions.append(ItemDimensions(length: 17.0, width: 19.3))
 		self.allDimensions.append(ItemDimensions(length: 13.1, width: 19.8))
+		self.allDimensions.append(ItemDimensions(length: 13.9, width: 12.1))
 		
 		completionHandler?(nil)
 	}
+}
+
+func getAllowedPhasesForItems(items: Array<Item>) -> Array<String> {
+	return ["some", "phases", "here"]
 }
 
 class ItemDimensions {
@@ -51,14 +56,10 @@ class ItemDimensions {
 	}
 }
 
-func deepCopyItemAllDimensions(itemAllDimensions: Array<ItemDimensions>?) -> Array<ItemDimensions>? {
-	if let allDimensions = itemAllDimensions {
-		var itemAllDimensionsCopy = Array<ItemDimensions>()
-		for dimensions in allDimensions {
-			itemAllDimensionsCopy.append(ItemDimensions(dimensions: dimensions))
-		}
-		return itemAllDimensionsCopy
-	} else {
-		return nil
+func deepCopyItemAllDimensions(allDimensions: Array<ItemDimensions>) -> Array<ItemDimensions> {
+	var itemAllDimensionsCopy = Array<ItemDimensions>()
+	for dimensions in allDimensions {
+		itemAllDimensionsCopy.append(ItemDimensions(dimensions: dimensions))
 	}
+	return itemAllDimensionsCopy
 }
