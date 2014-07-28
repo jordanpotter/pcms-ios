@@ -21,6 +21,30 @@ class Item {
 		self.serial = serial
 	}
 	
+	func toJson() -> (NSData?, NSError?) {
+		var dictionary = Dictionary<String, AnyObject>()
+		dictionary["serial"] = self.serial
+		if let id = self.id { dictionary["id"] = id }
+		if let salesOrder = self.salesOrder { dictionary["sales_order_code"] = salesOrder }
+		if let phase = self.phase { dictionary["phase"] = phase }
+		if let shelf = self.shelf { dictionary["shelf"] = shelf }
+		if let note = self.note { dictionary["note"] = note }
+		
+		var allDimensionsDictionaries = Array<Dictionary<String, Float>>()
+		for dimensions in self.allDimensions {
+			allDimensionsDictionaries.append(["length": dimensions.length, "width": dimensions.width])
+		}
+		dictionary["dimensions"] = allDimensionsDictionaries
+		
+		var error: NSError?
+		let jsonedData = NSJSONSerialization.dataWithJSONObject(dictionary, options: NSJSONWritingOptions(0), error: &error)
+		if error {
+			return (nil, error)
+		} else {
+			return (jsonedData, nil)
+		}
+	}
+	
 	func saturateDataFromServer(completionHandler: ((NSError?) -> ())?) {
 		NSLog("TODO: load item data here")
 		self.id = 17
