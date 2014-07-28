@@ -8,39 +8,13 @@
 
 import Foundation
 import UIKit
-import AudioToolbox
 
-class ScannedItemsTableViewController: UITableViewController, UIActionSheetDelegate, UIAlertViewDelegate {
+let ADDED_ITEM_NOTIFICATION = "added item notification"
+let REMOVED_ITEM_NOTIFICATION = "removed item notification"
+let REMOVED_ALL_ITEMS_NOTIFICATION = "removed all items notification"
+
+class ScannedItemsTableViewController: UITableViewController {
 	var currentItems = Array<Item>()
-	var allowedPhases = Array<String>()
-	var clearItemsButton: UIBarButtonItem?
-	var batchUpdateButton: UIBarButtonItem?
-	var batchUpdateActionSheet: UIActionSheet?
-	var batchUpdateShelfAlert: UIAlertView?
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		
-		self.clearItemsButton = UIBarButtonItem(title: "Clear All", style: .Plain, target: self, action: "clearItems")
-		self.batchUpdateButton = UIBarButtonItem(title: "Modify", style: .Plain, target: self, action: "batchUpdate")
-		
-		self.batchUpdateActionSheet = UIActionSheet()
-		self.batchUpdateActionSheet!.delegate = self
-		self.batchUpdateActionSheet!.addButtonWithTitle("Modify Phase")
-		self.batchUpdateActionSheet!.addButtonWithTitle("Modify Shelf")
-		self.batchUpdateActionSheet!.addButtonWithTitle("Close")
-		self.batchUpdateActionSheet!.cancelButtonIndex = 2
-		
-		self.batchUpdateShelfAlert = UIAlertView()
-		self.batchUpdateShelfAlert!.delegate = self
-		self.batchUpdateShelfAlert!.title = "Modify Shelf"
-		self.batchUpdateShelfAlert!.alertViewStyle = .PlainTextInput
-		self.batchUpdateShelfAlert!.addButtonWithTitle("Ok")
-		self.batchUpdateShelfAlert!.addButtonWithTitle("Cancel")
-		self.batchUpdateShelfAlert!.cancelButtonIndex = 1
-
-		self.updateButtons()
-	}
 	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
@@ -64,18 +38,6 @@ class ScannedItemsTableViewController: UITableViewController, UIActionSheetDeleg
 		}
 	}
 	
-	func updateButtons() {
-		if self.parentViewController {
-			if self.currentItems.isEmpty {
-				self.parentViewController.navigationItem.leftBarButtonItem = nil
-				self.parentViewController.navigationItem.rightBarButtonItem = nil
-			} else {
-				self.parentViewController.navigationItem.leftBarButtonItem = self.clearItemsButton
-				self.parentViewController.navigationItem.rightBarButtonItem = self.batchUpdateButton
-			}
-		}
-	}
-	
 	func processNewItem(notification: NSNotification!) {
 		if let itemSerial: NSString = notification.object as? NSString {
 			if self.currentItems.filter({$0.serial == itemSerial}).count == 0 {
@@ -86,68 +48,16 @@ class ScannedItemsTableViewController: UITableViewController, UIActionSheetDeleg
 				
 				self.currentItems.append(item)
 				self.tableView.reloadData()
-				self.vibrateDevice()
+		
+				NSNotificationCenter.defaultCenter().postNotificationName(ADDED_ITEM_NOTIFICATION, object: item)
 			}
 		}
-		
-		self.allowedPhases = getAllowedPhasesForItems(currentItems)		
-		self.updateButtons()
 	}
 	
 	func clearItems() {
 		self.currentItems.removeAll(keepCapacity: false)
 		self.tableView.reloadData()
-		self.updateButtons()
-	}
-	
-	func batchUpdate() {
-		self.batchUpdateActionSheet?.showInView(self.view)
-	}
-	
-	func actionSheet(actionSheet: UIActionSheet!, clickedButtonAtIndex buttonIndex: Int) {
-		if actionSheet == self.batchUpdateActionSheet {
-			if buttonIndex == 0 {
-				showBatchPhaseUpdate()
-			} else if buttonIndex == 1 {
-				showBatchShelfUpdate()
-			}
-		}
-	}
-	
-	func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int) {
-		if alertView == self.batchUpdateShelfAlert {
-			if buttonIndex == 0 {
-				for item in self.currentItems {
-					item.shelf = self.batchUpdateShelfAlert!.textFieldAtIndex(0).text
-				}
-				self.tableView.reloadData()
-				batchSaveItems(self.currentItems, nil)
-			}
-		}
-	}
-	
-	func showBatchPhaseUpdate() {
-		
-	}
-	
-	func showBatchShelfUpdate() {
-		self.batchUpdateShelfAlert!.show()
-	}
-	
-	func numberOfComponentsInPickerView(pickerView: UIPickerView!) -> Int {
-		return 1
-	}
-	
-	func pickerView(pickerView: UIPickerView!, numberOfRowsInComponent component: Int) -> Int {
-		return self.allowedPhases.count
-	}
-	
-	func pickerView(pickerView: UIPickerView!, titleForRow row: Int, forComponent component: Int) -> String! {
-		return self.allowedPhases[row]
-	}
-	
-	func vibrateDevice() {
-		AudioServicesPlayAlertSound(UInt32(kSystemSoundID_Vibrate))
+		NSNotificationCenter.defaultCenter().postNotificationName(REMOVED_ALL_ITEMS_NOTIFICATION, object: nil)
 	}
 	
 	override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int {
@@ -171,8 +81,8 @@ class ScannedItemsTableViewController: UITableViewController, UIActionSheetDeleg
 	}
 	
 	override func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!)  {
-		self.currentItems.removeAtIndex(indexPath.row)
+		let removedItem = self.currentItems.removeAtIndex(indexPath.row)
 		self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-		self.updateButtons()
+		NSNotificationCenter.defaultCenter().postNotificationName(REMOVED_ITEM_NOTIFICATION, object: removedItem)
 	}
 }

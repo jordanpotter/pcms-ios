@@ -70,6 +70,8 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		
 		self.updateUI()
 		
+		NSLog("SHOULD BE CONSISTENT WITH UPDATE BUTTONS CALL")
+		
 		self.title = self.item?.serial
 		self.navigationItem.leftBarButtonItem = nil
 		self.navigationItem.rightBarButtonItem = self.saveButton

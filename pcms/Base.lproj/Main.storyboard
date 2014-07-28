@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6185.11" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1vT-5L-JxL">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6190.4"/>
     </dependencies>
     <scenes>
@@ -51,23 +50,47 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="Yjx-g9-kpM" kind="embed" id="Qur-et-r2T"/>
+                                    <segue destination="Yjx-g9-kpM" kind="embed" identifier="embed barcode scanner" id="Qur-et-r2T"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="llT-pY-4ki" userLabel="Items Table">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <connections>
-                                    <segue destination="872-Go-ntV" kind="embed" id="8Xy-Zf-uwO"/>
+                                    <segue destination="872-Go-ntV" kind="embed" identifier="embed scanned items table" id="8Xy-Zf-uwO"/>
                                 </connections>
                             </containerView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EB2-A2-MWs" userLabel="Phase Picker Overlay">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="0.90000000000000002" colorSpace="calibratedWhite"/>
+                            </view>
+                            <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oeE-88-jdV" userLabel="Phase Picker">
+                                <rect key="frame" x="0.0" y="-162" width="320" height="162"/>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="oeE-88-jdV" firstAttribute="leading" secondItem="eUy-d4-Rz1" secondAttribute="leading" id="1Rx-6p-yec"/>
                             <constraint firstItem="llT-pY-4ki" firstAttribute="top" secondItem="PAv-7y-ulA" secondAttribute="bottom" constant="1" id="9Ti-Uq-CO7">
                                 <variation key="widthClass=compact" constant="0.0"/>
                             </constraint>
+                            <constraint firstItem="EB2-A2-MWs" firstAttribute="top" secondItem="sOw-CL-ZaR" secondAttribute="bottom" constant="136" id="9rL-Sd-crA">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
+                            <constraint firstAttribute="trailing" secondItem="oeE-88-jdV" secondAttribute="trailing" id="AZq-E2-VE2"/>
+                            <constraint firstItem="EB2-A2-MWs" firstAttribute="leading" secondItem="eUy-d4-Rz1" secondAttribute="leading" constant="100" id="Aff-2P-wMj">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
+                            <constraint firstAttribute="trailing" secondItem="EB2-A2-MWs" secondAttribute="trailing" constant="100" id="UJb-Mm-ejZ">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
                             <constraint firstItem="llT-pY-4ki" firstAttribute="leading" secondItem="eUy-d4-Rz1" secondAttribute="leading" id="Vrp-Wc-InL"/>
+                            <constraint firstItem="d3j-1F-osZ" firstAttribute="top" secondItem="EB2-A2-MWs" secondAttribute="bottom" constant="200" id="YQF-HU-aiX">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
                             <constraint firstAttribute="trailing" secondItem="llT-pY-4ki" secondAttribute="trailing" id="YWH-4a-cyK"/>
+                            <constraint firstItem="d3j-1F-osZ" firstAttribute="top" secondItem="oeE-88-jdV" secondAttribute="bottom" constant="319" id="ZKJ-n7-fs9">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
                             <constraint firstAttribute="trailing" secondItem="PAv-7y-ulA" secondAttribute="trailing" id="m2O-ae-wSa"/>
                             <constraint firstItem="d3j-1F-osZ" firstAttribute="top" secondItem="llT-pY-4ki" secondAttribute="bottom" constant="-8" id="r8H-6s-4Zu">
                                 <variation key="widthClass=compact" constant="0.0"/>
@@ -79,15 +102,24 @@
                             <mask key="subviews">
                                 <exclude reference="PAv-7y-ulA"/>
                                 <exclude reference="llT-pY-4ki"/>
+                                <exclude reference="EB2-A2-MWs"/>
+                                <exclude reference="oeE-88-jdV"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="r8H-6s-4Zu"/>
                                 <exclude reference="m2O-ae-wSa"/>
                                 <exclude reference="sLg-FL-ZxH"/>
                                 <exclude reference="sWp-hw-gqK"/>
+                                <exclude reference="9rL-Sd-crA"/>
+                                <exclude reference="Aff-2P-wMj"/>
+                                <exclude reference="UJb-Mm-ejZ"/>
                                 <exclude reference="9Ti-Uq-CO7"/>
                                 <exclude reference="Vrp-Wc-InL"/>
                                 <exclude reference="YWH-4a-cyK"/>
+                                <exclude reference="1Rx-6p-yec"/>
+                                <exclude reference="AZq-E2-VE2"/>
+                                <exclude reference="YQF-HU-aiX"/>
+                                <exclude reference="ZKJ-n7-fs9"/>
+                                <exclude reference="r8H-6s-4Zu"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -96,17 +128,36 @@
                                 <include reference="llT-pY-4ki"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="r8H-6s-4Zu"/>
                                 <include reference="m2O-ae-wSa"/>
                                 <include reference="sLg-FL-ZxH"/>
                                 <include reference="sWp-hw-gqK"/>
                                 <include reference="9Ti-Uq-CO7"/>
                                 <include reference="Vrp-Wc-InL"/>
                                 <include reference="YWH-4a-cyK"/>
+                                <include reference="r8H-6s-4Zu"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="EB2-A2-MWs"/>
+                                <include reference="oeE-88-jdV"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="9rL-Sd-crA"/>
+                                <include reference="Aff-2P-wMj"/>
+                                <include reference="UJb-Mm-ejZ"/>
+                                <include reference="1Rx-6p-yec"/>
+                                <include reference="AZq-E2-VE2"/>
+                                <include reference="YQF-HU-aiX"/>
+                                <include reference="ZKJ-n7-fs9"/>
                             </mask>
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="b40-xh-jt3"/>
+                    <connections>
+                        <outlet property="phasePicker" destination="oeE-88-jdV" id="vNh-QJ-we2"/>
+                        <outlet property="phasePickerOverlay" destination="EB2-A2-MWs" id="YLY-dL-0Dr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eyo-dx-Pdd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
