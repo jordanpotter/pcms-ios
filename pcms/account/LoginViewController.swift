@@ -53,8 +53,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 	
 	@IBAction func login() {
 		self.resignAllResponders()
-		NSLog("Need to perform login!")
-		
-		self.performSegueWithIdentifier("display main app", sender: self)
+
+		performLoginRequest(self.usernameTextField.text, self.passwordTextField.text, { (requestError: NSError?) in
+			if let error = requestError {
+				let alertString = error.localizedDescription
+				let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
+				alert.show()
+			} else {
+				self.performSegueWithIdentifier("display main app", sender: self)
+			}
+		})
 	}
 }

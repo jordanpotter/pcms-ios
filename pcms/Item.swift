@@ -35,13 +35,13 @@ class Item {
 		completionHandler?(nil)
 	}
 	
-	func saveToServer(completionHandler: ((NSError?) -> ())?) {
+	func saveToServer(completionHandler: ((NSError?) -> Void)?) {
 		NSLog("TODO: need to save item")
 		completionHandler?(nil)
 	}
 }
 
-func batchSaveItemsToServer(items: Array<Item>, completionHandler: ((NSError?) -> ())?) {
+func batchSaveItemsToServer(items: Array<Item>, completionHandler: ((NSError?) -> Void)?) {
 	NSLog("TODO: need to batch save items")
 	completionHandler?(nil)
 }
