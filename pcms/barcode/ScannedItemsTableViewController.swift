@@ -43,13 +43,18 @@ class ScannedItemsTableViewController: UITableViewController {
 			if self.currentItems.filter({$0.serial == itemSerial}).count == 0 {
 				var item = Item(serial: itemSerial)
 				
-				NSLog("need to pull item info before adding to table")
-				item.saturateData(nil)
-				
-				self.currentItems.append(item)
-				self.tableView.reloadData()
-		
-				NSNotificationCenter.defaultCenter().postNotificationName(ADDED_ITEM_NOTIFICATION, object: item)
+				item.saturateDataFromServer({ (error: NSError?) in
+					if error {
+						let alertString = error!.localizedDescription
+						let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
+						alert.show()
+					} else {
+						self.currentItems.append(item)
+						self.tableView.reloadData()
+						
+						NSNotificationCenter.defaultCenter().postNotificationName(ADDED_ITEM_NOTIFICATION, object: item)
+					}
+				})
 			}
 		}
 	}

@@ -36,19 +36,16 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 			if newValue {
 				self.salesOrderPicker.hidden = false
 				self.salesOrderPickerOverlay.hidden = false
-				self.navigationItem.leftBarButtonItem = self.cancelSetSalesOrderButton
-				self.navigationItem.rightBarButtonItem = self.setSalesOrderButton
 			} else {
 				self.salesOrderPicker.hidden = true
 				self.salesOrderPickerOverlay.hidden = true
-				self.navigationItem.leftBarButtonItem = nil
-				self.navigationItem.rightBarButtonItem = self.saveButton
 			}
 		}
 	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		self.title = self.item?.serial
 		
 		self.newSalesOrder = self.item?.salesOrder
 		self.newNote = self.item?.note
@@ -56,8 +53,6 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		if let item = self.item {
 			self.newAllDimensions = deepCopyItemAllDimensions(item.allDimensions)
 		}
-		
-		self.settingSalesOrder = false
 		
 		self.saveButton = UIBarButtonItem(title: "Save", style: .Plain, target: self, action: "saveItem")
 		self.setSalesOrderButton = UIBarButtonItem(title: "Select", style: .Plain, target: self, action: "setSalesOrder")
@@ -68,13 +63,9 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		self.dimensionsTableView.dataSource = self
 		self.noteTextView.delegate = self
 		
-		self.updateUI()
-		
-		NSLog("SHOULD BE CONSISTENT WITH UPDATE BUTTONS CALL")
-		
-		self.title = self.item?.serial
-		self.navigationItem.leftBarButtonItem = nil
-		self.navigationItem.rightBarButtonItem = self.saveButton
+		self.settingSalesOrder = false
+		self.syncUI()
+		self.updateButtons()
 		
 		NSLog("Need to pull possible sales orders here")
 		self.allowedSalesOrders.append("PD055R")
@@ -114,9 +105,20 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		}
 	}
 	
-	func updateUI() {
+	func syncUI() {
 		self.setTitleForAllButtonStates(self.salesOrderButton, title: self.newSalesOrder)
 		self.noteTextView.text = self.newNote
+		self.updateButtons()
+	}
+	
+	func updateButtons() {
+		if self.settingSalesOrder {
+			self.navigationItem.leftBarButtonItem = self.cancelSetSalesOrderButton
+			self.navigationItem.rightBarButtonItem = self.setSalesOrderButton
+		} else {
+			self.navigationItem.leftBarButtonItem = nil
+			self.navigationItem.rightBarButtonItem = self.saveButton
+		}
 	}
 	
 	func setTitleForAllButtonStates(button: UIButton!, title:NSString?) {
@@ -174,6 +176,7 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		self.resignAllResponders()
 		self.selectSalesOrderInPicker(self.newSalesOrder)
 		self.settingSalesOrder = true
+		self.updateButtons()
 	}
 	
 	func selectSalesOrderInPicker(salesOrder: String?) {
@@ -186,12 +189,14 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	
 	func setSalesOrder() {
 		self.newSalesOrder = self.allowedSalesOrders[self.salesOrderPicker.selectedRowInComponent(0)]
-		self.updateUI()
+		self.syncUI()
 		self.settingSalesOrder = false
+		self.updateButtons()
 	}
 	
 	func cancelSetSalesOrder() {
 		self.settingSalesOrder = false
+		self.updateButtons()
 	}
 	
 	func numberOfComponentsInPickerView(pickerView: UIPickerView!) -> Int {
@@ -207,8 +212,6 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	}
 	
 	func saveItem() {
-		NSLog("Need to perform save request")
-		
 		// This forces a sync with the note text view if the
 		// user clicks save while editng the note, since
 		// the "end editing" event won't fire in time
@@ -218,8 +221,16 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 			item.salesOrder = self.newSalesOrder
 			item.note = self.newNote
 			item.allDimensions = self.newAllDimensions!
+			
+			item.saveToServer({ (error: NSError?) in
+				if error {
+					let alertString = error!.localizedDescription
+					let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
+					alert.show()
+				} else {
+					self.navigationController.popViewControllerAnimated(true)
+				}
+			})
 		}
-		
-		self.navigationController.popViewControllerAnimated(true)
 	}
 }

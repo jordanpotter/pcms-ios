@@ -159,7 +159,7 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 			scannedItemsTableViewController.tableView.reloadData()
 		}
 		
-		batchSaveItems(self.currentItems, { (error: NSError?) in
+		batchSaveItemsToServer(self.currentItems, { (error: NSError?) in
 			if error {
 				let alertString = error!.localizedDescription
 				let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
@@ -210,7 +210,13 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 			scannedItemsTableViewController.tableView.reloadData()
 		}
 		
-		batchSaveItems(self.currentItems, nil)
+		batchSaveItemsToServer(self.currentItems, { (error: NSError?) in
+			if error {
+				let alertString = error!.localizedDescription
+				let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
+				alert.show()
+			}
+		})
 	}
 	
 	func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int) {

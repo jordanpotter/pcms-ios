@@ -21,7 +21,7 @@ class Item {
 		self.serial = serial
 	}
 	
-	func saturateData(completionHandler: ((NSError?) -> ())?) {
+	func saturateDataFromServer(completionHandler: ((NSError?) -> ())?) {
 		NSLog("TODO: load item data here")
 		self.id = 17
 		self.salesOrder = "PT043R"
@@ -34,9 +34,14 @@ class Item {
 		
 		completionHandler?(nil)
 	}
+	
+	func saveToServer(completionHandler: ((NSError?) -> ())?) {
+		NSLog("TODO: need to save item")
+		completionHandler?(nil)
+	}
 }
 
-func batchSaveItems(items: Array<Item>, completionHandler: ((NSError?) -> ())?) {
+func batchSaveItemsToServer(items: Array<Item>, completionHandler: ((NSError?) -> ())?) {
 	NSLog("TODO: need to batch save items")
 	completionHandler?(nil)
 }
