@@ -13,6 +13,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 	@IBOutlet weak var usernameTextField: UITextField!
 	@IBOutlet weak var passwordTextField: UITextField!
 	@IBOutlet weak var loginButton: UIButton!
+	@IBOutlet weak var loginOverlay: UIView!
+	@IBOutlet weak var loginIndicator: UIActivityIndicatorView!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -53,15 +55,22 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 	
 	@IBAction func login() {
 		self.resignAllResponders()
-
+		self.loginOverlay.hidden = false
+		self.loginIndicator.startAnimating()
+		
 		performLoginRequest(self.usernameTextField.text, self.passwordTextField.text, { (requestError: NSError?) in
-			if let error = requestError {
-				let alertString = error.localizedDescription
-				let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
-				alert.show()
-			} else {
-				self.performSegueWithIdentifier("display main app", sender: self)
-			}
+			NSOperationQueue.mainQueue().addOperationWithBlock({
+				self.loginOverlay.hidden = true
+				self.loginIndicator.stopAnimating()
+				
+				if let error = requestError {
+					let alertString = error.localizedDescription
+					let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
+					alert.show()
+				} else {
+					self.performSegueWithIdentifier("display main app", sender: self)
+				}
+			})
 		})
 	}
 }

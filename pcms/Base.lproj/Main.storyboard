@@ -68,16 +68,31 @@
                                     <action selector="login" destination="Xxf-QY-h0I" eventType="touchUpInside" id="B0q-42-DMV"/>
                                 </connections>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FIn-mo-3bG" userLabel="Login Overlay">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.99837477189781032" alpha="0.90000000000000002" colorSpace="calibratedWhite"/>
+                            </view>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="aSA-qQ-EhI" userLabel="Login Indicator">
+                                <rect key="frame" x="-10" y="-10" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="I6t-Oh-rx7" firstAttribute="top" secondItem="Idj-cH-tLb" secondAttribute="bottom" constant="180" id="1Vs-yd-l2s">
                                 <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                             </constraint>
+                            <constraint firstAttribute="centerX" secondItem="aSA-qQ-EhI" secondAttribute="centerX" id="3wK-Rj-yZS"/>
                             <constraint firstItem="Cqg-or-8Lr" firstAttribute="leading" secondItem="jsZ-iN-dwy" secondAttribute="trailing" constant="8" id="8eJ-Zh-2Kh">
                                 <variation key="heightClass=regular-widthClass=compact" constant="15"/>
                             </constraint>
+                            <constraint firstItem="FIn-mo-3bG" firstAttribute="top" secondItem="Idj-cH-tLb" secondAttribute="bottom" constant="180" id="HWK-Wb-iLW">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
+                            <constraint firstAttribute="trailing" secondItem="FIn-mo-3bG" secondAttribute="trailing" constant="100" id="Lsg-of-8kF">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
                             <constraint firstItem="n8z-w9-IkB" firstAttribute="width" secondItem="jsZ-iN-dwy" secondAttribute="width" id="MDw-sS-6dH"/>
+                            <constraint firstAttribute="centerY" secondItem="aSA-qQ-EhI" secondAttribute="centerY" id="MdK-tG-frn"/>
                             <constraint firstItem="n8z-w9-IkB" firstAttribute="centerX" secondItem="jsZ-iN-dwy" secondAttribute="centerX" id="QEg-5X-ZZk"/>
                             <constraint firstItem="jsZ-iN-dwy" firstAttribute="top" secondItem="n8z-w9-IkB" secondAttribute="bottom" constant="20" id="RPd-sM-OfT">
                                 <variation key="heightClass=regular-widthClass=compact" constant="15"/>
@@ -85,7 +100,13 @@
                             <constraint firstItem="IdK-Xy-Pa0" firstAttribute="top" secondItem="B2X-9X-UpY" secondAttribute="bottom" constant="149.5" id="Rf4-d5-F6E">
                                 <variation key="heightClass=regular-widthClass=compact" constant="10"/>
                             </constraint>
+                            <constraint firstItem="z5S-Tm-Q16" firstAttribute="top" secondItem="FIn-mo-3bG" secondAttribute="bottom" constant="200" id="XQG-fH-WxM">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
                             <constraint firstItem="jsZ-iN-dwy" firstAttribute="centerY" secondItem="Cqg-or-8Lr" secondAttribute="centerY" constant="-1" id="jL4-y6-j4F">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
+                            <constraint firstItem="FIn-mo-3bG" firstAttribute="leading" secondItem="Cfg-1u-EfQ" secondAttribute="leading" constant="100" id="k3J-NN-6AP">
                                 <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                             </constraint>
                             <constraint firstAttribute="centerX" secondItem="B2X-9X-UpY" secondAttribute="centerX" id="lGW-KD-ruN"/>
@@ -119,8 +140,13 @@
                                 <exclude reference="n8z-w9-IkB"/>
                                 <exclude reference="jsZ-iN-dwy"/>
                                 <exclude reference="Cqg-or-8Lr"/>
+                                <exclude reference="FIn-mo-3bG"/>
+                                <exclude reference="aSA-qQ-EhI"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="HWK-Wb-iLW"/>
+                                <exclude reference="Lsg-of-8kF"/>
+                                <exclude reference="k3J-NN-6AP"/>
                                 <exclude reference="1Vs-yd-l2s"/>
                                 <exclude reference="uHn-Nj-734"/>
                                 <exclude reference="wQr-tS-Xrr"/>
@@ -134,7 +160,10 @@
                                 <exclude reference="wfG-6J-xKZ"/>
                                 <exclude reference="RPd-sM-OfT"/>
                                 <exclude reference="jL4-y6-j4F"/>
+                                <exclude reference="3wK-Rj-yZS"/>
+                                <exclude reference="MdK-tG-frn"/>
                                 <exclude reference="8eJ-Zh-2Kh"/>
+                                <exclude reference="XQG-fH-WxM"/>
                                 <exclude reference="sWt-kw-3dv"/>
                             </mask>
                         </variation>
@@ -146,8 +175,13 @@
                                 <include reference="n8z-w9-IkB"/>
                                 <include reference="jsZ-iN-dwy"/>
                                 <include reference="Cqg-or-8Lr"/>
+                                <include reference="FIn-mo-3bG"/>
+                                <include reference="aSA-qQ-EhI"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="HWK-Wb-iLW"/>
+                                <include reference="Lsg-of-8kF"/>
+                                <include reference="k3J-NN-6AP"/>
                                 <include reference="1Vs-yd-l2s"/>
                                 <include reference="uHn-Nj-734"/>
                                 <include reference="wQr-tS-Xrr"/>
@@ -161,13 +195,18 @@
                                 <include reference="wfG-6J-xKZ"/>
                                 <include reference="RPd-sM-OfT"/>
                                 <include reference="jL4-y6-j4F"/>
+                                <include reference="3wK-Rj-yZS"/>
+                                <include reference="MdK-tG-frn"/>
                                 <include reference="8eJ-Zh-2Kh"/>
+                                <include reference="XQG-fH-WxM"/>
                                 <include reference="sWt-kw-3dv"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
                         <outlet property="loginButton" destination="Cqg-or-8Lr" id="qUR-aQ-GWe"/>
+                        <outlet property="loginIndicator" destination="aSA-qQ-EhI" id="Gyg-BD-gZ0"/>
+                        <outlet property="loginOverlay" destination="FIn-mo-3bG" id="O58-hB-nag"/>
                         <outlet property="passwordTextField" destination="jsZ-iN-dwy" id="Egz-xS-XZx"/>
                         <outlet property="usernameTextField" destination="n8z-w9-IkB" id="im0-VS-Ewt"/>
                         <segue destination="1vT-5L-JxL" kind="presentation" identifier="display main app" id="6oW-tW-jLQ"/>
