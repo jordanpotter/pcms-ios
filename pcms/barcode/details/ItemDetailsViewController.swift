@@ -24,6 +24,7 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	@IBOutlet weak var salesOrderButton: UIButton!
 	@IBOutlet weak var salesOrderPicker: UIPickerView!
 	@IBOutlet weak var salesOrderPickerOverlay: UIView!
+	@IBOutlet weak var orderFillCountButton: UIButton!
 	@IBOutlet weak var dimensionsTableView: UITableView!
 	@IBOutlet weak var noteTextView: UITextView!
 	@IBOutlet weak var noteTextViewBottom: NSLayoutConstraint!

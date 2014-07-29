@@ -12,6 +12,7 @@ class Item {
 	var id: Int?
 	var serial: String
 	var salesOrder: String?
+	var orderFillCount: Int?
 	var phase: String?
 	var shelf: String?
 	var note: String?
@@ -26,6 +27,7 @@ class Item {
 		dictionary["serial"] = self.serial
 		if let id = self.id { dictionary["id"] = id }
 		if let salesOrder = self.salesOrder { dictionary["sales_order_code"] = salesOrder }
+		if let orderFillCount = self.orderFillCount { dictionary["order_fill_count"] = orderFillCount }
 		if let phase = self.phase { dictionary["phase"] = phase }
 		if let shelf = self.shelf { dictionary["shelf"] = shelf }
 		if let note = self.note { dictionary["note"] = note }
@@ -49,6 +51,7 @@ class Item {
 		NSLog("TODO: load item data here")
 		self.id = 17
 		self.salesOrder = "PT043R"
+		self.orderFillCount = 3
 		self.phase = "NC"
 		self.shelf = "D23"
 		self.note = "This is an excellent film full of great potential"
