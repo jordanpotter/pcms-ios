@@ -24,7 +24,7 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	var cancelSetSalesOrderButton: UIBarButtonItem?
 	var setOrderFillCountButton: UIBarButtonItem?
 	var cancelSetOrderFillCountButton: UIBarButtonItem?
-	var noteTextViewOriginalBottom = 0.0
+	var noteTextViewOriginalBottom = CGFloat(0.0)
 	
 	var newSalesOrder: String?
 	var newOrderFillCount: Int?
@@ -38,6 +38,8 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	@IBOutlet weak var orderFillCountButton: UIButton!
 	@IBOutlet weak var dimensionsTableView: UITableView!
 	@IBOutlet weak var noteTextView: UITextView!
+	
+	@IBOutlet weak var dimensionsTableHeight: NSLayoutConstraint!
 	@IBOutlet weak var noteTextViewBottom: NSLayoutConstraint!
 	
 	override func viewDidLoad() {
@@ -80,13 +82,19 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		super.viewWillAppear(animated)
 		self.dimensionsTableView.reloadData()
 		
+		let numDimensions = self.item!.allDimensions.count
+		if let cell = self.dimensionsTableView.dequeueReusableCellWithIdentifier("item dimensions cell") as? DimensionsTableViewCell {
+			let dimensionsTableCellHeight = cell.frame.height
+			self.dimensionsTableHeight.constant = max(dimensionsTableCellHeight, min(self.dimensionsTableHeight.constant, dimensionsTableCellHeight * CGFloat(numDimensions)))
+		}
+		
 		NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardDidShowNotification, object:nil, queue:NSOperationQueue.mainQueue(), usingBlock:keyboardAppeared)
 		NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillHideNotification, object:nil, queue:NSOperationQueue.mainQueue(), usingBlock:keyboardDisappeared)
 	}
 	
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
-		self.noteTextViewOriginalBottom = Double(self.noteTextViewBottom.constant)
+		self.noteTextViewOriginalBottom = self.noteTextViewBottom.constant
 	}
 	
 	override func viewWillDisappear(animated: Bool) {
@@ -153,12 +161,12 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	func keyboardAppeared(notification: NSNotification!) {
 		if let rectValue = notification.userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue {
 			let keyboardFrame:CGRect = rectValue.CGRectValue()
-			self.noteTextViewBottom.constant = CGFloat(self.noteTextViewOriginalBottom) + keyboardFrame.size.height
+			self.noteTextViewBottom.constant = self.noteTextViewOriginalBottom + keyboardFrame.size.height
 		}
 	}
 	
 	func keyboardDisappeared(notification: NSNotification!) {
-		self.noteTextViewBottom.constant = CGFloat(self.noteTextViewOriginalBottom)
+		self.noteTextViewBottom.constant = self.noteTextViewOriginalBottom
 	}
 	
 	func textViewDidEndEditing(textView: UITextView!) {

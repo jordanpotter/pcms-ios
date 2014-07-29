@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6185.11" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1vT-5L-JxL">
     <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6190.4"/>
     </dependencies>
     <scenes>
@@ -906,6 +907,7 @@
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="dimensionsTableHeight" destination="DSG-Cb-uds" id="WSU-eY-6ak"/>
                         <outlet property="dimensionsTableView" destination="z0o-PJ-jk8" id="XtO-J7-c4S"/>
                         <outlet property="noteTextView" destination="YzU-02-HsD" id="ONL-8w-A3n"/>
                         <outlet property="noteTextViewBottom" destination="Q0i-d6-hA9" id="Cyo-lU-znk"/>
