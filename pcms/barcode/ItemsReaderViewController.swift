@@ -10,7 +10,13 @@ import Foundation
 import UIKit
 import AudioToolbox
 
+enum ItemsReaderState {
+	case Default
+	case SettingPhase
+}
+
 class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAlertViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+	var state: ItemsReaderState = .Default
 	var scannedItemsTableViewController: ScannedItemsTableViewController?
 	var allowedPhases = Array<String>()
 	var clearItemsButton: UIBarButtonItem?
@@ -29,16 +35,6 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 		} else {
 			return Array<Item>()
 		}
-	}
-	
-	var settingPhase: Bool {
-	get {
-		return !self.phasePicker.hidden
-	}
-	set {
-		self.phasePicker.hidden = !newValue
-		self.phasePickerOverlay.hidden = !newValue
-	}
 	}
 	
 	override func viewDidLoad() {
@@ -61,9 +57,7 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 		self.phasePicker.delegate = self
 		self.phasePicker.dataSource = self
 		
-		self.settingPhase = false
-		
-		self.updateButtons()
+		self.syncUI()
 	}
 	
 	override func viewWillAppear(animated: Bool) {
@@ -86,16 +80,23 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 		}
 	}
 
-	func updateButtons() {
-		if self.settingPhase {
-			self.navigationItem.leftBarButtonItem = self.cancelSetPhaseButton
-			self.navigationItem.rightBarButtonItems = [self.setPhaseButton!]
-		} else if self.currentItems.isEmpty {
+	func syncUI() {
+		switch self.state {
+		case .Default where self.currentItems.isEmpty:
+			self.phasePicker.hidden = true
+			self.phasePickerOverlay.hidden = true
 			self.navigationItem.leftBarButtonItem = nil
 			self.navigationItem.rightBarButtonItems = []
-		} else {
+		case .Default:
+			self.phasePicker.hidden = true
+			self.phasePickerOverlay.hidden = true
 			self.navigationItem.leftBarButtonItem = self.clearItemsButton
 			self.navigationItem.rightBarButtonItems = [self.batchUpdateShelfButton!, self.batchUpdatePhaseButton!]
+		case .SettingPhase:
+			self.phasePicker.hidden = false
+			self.phasePickerOverlay.hidden = false
+			self.navigationItem.leftBarButtonItem = self.cancelSetPhaseButton
+			self.navigationItem.rightBarButtonItems = [self.setPhaseButton!]
 		}
 	}
 	
@@ -106,14 +107,14 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 	func itemAdded(notification: NSNotification!) {
 		self.allowedPhases = Item.getAllowedPhasesForItems(self.currentItems)
 		self.phasePicker.reloadAllComponents()
-		self.updateButtons()
+		self.syncUI()
 		self.vibrateDevice()
 	}
 	
 	func itemRemoved(notification: NSNotification!) {
 		self.allowedPhases = Item.getAllowedPhasesForItems(self.currentItems)
 		self.phasePicker.reloadAllComponents()
-		self.updateButtons()
+		self.syncUI()
 	}
 	
 	func clearItems() {
@@ -123,8 +124,8 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 	}
 	
 	func showBatchPhaseUpdate() {
-		self.settingPhase = true
-		self.updateButtons()
+		self.state = .SettingPhase
+		self.syncUI()
 	}
 	
 	func setPhase() {
@@ -132,8 +133,8 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 			item.phase = self.allowedPhases[self.phasePicker.selectedRowInComponent(0)]
 		}
 		
-		self.settingPhase = false
-		self.updateButtons()
+		self.state = .Default
+		self.syncUI()
 		
 		if let scannedItemsTableViewController = self.scannedItemsTableViewController {
 			scannedItemsTableViewController.tableView.reloadData()
@@ -149,8 +150,8 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 	}
 	
 	func cancelSetPhase() {
-		self.settingPhase = false
-		self.updateButtons()
+		self.state = .Default
+		self.syncUI()
 	}
 	
 	func numberOfComponentsInPickerView(pickerView: UIPickerView!) -> Int {
