@@ -89,10 +89,10 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 	func updateButtons() {
 		if self.settingPhase {
 			self.navigationItem.leftBarButtonItem = self.cancelSetPhaseButton
-			self.navigationItem.rightBarButtonItem = self.setPhaseButton
+			self.navigationItem.rightBarButtonItems = [self.setPhaseButton!]
 		} else if self.currentItems.isEmpty {
 			self.navigationItem.leftBarButtonItem = nil
-			self.navigationItem.rightBarButtonItem = nil
+			self.navigationItem.rightBarButtonItems = []
 		} else {
 			self.navigationItem.leftBarButtonItem = self.clearItemsButton
 			self.navigationItem.rightBarButtonItems = [self.batchUpdateShelfButton!, self.batchUpdatePhaseButton!]
