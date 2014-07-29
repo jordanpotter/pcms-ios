@@ -83,16 +83,19 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 	func syncUI() {
 		switch self.state {
 		case .Default where self.currentItems.isEmpty:
+			self.title = nil
 			self.phasePicker.hidden = true
 			self.phasePickerOverlay.hidden = true
 			self.navigationItem.leftBarButtonItem = nil
 			self.navigationItem.rightBarButtonItems = []
 		case .Default:
+			self.title = nil
 			self.phasePicker.hidden = true
 			self.phasePickerOverlay.hidden = true
 			self.navigationItem.leftBarButtonItem = self.clearItemsButton
 			self.navigationItem.rightBarButtonItems = [self.batchUpdateShelfButton!, self.batchUpdatePhaseButton!]
 		case .SettingPhase:
+			self.title = "Phase"
 			self.phasePicker.hidden = false
 			self.phasePickerOverlay.hidden = false
 			self.navigationItem.leftBarButtonItem = self.cancelSetPhaseButton

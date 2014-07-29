@@ -112,18 +112,21 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		
 		switch self.state {
 		case .Default:
+			self.title = self.item?.serial
 			self.salesOrderPicker.hidden = true
 			self.orderFillCountPicker.hidden =  true
 			self.pickerOverlay.hidden = true
 			self.navigationItem.leftBarButtonItem = nil
 			self.navigationItem.rightBarButtonItem = self.saveButton
 		case .SettingSalesOrder:
+			self.title = "Sales Order"
 			self.salesOrderPicker.hidden = false
 			self.orderFillCountPicker.hidden =  true
 			self.pickerOverlay.hidden = false
 			self.navigationItem.leftBarButtonItem = self.cancelSetSalesOrderButton
 			self.navigationItem.rightBarButtonItem = self.setSalesOrderButton
 		case .SettingOrderFillCount:
+			self.title = "Order Fill Count"
 			self.salesOrderPicker.hidden = true
 			self.orderFillCountPicker.hidden =  false
 			self.pickerOverlay.hidden = false
