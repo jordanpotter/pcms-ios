@@ -64,8 +64,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 				self.loginIndicator.stopAnimating()
 				
 				if let error = requestError {
-					let alertString = error.localizedDescription
-					let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
+					NSLog("Error while logging in: %@", error)
+					let errorMessage = "Unable to login. Make sure your username and password are correct"
+					let alert = UIAlertView(title: "Server Error", message: errorMessage, delegate: nil, cancelButtonTitle: "Ok")
 					alert.show()
 				} else {
 					self.performSegueWithIdentifier("display main app", sender: self)
