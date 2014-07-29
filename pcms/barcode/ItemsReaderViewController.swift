@@ -16,8 +16,8 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 	var clearItemsButton: UIBarButtonItem?
 	var setPhaseButton: UIBarButtonItem?
 	var cancelSetPhaseButton: UIBarButtonItem?
-	var batchUpdateButton: UIBarButtonItem?
-	var batchUpdateActionSheet: UIActionSheet?
+	var batchUpdatePhaseButton: UIBarButtonItem?
+	var batchUpdateShelfButton: UIBarButtonItem?
 	var batchUpdateShelfAlert: UIAlertView?
 	
 	@IBOutlet weak var phasePicker: UIPickerView!
@@ -44,17 +44,11 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		self.clearItemsButton = UIBarButtonItem(title: "Clear All", style: .Plain, target: self, action: "clearItems")
-		self.batchUpdateButton = UIBarButtonItem(title: "Modify", style: .Plain, target: self, action: "batchUpdate")
+		self.clearItemsButton = UIBarButtonItem(title: "Clear", style: .Plain, target: self, action: "clearItems")
+		self.batchUpdatePhaseButton = UIBarButtonItem(image: UIImage(named: "phase"), style: .Plain, target: self, action: "showBatchPhaseUpdate")
+		self.batchUpdateShelfButton = UIBarButtonItem(image: UIImage(named: "shelf"), style: .Plain, target: self, action: "showBatchShelfUpdate")
 		self.setPhaseButton = UIBarButtonItem(title: "Select", style: .Plain, target: self, action: "setPhase")
 		self.cancelSetPhaseButton = UIBarButtonItem(title: "Cancel", style: .Plain, target: self, action: "cancelSetPhase")
-		
-		self.batchUpdateActionSheet = UIActionSheet()
-		self.batchUpdateActionSheet!.delegate = self
-		self.batchUpdateActionSheet!.addButtonWithTitle("Modify Phase")
-		self.batchUpdateActionSheet!.addButtonWithTitle("Modify Shelf")
-		self.batchUpdateActionSheet!.addButtonWithTitle("Close")
-		self.batchUpdateActionSheet!.cancelButtonIndex = 2
 		
 		self.batchUpdateShelfAlert = UIAlertView()
 		self.batchUpdateShelfAlert!.delegate = self
@@ -101,7 +95,7 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 			self.navigationItem.rightBarButtonItem = nil
 		} else {
 			self.navigationItem.leftBarButtonItem = self.clearItemsButton
-			self.navigationItem.rightBarButtonItem = self.batchUpdateButton
+			self.navigationItem.rightBarButtonItems = [self.batchUpdateShelfButton!, self.batchUpdatePhaseButton!]
 		}
 	}
 	
@@ -125,20 +119,6 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 	func clearItems() {
 		if let scannedItemsTableViewController = self.scannedItemsTableViewController {
 			scannedItemsTableViewController.clearItems()
-		}
-	}
-	
-	func batchUpdate() {
-		self.batchUpdateActionSheet?.showInView(self.view)
-	}
-	
-	func actionSheet(actionSheet: UIActionSheet!, clickedButtonAtIndex buttonIndex: Int) {
-		if actionSheet == self.batchUpdateActionSheet {
-			if buttonIndex == 0 {
-				showBatchPhaseUpdate()
-			} else if buttonIndex == 1 {
-				showBatchShelfUpdate()
-			}
 		}
 	}
 	
