@@ -427,6 +427,9 @@
                                             <variation key="widthClass=compact" misplaced="YES">
                                                 <rect key="frame" x="155" y="13.5" width="40" height="17"/>
                                             </variation>
+                                            <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                <rect key="frame" x="155" y="13" width="40" height="17"/>
+                                            </variation>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shelf" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LKr-De-Ral">
                                             <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
@@ -435,6 +438,9 @@
                                             <nil key="highlightedColor"/>
                                             <variation key="widthClass=compact" misplaced="YES">
                                                 <rect key="frame" x="162" y="29.5" width="33" height="17"/>
+                                            </variation>
+                                            <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                <rect key="frame" x="162" y="29" width="33" height="17"/>
                                             </variation>
                                         </label>
                                     </subviews>
@@ -712,7 +718,7 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="LzG-7f-2uo" firstAttribute="top" secondItem="yVW-LQ-1rk" secondAttribute="bottom" constant="15" id="0E5-yq-tJQ">
-                                <variation key="heightClass=regular-widthClass=compact" constant="10"/>
+                                <variation key="heightClass=regular-widthClass=compact" constant="15"/>
                             </constraint>
                             <constraint firstItem="KRv-z6-neN" firstAttribute="leading" secondItem="7rx-uP-JeU" secondAttribute="leading" constant="20" id="0iz-wx-bDq"/>
                             <constraint firstItem="KRv-z6-neN" firstAttribute="leading" secondItem="eIP-4H-YQR" secondAttribute="leading" id="1BZ-ad-DIZ"/>
@@ -755,7 +761,7 @@
                                 <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                             </constraint>
                             <constraint firstItem="eIP-4H-YQR" firstAttribute="top" secondItem="z0o-PJ-jk8" secondAttribute="bottom" constant="20.5" id="aGu-xi-8CR">
-                                <variation key="heightClass=regular-widthClass=compact" constant="10"/>
+                                <variation key="heightClass=regular-widthClass=compact" constant="15"/>
                             </constraint>
                             <constraint firstItem="xLw-FQ-Ccy" firstAttribute="top" secondItem="I9J-qM-4DG" secondAttribute="bottom" constant="72" id="eUW-4g-VlS">
                                 <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
@@ -769,7 +775,7 @@
                             </constraint>
                             <constraint firstAttribute="trailing" secondItem="Bqh-Xq-fbS" secondAttribute="trailing" id="ff2-kV-5xb"/>
                             <constraint firstItem="yVW-LQ-1rk" firstAttribute="top" secondItem="KRv-z6-neN" secondAttribute="bottom" constant="217.5" id="ghU-uq-Syx">
-                                <variation key="heightClass=regular-widthClass=compact" constant="10"/>
+                                <variation key="heightClass=regular-widthClass=compact" constant="15"/>
                             </constraint>
                             <constraint firstItem="z0o-PJ-jk8" firstAttribute="top" secondItem="LzG-7f-2uo" secondAttribute="bottom" constant="58.5" id="hY4-Fa-rMw">
                                 <variation key="heightClass=regular-widthClass=compact" constant="5"/>
