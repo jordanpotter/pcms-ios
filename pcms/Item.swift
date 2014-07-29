@@ -8,6 +8,9 @@
 
 import Foundation
 
+let MIN_ORDER_FILL_COUNT = 0
+let MAX_ORDER_FILL_COUNT = 10
+
 class Item {
 	var id: Int?
 	var serial: String

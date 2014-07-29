@@ -9,46 +9,43 @@
 import Foundation
 import UIKit
 
+enum ItemDetailsState {
+	case Default
+	case SettingSalesOrder
+	case SettingOrderFillCount
+}
+
 class ItemDetailsViewController: UIViewController, UITableViewDataSource, UITextViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource  {
+	var state: ItemDetailsState = .Default
 	var item: Item?
 	var allowedSalesOrders = Array<String>()
 	var saveButton: UIBarButtonItem?
 	var setSalesOrderButton: UIBarButtonItem?
 	var cancelSetSalesOrderButton: UIBarButtonItem?
+	var setOrderFillCountButton: UIBarButtonItem?
+	var cancelSetOrderFillCountButton: UIBarButtonItem?
 	var noteTextViewOriginalBottom = 0.0
 	
 	var newSalesOrder: String?
+	var newOrderFillCount: Int?
 	var newNote: String?
 	var newAllDimensions: Array<ItemDimensions>?
 	
+	@IBOutlet weak var pickerOverlay: UIView!
 	@IBOutlet weak var salesOrderButton: UIButton!
 	@IBOutlet weak var salesOrderPicker: UIPickerView!
-	@IBOutlet weak var salesOrderPickerOverlay: UIView!
+	@IBOutlet weak var orderFillCountPicker: UIPickerView!
 	@IBOutlet weak var orderFillCountButton: UIButton!
 	@IBOutlet weak var dimensionsTableView: UITableView!
 	@IBOutlet weak var noteTextView: UITextView!
 	@IBOutlet weak var noteTextViewBottom: NSLayoutConstraint!
-	
-	var settingSalesOrder: Bool {
-		get {
-			return !self.salesOrderPicker.hidden
-		}
-		set {
-			if newValue {
-				self.salesOrderPicker.hidden = false
-				self.salesOrderPickerOverlay.hidden = false
-			} else {
-				self.salesOrderPicker.hidden = true
-				self.salesOrderPickerOverlay.hidden = true
-			}
-		}
-	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.title = self.item?.serial
 		
 		self.newSalesOrder = self.item?.salesOrder
+		self.newOrderFillCount = self.item?.orderFillCount
 		self.newNote = self.item?.note
 		
 		if let item = self.item {
@@ -58,15 +55,17 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		self.saveButton = UIBarButtonItem(title: "Save", style: .Plain, target: self, action: "saveItem")
 		self.setSalesOrderButton = UIBarButtonItem(title: "Select", style: .Plain, target: self, action: "setSalesOrder")
 		self.cancelSetSalesOrderButton = UIBarButtonItem(title: "Cancel", style: .Plain, target: self, action: "cancelSetSalesOrder")
+		self.setOrderFillCountButton = UIBarButtonItem(title: "Select", style: .Plain, target: self, action: "setOrderFillCount")
+		self.cancelSetOrderFillCountButton = UIBarButtonItem(title: "Cancel", style: .Plain, target: self, action: "cancelSetOrderFillCount")
 		
 		self.salesOrderPicker.delegate = self
 		self.salesOrderPicker.dataSource = self
+		self.orderFillCountPicker.delegate = self
+		self.orderFillCountPicker.dataSource = self
 		self.dimensionsTableView.dataSource = self
 		self.noteTextView.delegate = self
 		
-		self.settingSalesOrder = false
 		self.syncUI()
-		self.updateButtons()
 		
 		NSLog("Need to pull possible sales orders here")
 		self.allowedSalesOrders.append("PD055R")
@@ -108,17 +107,28 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	
 	func syncUI() {
 		self.setTitleForAllButtonStates(self.salesOrderButton, title: self.newSalesOrder)
+		self.setTitleForAllButtonStates(self.orderFillCountButton, title: String(self.newOrderFillCount!))
 		self.noteTextView.text = self.newNote
-		self.updateButtons()
-	}
-	
-	func updateButtons() {
-		if self.settingSalesOrder {
-			self.navigationItem.leftBarButtonItem = self.cancelSetSalesOrderButton
-			self.navigationItem.rightBarButtonItem = self.setSalesOrderButton
-		} else {
+		
+		switch self.state {
+		case .Default:
+			self.salesOrderPicker.hidden = true
+			self.orderFillCountPicker.hidden =  true
+			self.pickerOverlay.hidden = true
 			self.navigationItem.leftBarButtonItem = nil
 			self.navigationItem.rightBarButtonItem = self.saveButton
+		case .SettingSalesOrder:
+			self.salesOrderPicker.hidden = false
+			self.orderFillCountPicker.hidden =  true
+			self.pickerOverlay.hidden = false
+			self.navigationItem.leftBarButtonItem = self.cancelSetSalesOrderButton
+			self.navigationItem.rightBarButtonItem = self.setSalesOrderButton
+		case .SettingOrderFillCount:
+			self.salesOrderPicker.hidden = true
+			self.orderFillCountPicker.hidden =  false
+			self.pickerOverlay.hidden = false
+			self.navigationItem.leftBarButtonItem = self.cancelSetOrderFillCountButton
+			self.navigationItem.rightBarButtonItem = self.setOrderFillCountButton
 		}
 	}
 	
@@ -176,8 +186,8 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	@IBAction func salesOrderButtonClicked() {
 		self.resignAllResponders()
 		self.selectSalesOrderInPicker(self.newSalesOrder)
-		self.settingSalesOrder = true
-		self.updateButtons()
+		self.state = .SettingSalesOrder
+		self.syncUI()
 	}
 	
 	func selectSalesOrderInPicker(salesOrder: String?) {
@@ -191,25 +201,58 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	func setSalesOrder() {
 		self.newSalesOrder = self.allowedSalesOrders[self.salesOrderPicker.selectedRowInComponent(0)]
 		self.syncUI()
-		self.settingSalesOrder = false
-		self.updateButtons()
+		self.state = .Default
+		self.syncUI()
 	}
 	
 	func cancelSetSalesOrder() {
-		self.settingSalesOrder = false
-		self.updateButtons()
+		self.state = .Default
+		self.syncUI()
 	}
 	
+	@IBAction func orderFillCountButtonClicked() {
+		self.resignAllResponders()
+		self.selectOrderFillCountInPicker(self.newOrderFillCount)
+		self.state = .SettingOrderFillCount
+		self.syncUI()
+	}
+	
+	func selectOrderFillCountInPicker(orderFillCount: Int?) {
+		if orderFillCount && orderFillCount! >= MIN_ORDER_FILL_COUNT && orderFillCount! <= MAX_ORDER_FILL_COUNT {
+			self.orderFillCountPicker.selectRow(orderFillCount! + MIN_ORDER_FILL_COUNT, inComponent: 0, animated: false)
+		}
+	}
+	
+	func setOrderFillCount() {
+		self.newOrderFillCount = self.orderFillCountPicker.selectedRowInComponent(0) + MIN_ORDER_FILL_COUNT
+		self.syncUI()
+		self.state = .Default
+		self.syncUI()
+	}
+	
+	func cancelSetOrderFillCount() {
+		self.state = .Default
+		self.syncUI()
+	}
+
 	func numberOfComponentsInPickerView(pickerView: UIPickerView!) -> Int {
 		return 1
 	}
 	
 	func pickerView(pickerView: UIPickerView!, numberOfRowsInComponent component: Int) -> Int {
-		return self.allowedSalesOrders.count
+		switch pickerView {
+		case self.salesOrderPicker: return self.allowedSalesOrders.count
+		case self.orderFillCountPicker: return MAX_ORDER_FILL_COUNT - MIN_ORDER_FILL_COUNT + 1
+		default: return 0
+		}
 	}
 	
 	func pickerView(pickerView: UIPickerView!, titleForRow row: Int, forComponent component: Int) -> String! {
-		return self.allowedSalesOrders[row]
+		switch pickerView {
+		case self.salesOrderPicker: return self.allowedSalesOrders[row]
+		case self.orderFillCountPicker: return String(row + MIN_ORDER_FILL_COUNT)
+		default: return ""
+		}
 	}
 	
 	func saveItem() {
