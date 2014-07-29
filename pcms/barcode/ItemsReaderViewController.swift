@@ -110,14 +110,14 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 	}
 	
 	func itemAdded(notification: NSNotification!) {
-		self.allowedPhases = getAllowedPhasesForItems(self.currentItems)
+		self.allowedPhases = Item.getAllowedPhasesForItems(self.currentItems)
 		self.phasePicker.reloadAllComponents()
 		self.updateButtons()
 		self.vibrateDevice()
 	}
 	
 	func itemRemoved(notification: NSNotification!) {
-		self.allowedPhases = getAllowedPhasesForItems(self.currentItems)
+		self.allowedPhases = Item.getAllowedPhasesForItems(self.currentItems)
 		self.phasePicker.reloadAllComponents()
 		self.updateButtons()
 	}
@@ -159,7 +159,7 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 			scannedItemsTableViewController.tableView.reloadData()
 		}
 		
-		batchSaveItemsToServer(self.currentItems, { (error: NSError?) in
+		Item.batchSaveToServer(self.currentItems, { (error: NSError?) in
 			if error {
 				let alertString = error!.localizedDescription
 				let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
@@ -210,7 +210,7 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 			scannedItemsTableViewController.tableView.reloadData()
 		}
 		
-		batchSaveItemsToServer(self.currentItems, { (error: NSError?) in
+		Item.batchSaveToServer(self.currentItems, { (error: NSError?) in
 			if error {
 				let alertString = error!.localizedDescription
 				let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")

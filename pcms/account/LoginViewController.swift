@@ -58,8 +58,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 		self.loginOverlay.hidden = false
 		self.loginIndicator.startAnimating()
 		
-		performLoginRequest(self.usernameTextField.text, self.passwordTextField.text, { (requestError: NSError?) in
-			NSOperationQueue.mainQueue().addOperationWithBlock({
+		Api.login(self.usernameTextField.text, password: self.passwordTextField.text) { (requestError: NSError?) in
+			NSOperationQueue.mainQueue().addOperationWithBlock() {
 				self.loginOverlay.hidden = true
 				self.loginIndicator.stopAnimating()
 				
@@ -71,7 +71,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 				} else {
 					self.performSegueWithIdentifier("display main app", sender: self)
 				}
-			})
-		})
+			}
+		}
 	}
 }

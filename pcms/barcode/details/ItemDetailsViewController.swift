@@ -51,7 +51,7 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		self.newNote = self.item?.note
 		
 		if let item = self.item {
-			self.newAllDimensions = deepCopyItemAllDimensions(item.allDimensions)
+			self.newAllDimensions = ItemDimensions.deepCopyAllDimensions(item.allDimensions)
 		}
 		
 		self.saveButton = UIBarButtonItem(title: "Save", style: .Plain, target: self, action: "saveItem")

@@ -63,15 +63,15 @@ class Item {
 		NSLog("TODO: need to save item")
 		completionHandler?(nil)
 	}
-}
-
-func batchSaveItemsToServer(items: Array<Item>, completionHandler: ((NSError?) -> Void)?) {
-	NSLog("TODO: need to batch save items")
-	completionHandler?(nil)
-}
-
-func getAllowedPhasesForItems(items: Array<Item>) -> Array<String> {
-	return ["some", "phases", "here"]
+	
+	class func batchSaveToServer(items: Array<Item>, completionHandler: ((NSError?) -> Void)?) {
+		NSLog("TODO: need to batch save items")
+		completionHandler?(nil)
+	}
+	
+	class func getAllowedPhasesForItems(items: Array<Item>) -> Array<String> {
+		return ["some", "phases", "here"]
+	}
 }
 
 class ItemDimensions {
@@ -88,12 +88,12 @@ class ItemDimensions {
 		self.width = dimensions.width
 		self.length = dimensions.length
 	}
-}
-
-func deepCopyItemAllDimensions(allDimensions: Array<ItemDimensions>) -> Array<ItemDimensions> {
-	var itemAllDimensionsCopy = Array<ItemDimensions>()
-	for dimensions in allDimensions {
-		itemAllDimensionsCopy.append(ItemDimensions(dimensions: dimensions))
+	
+	class func deepCopyAllDimensions(allDimensions: Array<ItemDimensions>) -> Array<ItemDimensions> {
+		var itemAllDimensionsCopy = Array<ItemDimensions>()
+		for dimensions in allDimensions {
+			itemAllDimensionsCopy.append(ItemDimensions(dimensions: dimensions))
+		}
+		return itemAllDimensionsCopy
 	}
-	return itemAllDimensionsCopy
 }
