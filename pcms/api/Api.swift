@@ -54,6 +54,13 @@ struct Api {
 		}
 	}
 	
+	static func logout(completionHandler: ((NSError?) -> Void)?) {
+		let url = NSURL(string: apiRootUrl + "logout")
+		Api.performRequest(url, bodyData: nil, method: "POST") { (data: NSData?, error: NSError?) in
+			if completionHandler { completionHandler!(error) }
+		}
+	}
+	
 	static func retrieveItem(id: Int, completionHandler: (Item?, NSError?) -> Void) {
 		let url = NSURL(string: apiRootUrl + "films/\(id)")
 		Api.performRequest(url, bodyData: nil, method: "GET") { (data: NSData?, error: NSError?) in
@@ -86,16 +93,46 @@ struct Api {
 		}
 	}
 	
-	static func saveItems(items: Array<Item>, completionHandler: ((NSError?) -> Void)?) {
+	static func saveItemsPhase(items: Array<Item>, phase: String, completionHandler: ((NSError?) -> Void)?) {
+		var ids = Array<Int>()
+		for item in items {
+			ids.append(item.id)
+		}
+		
+		let postDictionary = ["films_ids": ids, "phase": phase]
+		
+		var error: NSError?
+		let postData = NSJSONSerialization.dataWithJSONObject(postDictionary, options: NSJSONWritingOptions(0), error: &error)
+		if error {
+			completionHandler?(error)
+			return
+		}
+		
 		let url = NSURL(string: apiRootUrl + "films/update_multiple")
+		Api.performRequest(url, bodyData: postData, method: "PUT") { (data: NSData?, error: NSError?) in
+			if completionHandler { completionHandler!(error) }
+		}
+	}
+	
+	static func saveItemsShelf(items: Array<Item>, shelf: String, completionHandler: ((NSError?) -> Void)?) {
+		var ids = Array<Int>()
+		for item in items {
+			ids.append(item.id)
+		}
 		
-		//		{
-		//			"films_ids": [1, 2, 4],
-		//			"phase": "phase1",
-		//			"shelf": "d5"
-		//	}
+		let postDictionary = ["films_ids": ids, "shelf": shelf]
 		
-		completionHandler?(nil)
+		var error: NSError?
+		let postData = NSJSONSerialization.dataWithJSONObject(postDictionary, options: NSJSONWritingOptions(0), error: &error)
+		if error {
+			completionHandler?(error)
+			return
+		}
+		
+		let url = NSURL(string: apiRootUrl + "films/update_multiple")
+		Api.performRequest(url, bodyData: postData, method: "PUT") { (data: NSData?, error: NSError?) in
+			if completionHandler { completionHandler!(error) }
+		}
 	}
 	
 	static func retrieveSalesOrders(completionHandler: (Array<String>?, NSError?) -> Void) {

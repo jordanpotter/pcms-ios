@@ -132,8 +132,9 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 	}
 	
 	func setPhase() {
+		let phase = self.allowedPhases[self.phasePicker.selectedRowInComponent(0)]
 		for item in self.currentItems {
-			item.phase = self.allowedPhases[self.phasePicker.selectedRowInComponent(0)]
+			item.phase = phase
 		}
 		
 		self.state = .Default
@@ -143,7 +144,7 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 			scannedItemsTableViewController.tableView.reloadData()
 		}
 		
-		Api.saveItems(self.currentItems) { (error: NSError?) in
+		Api.saveItemsPhase(self.currentItems, phase: phase) { (error: NSError?) in
 			NSOperationQueue.mainQueue().addOperationWithBlock() {
 				if error {
 					let alertString = error!.localizedDescription
@@ -188,15 +189,16 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 	}
 	
 	func setShelf() {
+		let shelf = self.batchUpdateShelfAlert!.textFieldAtIndex(0).text
 		for item in self.currentItems {
-			item.shelf = self.batchUpdateShelfAlert!.textFieldAtIndex(0).text
+			item.shelf = shelf
 		}
 		
 		if let scannedItemsTableViewController = self.scannedItemsTableViewController {
 			scannedItemsTableViewController.tableView.reloadData()
 		}
 		
-		Api.saveItems(self.currentItems) { (error: NSError?) in
+		Api.saveItemsShelf(self.currentItems, shelf: shelf) { (error: NSError?) in
 			NSOperationQueue.mainQueue().addOperationWithBlock() {
 				if error {
 					let alertString = error!.localizedDescription
