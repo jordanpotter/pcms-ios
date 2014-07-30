@@ -42,6 +42,7 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
 		self.addScannerPreview()
+		self.syncScannerPreviewFrame()
 		self.syncScannerPreviewOrientation()
 	}
 	
@@ -53,7 +54,10 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 	}
 	
 	func orientationChanged(notification: NSNotification!) {
-		self.syncScannerPreviewOrientation()
+		NSOperationQueue.mainQueue().addOperationWithBlock() {
+			self.syncScannerPreviewFrame()
+			self.syncScannerPreviewOrientation()
+		}
 	}
 	
 	func setupScanner() {
@@ -110,9 +114,9 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 		}
 		
 		self.scannerPreviewLayer = AVCaptureVideoPreviewLayer.layerWithSession(self.scannerSession) as? AVCaptureVideoPreviewLayer
-		if self.scannerPreviewLayer {
-			self.scannerPreviewLayer!.frame = self.view.frame
-			self.scannerPreviewLayer!.videoGravity = AVLayerVideoGravityResizeAspectFill
+		if let scannerPreviewLayer = self.scannerPreviewLayer {
+			scannerPreviewLayer.frame = self.view.frame
+			scannerPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
 			self.view.layer.addSublayer(scannerPreviewLayer)
 		} else {
 			NSLog("Error while setting up barcode scanner preview layer")
@@ -121,17 +125,23 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 		}
 	}
 	
+	func syncScannerPreviewFrame() {
+		if let scannerPreviewLayer = self.scannerPreviewLayer {
+			scannerPreviewLayer.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+		}
+	}
+	
 	func syncScannerPreviewOrientation() {
 		if let scannerPreviewLayer = self.scannerPreviewLayer {
 			switch (UIDevice.currentDevice().orientation) {
 			case UIDeviceOrientation.Portrait:
-				self.scannerPreviewLayer!.setAffineTransform(CGAffineTransformMakeRotation(0.0))
+				scannerPreviewLayer.setAffineTransform(CGAffineTransformMakeRotation(0.0))
 			case UIDeviceOrientation.LandscapeLeft:
-				self.scannerPreviewLayer!.setAffineTransform(CGAffineTransformMakeRotation(CGFloat(M_PI + M_PI_2)))
+				scannerPreviewLayer.setAffineTransform(CGAffineTransformMakeRotation(CGFloat(M_PI + M_PI_2)))
 			case UIDeviceOrientation.LandscapeRight:
-				self.scannerPreviewLayer!.setAffineTransform(CGAffineTransformMakeRotation(CGFloat(M_PI_2)))
+				scannerPreviewLayer.setAffineTransform(CGAffineTransformMakeRotation(CGFloat(M_PI_2)))
 			case UIDeviceOrientation.PortraitUpsideDown:
-				self.scannerPreviewLayer!.setAffineTransform(CGAffineTransformMakeRotation(CGFloat(M_PI)))
+				scannerPreviewLayer.setAffineTransform(CGAffineTransformMakeRotation(CGFloat(M_PI)))
 			default:
 				break // Not handling rotation
 			}
