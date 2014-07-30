@@ -23,32 +23,41 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 	init(coder aDecoder: NSCoder!) {
 		self.lastScanTime = NSDate.date()
 		super.init(coder: aDecoder)
-		setupScanner()
+		self.setupScanner()
 	}
 	
 	init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!)  {
 		self.lastScanTime = NSDate.date()
 		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-		setupScanner()
+		self.setupScanner()
 	}
 	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
-		scannerSession.startRunning()
+		self.scannerSession.startRunning()
+		
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "orientationChanged:", name: UIDeviceOrientationDidChangeNotification, object: nil)
 	}
 	
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
-		addScannerPreview()
+		self.addScannerPreview()
+		self.syncScannerPreviewOrientation()
 	}
 	
 	override func viewWillDisappear(animated: Bool) {
 		super.viewWillDisappear(animated)
-		scannerSession.stopRunning()
+		self.scannerSession.stopRunning()
+		
+		NSNotificationCenter.defaultCenter().removeObserver(self, name:UIDeviceOrientationDidChangeNotification, object:nil)
+	}
+	
+	func orientationChanged(notification: NSNotification!) {
+		self.syncScannerPreviewOrientation()
 	}
 	
 	func setupScanner() {
-		setupScannerInput() && setupScannerConfiguration() && setupScannerOutput()
+		self.setupScannerInput() && self.setupScannerConfiguration() && self.setupScannerOutput()
 	}
 	
 	func setupScannerInput() -> Bool {
@@ -109,6 +118,21 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 			NSLog("Error while setting up barcode scanner preview layer")
 			let alert = UIAlertView(title: "Error", message: "Unable to create barcode scanner preview", delegate: nil, cancelButtonTitle: "Ok")
 			alert.show()
+		}
+	}
+	
+	func syncScannerPreviewOrientation() {
+		if let scannerPreviewLayer = self.scannerPreviewLayer {
+			switch (UIDevice.currentDevice().orientation) {
+			case UIDeviceOrientation.LandscapeLeft:
+				self.scannerPreviewLayer!.setAffineTransform(CGAffineTransformMakeRotation(CGFloat(M_PI + M_PI_2)))
+			case UIDeviceOrientation.LandscapeRight:
+				self.scannerPreviewLayer!.setAffineTransform(CGAffineTransformMakeRotation(CGFloat(M_PI_2)))
+			case UIDeviceOrientation.PortraitUpsideDown:
+				self.scannerPreviewLayer!.setAffineTransform(CGAffineTransformMakeRotation(CGFloat(M_PI)))
+			default:
+				self.scannerPreviewLayer!.setAffineTransform(CGAffineTransformMakeRotation(0.0))
+			}
 		}
 	}
 	
