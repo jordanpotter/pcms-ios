@@ -144,10 +144,12 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 		}
 		
 		Item.batchSaveToServer(self.currentItems, { (error: NSError?) in
-			if error {
-				let alertString = error!.localizedDescription
-				let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
-				alert.show()
+			NSOperationQueue.mainQueue().addOperationWithBlock() {
+				if error {
+					let alertString = error!.localizedDescription
+					let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
+					alert.show()
+				}
 			}
 		})
 	}
@@ -195,10 +197,12 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 		}
 		
 		Item.batchSaveToServer(self.currentItems, { (error: NSError?) in
-			if error {
-				let alertString = error!.localizedDescription
-				let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
-				alert.show()
+			NSOperationQueue.mainQueue().addOperationWithBlock() {
+				if error {
+					let alertString = error!.localizedDescription
+					let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
+					alert.show()
+				}
 			}
 		})
 	}

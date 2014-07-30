@@ -26,6 +26,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 		self.passwordTextField.addTarget(self, action: "syncLoginButton", forControlEvents: .EditingChanged)
 		
 		self.syncLoginButton()
+		
+		
+		NSLog("Need to disable logging in automatically")
+		self.usernameTextField.text = "jpotter"
+		self.passwordTextField.text = "pigbenis"
+		self.login()
 	}
 	
 	func syncLoginButton() {

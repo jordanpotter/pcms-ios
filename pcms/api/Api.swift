@@ -33,7 +33,7 @@ struct Api {
 		Api.setBody(request, data: postData)
 		request.HTTPMethod = "POST"
 		
-		NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: { (response: NSURLResponse!, data: NSData!, error: NSError!) in
+		NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue()) { (response: NSURLResponse!, data: NSData!, error: NSError!) in
 			if error {
 				completionHandler?(error)
 			} else {
@@ -45,20 +45,58 @@ struct Api {
 					completionHandler?(nil)
 				}
 			}
-			})
+		}
 	}
 	
-	static func retrieveItem(id: Int, completionHandler: ((Item?, NSError?) -> Void)?) {
+	static func retrieveItem(id: Int, completionHandler: (NSDictionary?, NSError?) -> Void) {
 		let url = NSURL(string: apiRootUrl + "films/\(id)")
+		let request = NSMutableURLRequest(URL: url, cachePolicy: .ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 30.0)
 		
-		completionHandler?(nil, nil)
+		NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue()) { (response: NSURLResponse!, data: NSData!, error: NSError!) in
+			if error {
+				completionHandler(nil, error)
+			} else {
+				let statusCode = (response as NSHTTPURLResponse).statusCode
+				if statusCode < 200 || statusCode > 299 {
+					let errorString = NSString(data: data, encoding: NSUTF8StringEncoding)
+					completionHandler(nil, NSError(domain: errorString, code: statusCode, userInfo: nil))
+				} else {
+					var jsonError: NSError?
+					if let itemJson = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &jsonError) as? NSDictionary {
+						completionHandler(itemJson, jsonError)
+					} else {
+						completionHandler(nil, jsonError)
+					}
+				}
+			}
+		}
 	}
 	
 	static func saveItem(item: Item, completionHandler: ((NSError?) -> Void)?) {
-		let url = NSURL(string: apiRootUrl + "films/\(item.id)")
-		//	PUT OR PATCH REQUEST
+		let jsonedItem = item.toJson()
+		if jsonedItem.error {
+			completionHandler?(jsonedItem.error)
+			return
+		}
 		
-		completionHandler?(nil)
+		let url = NSURL(string: apiRootUrl + "films/\(item.id)")
+		let request = NSMutableURLRequest(URL: url, cachePolicy: .ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 30.0)
+		Api.setBody(request, data: jsonedItem.data!)
+		request.HTTPMethod = "PUT"
+		
+		NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue()) { (response: NSURLResponse!, data: NSData!, error: NSError!) in
+			if error {
+				completionHandler?(error)
+			} else {
+				let statusCode = (response as NSHTTPURLResponse).statusCode
+				if statusCode < 200 || statusCode > 299 {
+					let errorString = NSString(data: data, encoding: NSUTF8StringEncoding)
+					completionHandler?(NSError(domain: errorString, code: statusCode, userInfo: nil))
+				} else {
+					completionHandler?(nil)
+				}
+			}
+		}
 	}
 	
 	static func saveItems(items: Array<Item>, completionHandler: ((NSError?) -> Void)?) {

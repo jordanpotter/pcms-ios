@@ -14,7 +14,7 @@ class ScannedItemTableViewCell: UITableViewCell {
 	@IBOutlet weak var phaseLabel: UILabel!
 	@IBOutlet weak var shelfLabel: UILabel!
 	
-	var serial: String {
+	var serial: String? {
 		get {
 			return self.serialLabel.text
 		}

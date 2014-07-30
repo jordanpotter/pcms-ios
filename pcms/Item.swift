@@ -12,8 +12,8 @@ let MIN_ORDER_FILL_COUNT = 0
 let MAX_ORDER_FILL_COUNT = 10
 
 class Item {
-	var id: Int?
-	var serial: String
+	var id: Int
+	var serial: String?
 	var salesOrder: String?
 	var orderFillCount: Int?
 	var phase: String?
@@ -21,14 +21,49 @@ class Item {
 	var note: String?
 	var allDimensions = Array<ItemDimensions>()
 	
-	init(serial: String) {
-		self.serial = serial
+	init(json: NSDictionary) {
+		self.id = json["id"] as Int
+		self.serial = json["serial"] as? String
+		self.salesOrder = json["sales_order_code"] as? String
+		self.orderFillCount = json["order_fill_count"] as? Int
+		self.phase = json["phase"] as? String
+		self.shelf = json["shelf"] as? String
+		self.note = json["note"] as? String
+		
+		if let jsonAllDimensions = json["dimensions"] as? Array<NSDictionary> {
+			for jsonDimensions in jsonAllDimensions {
+				self.allDimensions.append(ItemDimensions(json: jsonDimensions))
+			}
+		}
 	}
 	
-	func toJson() -> (NSData?, NSError?) {
+	class func retrieveFromServer(id: Int, completionHandler: (Item?, NSError?) -> Void) {
+		Api.retrieveItem(id) { (itemJson: NSDictionary?, error: NSError?) in
+			if error {
+				completionHandler(nil, error)
+			} else if let json = itemJson {
+				completionHandler(Item(json: json), nil)
+			} else {
+				completionHandler(nil, NSError(domain: "Unknown server error", code: 500, userInfo: nil))
+			}
+		}
+	}
+	
+	func saveToServer(completionHandler: ((NSError?) -> Void)?) {
+		NSLog("TODO: need to save item")
+		completionHandler?(nil)
+	}
+	
+	class func batchSaveToServer(items: Array<Item>, completionHandler: ((NSError?) -> Void)?) {
+		NSLog("TODO: need to batch save items")
+		completionHandler?(nil)
+	}
+	
+	func toJson() -> (data: NSData?, error: NSError?) {
 		var dictionary = Dictionary<String, AnyObject>()
-		dictionary["serial"] = self.serial
-		if let id = self.id { dictionary["id"] = id }
+		dictionary["id"] = id
+//		dictionary["serial"] = self.serial?
+		if let serial = self.serial { dictionary["serial"] = serial}
 		if let salesOrder = self.salesOrder { dictionary["sales_order_code"] = salesOrder }
 		if let orderFillCount = self.orderFillCount { dictionary["order_fill_count"] = orderFillCount }
 		if let phase = self.phase { dictionary["phase"] = phase }
@@ -50,39 +85,14 @@ class Item {
 		}
 	}
 	
-	func saturateDataFromServer(completionHandler: ((NSError?) -> ())?) {
-		NSLog("TODO: load item data here")
-		self.id = 17
-		self.salesOrder = "PT043R"
-		self.orderFillCount = 3
-		self.phase = "NC"
-		self.shelf = "D23"
-		self.note = "This is an excellent film full of great potential"
-		self.allDimensions.append(ItemDimensions(length: 17.0, width: 19.3))
-		self.allDimensions.append(ItemDimensions(length: 13.1, width: 19.8))
-		self.allDimensions.append(ItemDimensions(length: 13.9, width: 12.1))
-		
-		completionHandler?(nil)
-	}
-	
-	func saveToServer(completionHandler: ((NSError?) -> Void)?) {
-		NSLog("TODO: need to save item")
-		completionHandler?(nil)
-	}
-	
-	class func batchSaveToServer(items: Array<Item>, completionHandler: ((NSError?) -> Void)?) {
-		NSLog("TODO: need to batch save items")
-		completionHandler?(nil)
-	}
-	
 	class func getAllowedPhasesForItems(items: Array<Item>) -> Array<String> {
 		return ["some", "phases", "here"]
 	}
 }
 
 class ItemDimensions {
-	var length: Float
-	var width: Float
+	var length: Float = 0.0
+	var width: Float = 0.0
 	var area: Float { return self.length * self.width }
 	
 	init(length: Float, width: Float) {
@@ -93,6 +103,11 @@ class ItemDimensions {
 	init(dimensions: ItemDimensions) {
 		self.width = dimensions.width
 		self.length = dimensions.length
+	}
+	
+	init(json: NSDictionary) {
+		self.length = json["length"].floatValue
+		self.width = json["width"].floatValue
 	}
 	
 	class func deepCopyAllDimensions(allDimensions: Array<ItemDimensions>) -> Array<ItemDimensions> {

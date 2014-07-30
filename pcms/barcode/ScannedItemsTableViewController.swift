@@ -39,22 +39,25 @@ class ScannedItemsTableViewController: UITableViewController {
 	}
 	
 	func processNewItem(notification: NSNotification!) {
-		if let itemSerial: NSString = notification.object as? NSString {
-			if self.currentItems.filter({$0.serial == itemSerial}).count == 0 {
-				var item = Item(serial: itemSerial)
+		if let itemIdString: NSString = notification.object as? NSString {
+			let itemId = itemIdString.integerValue
+			if self.currentItems.filter({$0.id == itemId}).count == 0 {
+				NSLog("Not using id scanned!")
 				
-				item.saturateDataFromServer({ (error: NSError?) in
-					if error {
-						let alertString = error!.localizedDescription
-						let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
-						alert.show()
-					} else {
-						self.currentItems.append(item)
-						self.tableView.reloadData()
-						
-						NSNotificationCenter.defaultCenter().postNotificationName(ADDED_ITEM_NOTIFICATION, object: item)
+				Item.retrieveFromServer(26296) { (item: Item?, error: NSError?) in
+					NSOperationQueue.mainQueue().addOperationWithBlock() {
+						if error {
+							let alertString = error!.localizedDescription
+							let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
+							alert.show()
+						} else if item {
+							self.currentItems.append(item!)
+							self.tableView.reloadData()
+							
+							NSNotificationCenter.defaultCenter().postNotificationName(ADDED_ITEM_NOTIFICATION, object: item)
+						}
 					}
-				})
+				}
 			}
 		}
 	}
