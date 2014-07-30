@@ -54,14 +54,21 @@ struct Api {
 		}
 	}
 	
-	static func retrieveItem(id: Int, completionHandler: (NSDictionary?, NSError?) -> Void) {
+	static func retrieveItem(id: Int, completionHandler: (Item?, NSError?) -> Void) {
 		let url = NSURL(string: apiRootUrl + "films/\(id)")
 		Api.performRequest(url, bodyData: nil, method: "GET") { (data: NSData?, error: NSError?) in
+			if error {
+				completionHandler(nil, error)
+				return
+			}
+			
 			var jsonError: NSError?
 			if let itemJson = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &jsonError) as? NSDictionary {
-				completionHandler(itemJson, jsonError)
-			} else {
+				completionHandler(Item(json: itemJson), nil)
+			} else if jsonError {
 				completionHandler(nil, jsonError)
+			} else {
+				completionHandler(nil, NSError(domain: "Server data poorly formed", code: 500, userInfo: nil))
 			}
 		}
 	}
@@ -74,22 +81,8 @@ struct Api {
 		}
 		
 		let url = NSURL(string: apiRootUrl + "films/\(item.id)")
-		let request = NSMutableURLRequest(URL: url, cachePolicy: .ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 30.0)
-		Api.setBody(request, data: jsonedItem.data!)
-		request.HTTPMethod = "PUT"
-		
-		NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue()) { (response: NSURLResponse!, data: NSData!, error: NSError!) in
-			if error {
-				completionHandler?(error)
-			} else {
-				let statusCode = (response as NSHTTPURLResponse).statusCode
-				if statusCode < 200 || statusCode > 299 {
-					let errorString = NSString(data: data, encoding: NSUTF8StringEncoding)
-					completionHandler?(NSError(domain: errorString, code: statusCode, userInfo: nil))
-				} else {
-					completionHandler?(nil)
-				}
-			}
+		Api.performRequest(url, bodyData: jsonedItem.data!, method: "PUT") { (data: NSData?, error: NSError?) in
+			if completionHandler { completionHandler!(error) }
 		}
 	}
 	
@@ -105,7 +98,28 @@ struct Api {
 		completionHandler?(nil)
 	}
 	
-	static func retrieveSalesOrders(completionHandler: ((Array<String>?, NSError?) -> Void)?) {
+	static func retrieveSalesOrders(completionHandler: (Array<String>?, NSError?) -> Void) {
 		let url = NSURL(string: apiRootUrl + "films/assignable_orders")
+		Api.performRequest(url, bodyData: nil, method: "GET") { (data: NSData?, error: NSError?) in
+			if error {
+				completionHandler(nil, error)
+				return
+			}
+			
+			var jsonError: NSError?
+			if let jsonedSalesOrders = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &jsonError) as? NSDictionary {
+				var salesOrders = Array<String>()
+				for jsonedSalesOrder in jsonedSalesOrders["assignable_orders"] as Array<NSDictionary> {
+					if let salesOrder = jsonedSalesOrder["code"] as? String {
+						salesOrders.append(salesOrder)
+					}
+				}
+				completionHandler(salesOrders, jsonError)
+			} else if jsonError {
+				completionHandler(nil, jsonError)
+			} else {
+				completionHandler(nil, NSError(domain: "Server data poorly formed", code: 500, userInfo: nil))
+			}
+		}
 	}
 }

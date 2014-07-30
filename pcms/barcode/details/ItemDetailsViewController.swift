@@ -68,14 +68,7 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		self.noteTextView.delegate = self
 		
 		self.syncUI()
-		
-		NSLog("Need to pull possible sales orders here")
-		self.allowedSalesOrders.append("PD055R")
-		self.allowedSalesOrders.append("PT043R")
-		self.allowedSalesOrders.append("PD985Q")
-		self.allowedSalesOrders.append("PD341L")
-		self.allowedSalesOrders.append("PT721M")
-		self.allowedSalesOrders.append("PD212R")
+		self.retrieveSalesOrders()
 	}
 	
 	override func viewWillAppear(animated: Bool) {
@@ -148,6 +141,21 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		button.setTitle(title, forState: .Highlighted)
 		button.setTitle(title, forState: .Disabled)
 		button.setTitle(title, forState: .Selected)
+	}
+	
+	func retrieveSalesOrders() {
+		Api.retrieveSalesOrders() { (retrievedSalesOrders: Array<String>?, error: NSError?) in
+			NSOperationQueue.mainQueue().addOperationWithBlock() {
+				if error {
+					let alertString = error!.localizedDescription
+					let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
+					alert.show()
+				} else if let salesOrders = retrievedSalesOrders {
+					self.allowedSalesOrders = salesOrders
+					self.salesOrderPicker.reloadAllComponents()
+				}
+			}
+		}
 	}
 	
 	@IBAction func clickedBackground(sender: UITapGestureRecognizer) {

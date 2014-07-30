@@ -37,18 +37,6 @@ class Item {
 		}
 	}
 	
-	class func retrieveFromServer(id: Int, completionHandler: (Item?, NSError?) -> Void) {
-		Api.retrieveItem(id) { (itemJson: NSDictionary?, error: NSError?) in
-			if error {
-				completionHandler(nil, error)
-			} else if let json = itemJson {
-				completionHandler(Item(json: json), nil)
-			} else {
-				completionHandler(nil, NSError(domain: "Unknown server error", code: 500, userInfo: nil))
-			}
-		}
-	}
-	
 	func saveToServer(completionHandler: ((NSError?) -> Void)?) {
 		NSLog("TODO: need to save item")
 		completionHandler?(nil)

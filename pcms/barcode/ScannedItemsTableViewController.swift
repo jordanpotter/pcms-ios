@@ -50,7 +50,7 @@ class ScannedItemsTableViewController: UITableViewController {
 			
 			if self.currentItems.filter({$0.id == itemId}).count == 0 {
 				self.retrievingItem = true
-				Item.retrieveFromServer(itemId) { (item: Item?, error: NSError?) in
+				Api.retrieveItem(itemId) { (item: Item?, error: NSError?) in
 					self.retrievingItem = false
 					
 					NSOperationQueue.mainQueue().addOperationWithBlock() {
