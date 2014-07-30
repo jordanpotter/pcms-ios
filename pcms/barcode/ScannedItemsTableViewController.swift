@@ -15,6 +15,7 @@ let REMOVED_ALL_ITEMS_NOTIFICATION = "removed all items notification"
 
 class ScannedItemsTableViewController: UITableViewController {
 	var currentItems = Array<Item>()
+	var retrievingItem = false
 	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
@@ -39,12 +40,19 @@ class ScannedItemsTableViewController: UITableViewController {
 	}
 	
 	func processNewItem(notification: NSNotification!) {
+		if self.retrievingItem {
+			return
+		}
+		
 		if let itemIdString: NSString = notification.object as? NSString {
-			let itemId = itemIdString.integerValue
+			NSLog("Not using id scanned!")
+			let itemId = 26296 //itemIdString.integerValue
+			
 			if self.currentItems.filter({$0.id == itemId}).count == 0 {
-				NSLog("Not using id scanned!")
-				
-				Item.retrieveFromServer(26296) { (item: Item?, error: NSError?) in
+				self.retrievingItem = true
+				Item.retrieveFromServer(itemId) { (item: Item?, error: NSError?) in
+					self.retrievingItem = false
+					
 					NSOperationQueue.mainQueue().addOperationWithBlock() {
 						if error {
 							let alertString = error!.localizedDescription
