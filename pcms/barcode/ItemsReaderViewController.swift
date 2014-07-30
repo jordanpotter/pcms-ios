@@ -143,7 +143,7 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 			scannedItemsTableViewController.tableView.reloadData()
 		}
 		
-		Item.batchSaveToServer(self.currentItems, { (error: NSError?) in
+		Api.saveItems(self.currentItems) { (error: NSError?) in
 			NSOperationQueue.mainQueue().addOperationWithBlock() {
 				if error {
 					let alertString = error!.localizedDescription
@@ -151,7 +151,7 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 					alert.show()
 				}
 			}
-		})
+		}
 	}
 	
 	func cancelSetPhase() {
@@ -196,7 +196,7 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 			scannedItemsTableViewController.tableView.reloadData()
 		}
 		
-		Item.batchSaveToServer(self.currentItems, { (error: NSError?) in
+		Api.saveItems(self.currentItems) { (error: NSError?) in
 			NSOperationQueue.mainQueue().addOperationWithBlock() {
 				if error {
 					let alertString = error!.localizedDescription
@@ -204,7 +204,7 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 					alert.show()
 				}
 			}
-		})
+		}
 	}
 	
 	func alertView(alertView: UIAlertView!, clickedButtonAtIndex buttonIndex: Int) {

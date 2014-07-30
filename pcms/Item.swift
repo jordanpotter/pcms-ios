@@ -37,16 +37,6 @@ class Item {
 		}
 	}
 	
-	func saveToServer(completionHandler: ((NSError?) -> Void)?) {
-		NSLog("TODO: need to save item")
-		completionHandler?(nil)
-	}
-	
-	class func batchSaveToServer(items: Array<Item>, completionHandler: ((NSError?) -> Void)?) {
-		NSLog("TODO: need to batch save items")
-		completionHandler?(nil)
-	}
-	
 	func toJson() -> (data: NSData?, error: NSError?) {
 		var dictionary = Dictionary<String, AnyObject>()
 		dictionary["id"] = id

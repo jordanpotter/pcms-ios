@@ -285,7 +285,7 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 			item.note = self.newNote
 			item.allDimensions = self.newAllDimensions!
 			
-			item.saveToServer() { (error: NSError?) in
+			Api.saveItem(item) { (error: NSError?) in
 				NSOperationQueue.mainQueue().addOperationWithBlock() {
 					if error {
 						let alertString = error!.localizedDescription
