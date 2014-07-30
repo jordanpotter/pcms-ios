@@ -17,6 +17,11 @@ class ScannedItemsTableViewController: UITableViewController {
 	var currentItems = Array<Item>()
 	var retrievingItem = false
 	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		self.title = ""
+	}
+	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
 		self.tableView.reloadData()
@@ -33,7 +38,6 @@ class ScannedItemsTableViewController: UITableViewController {
 		if segue.identifier == "show item details" {
 			let indexPath: NSIndexPath = self.tableView.indexPathForSelectedRow()
 			let selectedItem = self.currentItems[indexPath.row]
-			
 			let itemDetailsViewController = segue.destinationViewController as ItemDetailsViewController
 			itemDetailsViewController.item = selectedItem
 		}
@@ -45,9 +49,7 @@ class ScannedItemsTableViewController: UITableViewController {
 		}
 		
 		if let itemIdString: NSString = notification.object as? NSString {
-			NSLog("Not using id scanned!")
-			let itemId = 26296 //itemIdString.integerValue
-			
+			let itemId = itemIdString.integerValue
 			if self.currentItems.filter({$0.id == itemId}).count == 0 {
 				self.retrievingItem = true
 				Api.retrieveItem(itemId) { (item: Item?, error: NSError?) in

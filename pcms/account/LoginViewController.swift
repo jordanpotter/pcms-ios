@@ -75,7 +75,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 					let alert = UIAlertView(title: "Server Error", message: errorMessage, delegate: nil, cancelButtonTitle: "Ok")
 					alert.show()
 				} else {
-					self.performSegueWithIdentifier("display main app", sender: self)
+					let mainAppSplitViewController = self.storyboard.instantiateViewControllerWithIdentifier("Main App Split View Controller") as UIViewController
+					self.view.window.rootViewController = mainAppSplitViewController
+
+//					self.performSegueWithIdentifier("display main app", sender: self)
 				}
 			}
 		}
