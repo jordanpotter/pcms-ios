@@ -124,6 +124,8 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 	func syncScannerPreviewOrientation() {
 		if let scannerPreviewLayer = self.scannerPreviewLayer {
 			switch (UIDevice.currentDevice().orientation) {
+			case UIDeviceOrientation.Portrait:
+				self.scannerPreviewLayer!.setAffineTransform(CGAffineTransformMakeRotation(0.0))
 			case UIDeviceOrientation.LandscapeLeft:
 				self.scannerPreviewLayer!.setAffineTransform(CGAffineTransformMakeRotation(CGFloat(M_PI + M_PI_2)))
 			case UIDeviceOrientation.LandscapeRight:
@@ -131,7 +133,7 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 			case UIDeviceOrientation.PortraitUpsideDown:
 				self.scannerPreviewLayer!.setAffineTransform(CGAffineTransformMakeRotation(CGFloat(M_PI)))
 			default:
-				self.scannerPreviewLayer!.setAffineTransform(CGAffineTransformMakeRotation(0.0))
+				break // Not handling rotation
 			}
 		}
 	}
