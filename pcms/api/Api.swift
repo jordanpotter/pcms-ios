@@ -18,6 +18,26 @@ struct Api {
 		request.HTTPBody = data
 	}
 	
+	static func performRequest(url: NSURL, bodyData: NSData?, method: String, completionHandler: (NSData?, NSError?) -> Void) {
+		let request = NSMutableURLRequest(URL: url, cachePolicy: .ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 30.0)
+		if bodyData { Api.setBody(request, data: bodyData!) }
+		request.HTTPMethod = method
+		
+		NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue()) { (response: NSURLResponse!, data: NSData!, error: NSError!) in
+			if error {
+				completionHandler(nil, error)
+			} else {
+				let statusCode = (response as NSHTTPURLResponse).statusCode
+				if statusCode < 200 || statusCode > 299 {
+					let errorString = NSString(data: data, encoding: NSUTF8StringEncoding)
+					completionHandler(nil, NSError(domain: errorString, code: statusCode, userInfo: nil))
+				} else {
+					completionHandler(data, nil)
+				}
+			}
+		}
+	}
+	
 	static func login(username: String, password: String, completionHandler: ((NSError?) -> Void)?) {
 		let postDictionary = ["username": username, "password": password]
 		
@@ -29,45 +49,19 @@ struct Api {
 		}
 		
 		let url = NSURL(string: apiRootUrl + "login")
-		let request = NSMutableURLRequest(URL: url, cachePolicy: .ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 30.0)
-		Api.setBody(request, data: postData)
-		request.HTTPMethod = "POST"
-		
-		NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue()) { (response: NSURLResponse!, data: NSData!, error: NSError!) in
-			if error {
-				completionHandler?(error)
-			} else {
-				let statusCode = (response as NSHTTPURLResponse).statusCode
-				if statusCode < 200 || statusCode > 299 {
-					let errorString = NSString(data: data, encoding: NSUTF8StringEncoding)
-					completionHandler?(NSError(domain: errorString, code: statusCode, userInfo: nil))
-				} else {
-					completionHandler?(nil)
-				}
-			}
+		Api.performRequest(url, bodyData: postData, method: "POST") { (data: NSData?, error: NSError?) in
+			if completionHandler { completionHandler!(error) }
 		}
 	}
 	
 	static func retrieveItem(id: Int, completionHandler: (NSDictionary?, NSError?) -> Void) {
 		let url = NSURL(string: apiRootUrl + "films/\(id)")
-		let request = NSMutableURLRequest(URL: url, cachePolicy: .ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 30.0)
-		
-		NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue()) { (response: NSURLResponse!, data: NSData!, error: NSError!) in
-			if error {
-				completionHandler(nil, error)
+		Api.performRequest(url, bodyData: nil, method: "GET") { (data: NSData?, error: NSError?) in
+			var jsonError: NSError?
+			if let itemJson = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &jsonError) as? NSDictionary {
+				completionHandler(itemJson, jsonError)
 			} else {
-				let statusCode = (response as NSHTTPURLResponse).statusCode
-				if statusCode < 200 || statusCode > 299 {
-					let errorString = NSString(data: data, encoding: NSUTF8StringEncoding)
-					completionHandler(nil, NSError(domain: errorString, code: statusCode, userInfo: nil))
-				} else {
-					var jsonError: NSError?
-					if let itemJson = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &jsonError) as? NSDictionary {
-						completionHandler(itemJson, jsonError)
-					} else {
-						completionHandler(nil, jsonError)
-					}
-				}
+				completionHandler(nil, jsonError)
 			}
 		}
 	}
