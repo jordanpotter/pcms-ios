@@ -61,8 +61,8 @@ struct Api {
 		}
 	}
 	
-	static func retrieveItem(id: Int, completionHandler: (Item?, NSError?) -> Void) {
-		let url = NSURL(string: apiRootUrl + "films/\(id)")
+	static func retrieveItem(serial: String, completionHandler: (Item?, NSError?) -> Void) {
+		let url = NSURL(string: apiRootUrl + "films/\(serial)")
 		Api.performRequest(url, bodyData: nil, method: "GET") { (data: NSData?, error: NSError?) in
 			if error {
 				completionHandler(nil, error)

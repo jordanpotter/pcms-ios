@@ -13,7 +13,7 @@ let MAX_ORDER_FILL_COUNT = 10
 
 class Item {
 	var id: Int
-	var serial: String?
+	var serial: String
 	var salesOrder: String?
 	var orderFillCount: Int?
 	var phase: String?
@@ -23,7 +23,7 @@ class Item {
 	
 	init(json: NSDictionary) {
 		self.id = json["id"] as Int
-		self.serial = json["serial"] as? String
+		self.serial = json["serial"] as String
 		self.salesOrder = json["sales_order_code"] as? String
 		self.orderFillCount = json["order_fill_count"] as? Int
 		self.phase = json["phase"] as? String
@@ -41,7 +41,7 @@ class Item {
 		var dictionary = Dictionary<String, AnyObject>()
 		dictionary["id"] = id
 //		dictionary["serial"] = self.serial?
-		if let serial = self.serial { dictionary["serial"] = serial}
+		dictionary["serial"] = serial
 		if let salesOrder = self.salesOrder { dictionary["sales_order_code"] = salesOrder }
 		if let orderFillCount = self.orderFillCount { dictionary["order_fill_count"] = orderFillCount }
 		if let phase = self.phase { dictionary["phase"] = phase }
@@ -84,8 +84,8 @@ class ItemDimensions {
 	}
 	
 	init(json: NSDictionary) {
-		self.length = json["length"].floatValue
-		self.width = json["width"].floatValue
+		self.length = json["length"] as Float
+		self.width = json["width"] as Float
 	}
 	
 	class func deepCopyAllDimensions(allDimensions: Array<ItemDimensions>) -> Array<ItemDimensions> {

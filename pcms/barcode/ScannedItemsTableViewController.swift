@@ -48,11 +48,10 @@ class ScannedItemsTableViewController: UITableViewController {
 			return
 		}
 		
-		if let itemIdString: NSString = notification.object as? NSString {
-			let itemId = itemIdString.integerValue
-			if self.currentItems.filter({$0.id == itemId}).count == 0 {
+		if let itemSerial: NSString = notification.object as? NSString {
+			if self.currentItems.filter({$0.serial == itemSerial}).count == 0 {
 				self.retrievingItem = true
-				Api.retrieveItem(itemId) { (item: Item?, error: NSError?) in
+				Api.retrieveItem(itemSerial) { (item: Item?, error: NSError?) in
 					self.retrievingItem = false
 					
 					NSOperationQueue.mainQueue().addOperationWithBlock() {
