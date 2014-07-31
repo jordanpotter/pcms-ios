@@ -98,12 +98,12 @@ struct Api {
 	}
 	
 	static func saveItemsPhase(items: Array<Item>, phase: String, completionHandler: ((NSError?) -> Void)?) {
-		var ids = Array<Int>()
+		var serials = Array<String>()
 		for item in items {
-			ids.append(item.id)
+			serials.append(item.serial)
 		}
 		
-		let postDictionary = ["film_ids": ids, "destination": phase]
+		let postDictionary = ["film_serials": serials, "destination": phase]
 		
 		var error: NSError?
 		let postData = NSJSONSerialization.dataWithJSONObject(postDictionary, options: NSJSONWritingOptions(0), error: &error)
@@ -121,12 +121,12 @@ struct Api {
 	}
 	
 	static func saveItemsShelf(items: Array<Item>, shelf: String, completionHandler: ((NSError?) -> Void)?) {
-		var ids = Array<Int>()
+		var serials = Array<String>()
 		for item in items {
-			ids.append(item.id)
+			serials.append(item.serial)
 		}
 		
-		let postDictionary = ["film_ids": ids, "shelf": shelf]
+		let postDictionary = ["film_serials": serials, "shelf": shelf]
 		
 		var error: NSError?
 		let postData = NSJSONSerialization.dataWithJSONObject(postDictionary, options: NSJSONWritingOptions(0), error: &error)
