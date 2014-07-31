@@ -230,10 +230,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="35" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="e0F-Nw-A1b" userLabel="Dimensions Table View">
-                                <rect key="frame" x="20" y="81" width="570" height="80"/>
+                                <rect key="frame" x="20" y="81" width="570" height="90"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="Hte-Vh-4x0"/>
+                                    <constraint firstAttribute="height" constant="90" id="Hte-Vh-4x0"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="item dimensions cell" id="p34-Rd-fIZ" customClass="DimensionsTableViewCell" customModule="pcms" customModuleProvider="target">
@@ -287,13 +287,13 @@
                                 </prototypes>
                             </tableView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Note" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cRO-l8-RAd">
-                                <rect key="frame" x="20" y="176" width="37" height="20.5"/>
+                                <rect key="frame" x="20" y="186" width="37" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adc-bM-tLM" userLabel="Note Text View">
-                                <rect key="frame" x="20" y="201.5" width="560" height="80"/>
+                                <rect key="frame" x="20" y="211.5" width="560" height="80"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="3FC-Gq-OYI"/>
