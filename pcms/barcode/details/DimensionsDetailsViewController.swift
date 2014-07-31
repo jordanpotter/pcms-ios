@@ -38,6 +38,18 @@ class DimensionsDetailsViewController: UIViewController, UITextFieldDelegate {
 		self.widthTextField.resignFirstResponder()
 	}
 	
+	func textFieldShouldReturn(textField: UITextField!) -> Bool {
+		if textField == self.lengthTextField {
+			self.widthTextField.becomeFirstResponder()
+			return false
+		} else if textField == self.widthTextField {
+			self.resignAllResponders()
+			return false
+		}
+		
+		return true
+	}
+	
 	func textFieldDidEndEditing(textField: UITextField!) {
 		if let dimensions = self.dimensions {
 			if textField == self.lengthTextField {
