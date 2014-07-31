@@ -103,7 +103,7 @@ struct Api {
 			ids.append(item.id)
 		}
 		
-		let postDictionary = ["films_ids": ids, "phase": phase]
+		let postDictionary = ["film_ids": ids, "destination": phase]
 		
 		var error: NSError?
 		let postData = NSJSONSerialization.dataWithJSONObject(postDictionary, options: NSJSONWritingOptions(0), error: &error)
@@ -126,7 +126,7 @@ struct Api {
 			ids.append(item.id)
 		}
 		
-		let postDictionary = ["films_ids": ids, "shelf": shelf]
+		let postDictionary = ["film_ids": ids, "shelf": shelf]
 		
 		var error: NSError?
 		let postData = NSJSONSerialization.dataWithJSONObject(postDictionary, options: NSJSONWritingOptions(0), error: &error)

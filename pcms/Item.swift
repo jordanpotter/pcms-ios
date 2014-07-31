@@ -44,9 +44,9 @@ class Item {
 		var dictionary = Dictionary<String, AnyObject>()
 		dictionary["id"] = id
 		dictionary["serial"] = serial
-		if let salesOrder = self.salesOrder { dictionary["sales_order_code"] = self.salesOrder?.toDictionary() }
+		if let salesOrder = self.salesOrder { dictionary["sales_order_id"] = salesOrder.id }
 		if let orderFillCount = self.orderFillCount { dictionary["order_fill_count"] = orderFillCount }
-		if let phase = self.phase { dictionary["phase"] = phase }
+		if let phase = self.phase { dictionary["destination"] = phase }
 		if let shelf = self.shelf { dictionary["shelf"] = shelf }
 		if let note = self.note { dictionary["note"] = note }
 		
