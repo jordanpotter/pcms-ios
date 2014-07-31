@@ -16,6 +16,7 @@
 		1745F1A719845CCF0035E35B /* DimensionsDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1745F1A619845CCF0035E35B /* DimensionsDetailsViewController.swift */; };
 		1745F1AE19860E890035E35B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1745F1AD19860E890035E35B /* LoginViewController.swift */; };
 		1745F1B11986B2930035E35B /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1745F1B01986B2930035E35B /* Api.swift */; };
+		1745F1B3198ACA320035E35B /* AlwaysSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1745F1B2198ACA320035E35B /* AlwaysSplitViewController.swift */; };
 		17804D4919805ECD00AC101B /* ScannedItemsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17804D4819805ECD00AC101B /* ScannedItemsTableViewController.swift */; };
 		17804D4D198061EB00AC101B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17804D4C198061EB00AC101B /* Item.swift */; };
 		1786895219809AE200334CCF /* ItemDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1786895119809AE200334CCF /* ItemDetailsViewController.swift */; };
@@ -47,6 +48,7 @@
 		1745F1A619845CCF0035E35B /* DimensionsDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DimensionsDetailsViewController.swift; path = barcode/details/DimensionsDetailsViewController.swift; sourceTree = "<group>"; };
 		1745F1AD19860E890035E35B /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginViewController.swift; path = account/LoginViewController.swift; sourceTree = "<group>"; };
 		1745F1B01986B2930035E35B /* Api.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Api.swift; path = api/Api.swift; sourceTree = "<group>"; };
+		1745F1B2198ACA320035E35B /* AlwaysSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlwaysSplitViewController.swift; sourceTree = "<group>"; };
 		17804D4819805ECD00AC101B /* ScannedItemsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScannedItemsTableViewController.swift; path = barcode/ScannedItemsTableViewController.swift; sourceTree = "<group>"; };
 		17804D4C198061EB00AC101B /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		1786895119809AE200334CCF /* ItemDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ItemDetailsViewController.swift; path = barcode/details/ItemDetailsViewController.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 				173106F6197F136500CD9B91 /* Main.storyboard */,
 				173106F2197F136500CD9B91 /* AppDelegate.swift */,
 				17804D4C198061EB00AC101B /* Item.swift */,
+				1745F1B2198ACA320035E35B /* AlwaysSplitViewController.swift */,
 				1745F1AF1986B27E0035E35B /* api */,
 				1745F1AA19860E420035E35B /* account */,
 				17310711197F14AA00CD9B91 /* barcode */,
@@ -274,6 +277,7 @@
 				17310717197F1E2C00CD9B91 /* ItemsReaderViewController.swift in Sources */,
 				1786895219809AE200334CCF /* ItemDetailsViewController.swift in Sources */,
 				1745F1B11986B2930035E35B /* Api.swift in Sources */,
+				1745F1B3198ACA320035E35B /* AlwaysSplitViewController.swift in Sources */,
 				17DA404B19844C8F00298B3B /* DimensionsTableViewCell.swift in Sources */,
 				17804D4919805ECD00AC101B /* ScannedItemsTableViewController.swift in Sources */,
 				173106F3197F136500CD9B91 /* AppDelegate.swift in Sources */,

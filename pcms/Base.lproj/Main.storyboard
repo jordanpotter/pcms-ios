@@ -533,10 +533,10 @@
             </objects>
             <point key="canvasLocation" x="663" y="-372"/>
         </scene>
-        <!--Split View Controller-->
+        <!--Always Split View Controller-->
         <scene sceneID="7pY-qh-cM2">
             <objects>
-                <splitViewController storyboardIdentifier="Main App Split View Controller" id="P9c-kC-QvS" sceneMemberID="viewController">
+                <splitViewController storyboardIdentifier="Main App Split View Controller" id="P9c-kC-QvS" customClass="AlwaysSplitViewController" customModule="pcms" customModuleProvider="target" sceneMemberID="viewController">
                     <connections>
                         <segue destination="dY5-iZ-OdQ" kind="relationship" relationship="masterViewController" id="Lhq-P2-zRt"/>
                         <segue destination="ArG-K5-JcA" kind="relationship" relationship="detailViewController" id="Hgm-D6-pWX"/>
