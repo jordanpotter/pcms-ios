@@ -187,7 +187,7 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		}
 
 		if orderFillCount && orderFillCount! >= MIN_ORDER_FILL_COUNT && orderFillCount! <= MAX_ORDER_FILL_COUNT {
-			self.salesOrderPicker.selectRow(orderFillCount! + MIN_ORDER_FILL_COUNT, inComponent: 1, animated: false)
+			self.salesOrderPicker.selectRow(orderFillCount! - MIN_ORDER_FILL_COUNT, inComponent: 1, animated: false)
 		}
 	}
 	
