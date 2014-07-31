@@ -110,7 +110,8 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 	}
 	
 	func vibrateDevice() {
-		AudioServicesPlayAlertSound(UInt32(kSystemSoundID_Vibrate))
+		let soundId: UInt32 = 1104
+		AudioServicesPlayAlertSound(soundId)
 	}
 	
 	func itemAdded(notification: NSNotification!) {
