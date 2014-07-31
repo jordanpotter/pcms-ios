@@ -12,7 +12,6 @@ import UIKit
 class DimensionsTableViewCell: UITableViewCell {
 	@IBOutlet weak var lengthLabel: UILabel!
 	@IBOutlet weak var widthLabel: UILabel!
-	@IBOutlet weak var areaLabel: UILabel!
 
 	var length: Float {
 	get {
@@ -29,15 +28,6 @@ class DimensionsTableViewCell: UITableViewCell {
 	}
 	set {
 		self.widthLabel.text = newValue.bridgeToObjectiveC().stringValue
-	}
-	}
-	
-	var area: Float {
-	get {
-		return self.areaLabel.text.bridgeToObjectiveC().floatValue
-	}
-	set {
-		self.areaLabel.text = newValue.bridgeToObjectiveC().stringValue
 	}
 	}
 }

@@ -106,7 +106,6 @@ class ItemDimensions {
 	let id: Int
 	var length: Float = 0.0
 	var width: Float = 0.0
-	var area: Float { return self.length * self.width }
 	
 	init(id: Int, length: Float, width: Float) {
 		self.id = id

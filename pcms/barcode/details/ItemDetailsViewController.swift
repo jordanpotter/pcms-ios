@@ -165,7 +165,6 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 			if let dimensions = self.newAllDimensions?[indexPath!.row] {
 				cell.length = dimensions.length
 				cell.width = dimensions.width
-				cell.area = dimensions.area
 			}
 			return cell
 		} else {
