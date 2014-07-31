@@ -8,8 +8,8 @@
 
 import Foundation
 
-let MIN_ORDER_FILL_COUNT = 0
-let MAX_ORDER_FILL_COUNT = 10
+let MIN_ORDER_FILL_COUNT = 1
+let MAX_ORDER_FILL_COUNT = 50
 
 class Item {
 	var id: Int
