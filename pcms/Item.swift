@@ -76,7 +76,7 @@ class Item {
 	}
 }
 
-struct ItemSalesOrder {
+class ItemSalesOrder {
 	let id: Int
 	let code: String
 	
@@ -96,6 +96,10 @@ struct ItemSalesOrder {
 		dictionary["code"] = self.code
 		return dictionary
 	}
+	
+	func deepCopy() -> ItemSalesOrder {
+		return ItemSalesOrder(id: self.id, code: self.code)
+	}
 }
 
 class ItemDimensions {
@@ -108,12 +112,6 @@ class ItemDimensions {
 		self.id = id
 		self.length = length
 		self.width = width
-	}
-	
-	init(dimensions: ItemDimensions) {
-		self.id = dimensions.id
-		self.width = dimensions.width
-		self.length = dimensions.length
 	}
 	
 	init(json: NSDictionary) {
@@ -130,10 +128,14 @@ class ItemDimensions {
 		return dictionary
 	}
 	
+	func deepCopy() -> ItemDimensions {
+		return ItemDimensions(id: self.id, length: self.length, width: self.width)
+	}
+	
 	class func deepCopyAllDimensions(allDimensions: Array<ItemDimensions>) -> Array<ItemDimensions> {
 		var itemAllDimensionsCopy = Array<ItemDimensions>()
 		for dimensions in allDimensions {
-			itemAllDimensionsCopy.append(ItemDimensions(dimensions: dimensions))
+			itemAllDimensionsCopy.append(dimensions.deepCopy())
 		}
 		return itemAllDimensionsCopy
 	}

@@ -40,7 +40,7 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		super.viewDidLoad()
 		self.title = self.item?.serial
 		
-		self.newSalesOrder = self.item?.salesOrder
+		self.newSalesOrder = self.item?.salesOrder?.deepCopy()
 		self.newOrderFillCount = self.item?.orderFillCount
 		self.newNote = self.item?.note
 		
