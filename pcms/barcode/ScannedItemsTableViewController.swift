@@ -12,6 +12,8 @@ import UIKit
 let ADDED_ITEM_NOTIFICATION = "added item notification"
 let REMOVED_ITEM_NOTIFICATION = "removed item notification"
 let REMOVED_ALL_ITEMS_NOTIFICATION = "removed all items notification"
+let STARTED_RETRIEVING_ITEM_NOTIFICATION = "started retrieving item notification"
+let FINISHED_RETRIEVING_ITEM_NOTIFICATION = "finished retrieving item notification"
 
 class ScannedItemsTableViewController: UITableViewController {
 	var currentItems = Array<Item>()
@@ -51,8 +53,11 @@ class ScannedItemsTableViewController: UITableViewController {
 		if let itemSerial: NSString = notification.object as? NSString {
 			if self.currentItems.filter({$0.serial == itemSerial}).count == 0 {
 				self.retrievingItem = true
+				NSNotificationCenter.defaultCenter().postNotificationName(STARTED_RETRIEVING_ITEM_NOTIFICATION, object: nil)
+				
 				Api.retrieveItem(itemSerial) { (item: Item?, error: NSError?) in
 					self.retrievingItem = false
+					NSNotificationCenter.defaultCenter().postNotificationName(FINISHED_RETRIEVING_ITEM_NOTIFICATION, object: nil)
 					
 					NSOperationQueue.mainQueue().addOperationWithBlock() {
 						if error {

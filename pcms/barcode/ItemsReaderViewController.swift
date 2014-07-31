@@ -26,6 +26,8 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 	var batchUpdateShelfButton: UIBarButtonItem?
 	var batchUpdateShelfAlert: UIAlertView?
 	
+	@IBOutlet weak var itemLoadingOverlay: UIView!
+	@IBOutlet weak var itemLoadingIndicator: UIActivityIndicatorView!
 	@IBOutlet weak var phasePicker: UIPickerView!
 	@IBOutlet weak var phasePickerOverlay: UIView!
 	
@@ -65,6 +67,8 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 		NSNotificationCenter.defaultCenter().addObserverForName(ADDED_ITEM_NOTIFICATION, object:nil, queue:NSOperationQueue.mainQueue(), usingBlock:itemAdded)
 		NSNotificationCenter.defaultCenter().addObserverForName(REMOVED_ITEM_NOTIFICATION, object:nil, queue:NSOperationQueue.mainQueue(), usingBlock:itemRemoved)
 		NSNotificationCenter.defaultCenter().addObserverForName(REMOVED_ALL_ITEMS_NOTIFICATION, object:nil, queue:NSOperationQueue.mainQueue(), usingBlock:itemRemoved)
+		NSNotificationCenter.defaultCenter().addObserverForName(STARTED_RETRIEVING_ITEM_NOTIFICATION, object:nil, queue:NSOperationQueue.mainQueue(), usingBlock:startedRetrievingItem)
+		NSNotificationCenter.defaultCenter().addObserverForName(FINISHED_RETRIEVING_ITEM_NOTIFICATION, object:nil, queue:NSOperationQueue.mainQueue(), usingBlock:finishedRetrievingItem)
 	}
 	
 	override func viewWillDisappear(animated: Bool) {
@@ -72,6 +76,8 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 		NSNotificationCenter.defaultCenter().removeObserver(self, name:ADDED_ITEM_NOTIFICATION, object:nil)
 		NSNotificationCenter.defaultCenter().removeObserver(self, name:REMOVED_ITEM_NOTIFICATION, object:nil)
 		NSNotificationCenter.defaultCenter().removeObserver(self, name:REMOVED_ALL_ITEMS_NOTIFICATION, object:nil)
+		NSNotificationCenter.defaultCenter().removeObserver(self, name:STARTED_RETRIEVING_ITEM_NOTIFICATION, object:nil)
+		NSNotificationCenter.defaultCenter().removeObserver(self, name:FINISHED_RETRIEVING_ITEM_NOTIFICATION, object:nil)
 	}
 	
 	override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
@@ -118,6 +124,16 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 		self.allowedPhases = Item.getAllowedPhasesForItems(self.currentItems)
 		self.phasePicker.reloadAllComponents()
 		self.syncUI()
+	}
+	
+	func startedRetrievingItem(notification: NSNotification!) {
+		self.itemLoadingOverlay.hidden = false
+		self.itemLoadingIndicator.startAnimating()
+	}
+	
+	func finishedRetrievingItem(notification: NSNotification!) {
+		self.itemLoadingOverlay.hidden = true
+		self.itemLoadingIndicator.stopAnimating()
 	}
 	
 	func clearItems() {

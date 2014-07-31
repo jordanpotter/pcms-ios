@@ -136,7 +136,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="scanned item cell" id="85p-e8-bCI" customClass="ScannedItemTableViewCell" customModule="pcms" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="scanned item cell" id="85p-e8-bCI" userLabel="Scanned Item Cell" customClass="ScannedItemTableViewCell" customModule="pcms" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="85p-e8-bCI" id="ewG-iQ-wgK">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -485,6 +485,13 @@
                                     <segue destination="HYJ-3w-kMs" kind="embed" identifier="embed scanned items table" id="iHK-yI-Ys8"/>
                                 </connections>
                             </containerView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oVe-hv-fQn" userLabel="Item Loading Overlay">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="0.95000000000000007" colorSpace="calibratedWhite"/>
+                            </view>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="6YB-dv-T6I" userLabel="Item Loading Indicator">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nQ5-YQ-ekB" userLabel="Phase Picker Overlay">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="0.95000000000000007" colorSpace="calibratedWhite"/>
@@ -495,8 +502,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="oVe-hv-fQn" firstAttribute="centerY" secondItem="6YB-dv-T6I" secondAttribute="centerY" constant="32" id="1D9-RT-MQW"/>
+                            <constraint firstItem="oVe-hv-fQn" firstAttribute="top" secondItem="lKw-ap-IPH" secondAttribute="top" id="1a1-dw-LF3"/>
                             <constraint firstItem="SZJ-iA-CTM" firstAttribute="leading" secondItem="CQs-ZK-uXl" secondAttribute="leading" id="2V8-VE-8cE"/>
+                            <constraint firstItem="oVe-hv-fQn" firstAttribute="trailing" secondItem="lKw-ap-IPH" secondAttribute="trailing" id="4LY-3G-ngU"/>
                             <constraint firstItem="nQ5-YQ-ekB" firstAttribute="top" secondItem="znp-iG-dLi" secondAttribute="bottom" id="9XE-ab-bHC"/>
+                            <constraint firstItem="oVe-hv-fQn" firstAttribute="leading" secondItem="lKw-ap-IPH" secondAttribute="leading" id="ERC-ZR-hFS"/>
+                            <constraint firstItem="oVe-hv-fQn" firstAttribute="bottom" secondItem="lKw-ap-IPH" secondAttribute="bottom" id="JS7-0H-RCC"/>
+                            <constraint firstItem="oVe-hv-fQn" firstAttribute="centerX" secondItem="6YB-dv-T6I" secondAttribute="centerX" id="QGe-eI-Nu0"/>
                             <constraint firstAttribute="centerY" secondItem="SZJ-iA-CTM" secondAttribute="centerY" id="Ri5-R9-9In"/>
                             <constraint firstItem="lKw-ap-IPH" firstAttribute="leading" secondItem="CQs-ZK-uXl" secondAttribute="leading" id="S04-Gk-ri5"/>
                             <constraint firstItem="lKw-ap-IPH" firstAttribute="top" secondItem="znp-iG-dLi" secondAttribute="bottom" id="V5q-Tb-x5W"/>
@@ -510,6 +523,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="EUI-mD-gfo"/>
                     <connections>
+                        <outlet property="itemLoadingIndicator" destination="6YB-dv-T6I" id="7cd-g1-qlq"/>
+                        <outlet property="itemLoadingOverlay" destination="oVe-hv-fQn" id="zza-yI-G70"/>
                         <outlet property="phasePicker" destination="SZJ-iA-CTM" id="FAq-W5-8pE"/>
                         <outlet property="phasePickerOverlay" destination="nQ5-YQ-ekB" id="nfD-eg-P0S"/>
                     </connections>
