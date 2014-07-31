@@ -69,8 +69,6 @@ struct Api {
 				return
 			}
 			
-			NSLog("Received: %@", NSString(data: data!, encoding: NSUTF8StringEncoding))
-			
 			var jsonError: NSError?
 			if let itemJson = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &jsonError) as? NSDictionary {
 				completionHandler(Item(json: itemJson), nil)
@@ -88,9 +86,7 @@ struct Api {
 			completionHandler?(jsonedItem.error)
 			return
 		}
-		
-		NSLog("Sending: %@", NSString(data: jsonedItem.data!, encoding: NSUTF8StringEncoding))
-		
+
 		let url = NSURL(string: apiRootUrl + "films/\(item.serial)")
 		Api.performRequest(url, bodyData: jsonedItem.data!, method: "PATCH") { (data: NSData?, error: NSError?) in
 			if completionHandler { completionHandler!(error) }
@@ -111,8 +107,6 @@ struct Api {
 			completionHandler?(error)
 			return
 		}
-		
-		NSLog("Sending (phase): %@", NSString(data: postData, encoding: NSUTF8StringEncoding))
 		
 		let url = NSURL(string: apiRootUrl + "films/update_multiple")
 		Api.performRequest(url, bodyData: postData, method: "PATCH") { (data: NSData?, error: NSError?) in
@@ -135,8 +129,6 @@ struct Api {
 			return
 		}
 		
-		NSLog("Sending (shelf): %@", NSString(data: postData, encoding: NSUTF8StringEncoding))
-		
 		let url = NSURL(string: apiRootUrl + "films/update_multiple")
 		Api.performRequest(url, bodyData: postData, method: "PATCH") { (data: NSData?, error: NSError?) in
 			if completionHandler { completionHandler!(error) }
@@ -150,8 +142,6 @@ struct Api {
 				completionHandler(nil, error)
 				return
 			}
-			
-			NSLog("Received: %@", NSString(data: data!, encoding: NSUTF8StringEncoding))
 			
 			var jsonError: NSError?
 			if let jsonedSalesOrders = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &jsonError) as? NSDictionary {
