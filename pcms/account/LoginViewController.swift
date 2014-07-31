@@ -77,8 +77,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 				} else {
 					let mainAppSplitViewController = self.storyboard.instantiateViewControllerWithIdentifier("Main App Split View Controller") as UIViewController
 					self.view.window.rootViewController = mainAppSplitViewController
-
-//					self.performSegueWithIdentifier("display main app", sender: self)
 				}
 			}
 		}

@@ -56,9 +56,14 @@ class ScannedItemsTableViewController: UITableViewController {
 					
 					NSOperationQueue.mainQueue().addOperationWithBlock() {
 						if error {
-							let alertString = error!.localizedDescription
-							let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
-							alert.show()
+							if error!.code == 403 {
+								let loginViewController = self.storyboard.instantiateViewControllerWithIdentifier("Login View Controller") as UIViewController
+								self.view.window.rootViewController = loginViewController
+							} else {
+								let alertString = error!.localizedDescription
+								let alert = UIAlertView(title: "Server Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
+								alert.show()
+							}
 						} else if item {
 							self.currentItems.append(item!)
 							self.tableView.reloadData()
