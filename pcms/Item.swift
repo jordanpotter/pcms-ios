@@ -15,8 +15,9 @@ class Item {
 	var id: Int
 	var serial: String
 	var salesOrder: ItemSalesOrder?
-	var orderFillCount: Int?
-	var phase: String?
+	var orderFillCount: Int
+	var phase: String
+	var allowedPhases: Array<String>
 	var shelf: String?
 	var note: String?
 	var allDimensions = Array<ItemDimensions>()
@@ -24,8 +25,9 @@ class Item {
 	init(json: NSDictionary) {
 		self.id = json["id"] as Int
 		self.serial = json["serial"] as String
-		self.orderFillCount = json["order_fill_count"] as? Int
-		self.phase = json["phase"] as? String
+		self.orderFillCount = json["order_fill_count"] as Int
+		self.phase = json["phase"] as String
+		self.allowedPhases = json["allowed_destinations"] as Array<String>
 		self.shelf = json["shelf"] as? String
 		self.note = json["note"] as? String
 		
@@ -42,11 +44,11 @@ class Item {
 	
 	func toDictionary() -> Dictionary<String, AnyObject> {
 		var dictionary = Dictionary<String, AnyObject>()
-		dictionary["id"] = id
-		dictionary["serial"] = serial
+		dictionary["id"] = self.id
+		dictionary["serial"] = self.serial
 		if let salesOrder = self.salesOrder { dictionary["sales_order_id"] = salesOrder.id }
-		if let orderFillCount = self.orderFillCount { dictionary["order_fill_count"] = orderFillCount }
-		if let phase = self.phase { dictionary["destination"] = phase }
+		dictionary["order_fill_count"] = self.orderFillCount
+		dictionary["destination"] = self.phase
 		if let shelf = self.shelf { dictionary["shelf"] = shelf }
 		if let note = self.note { dictionary["note"] = note }
 		
@@ -72,7 +74,24 @@ class Item {
 	}
 	
 	class func getAllowedPhasesForItems(items: Array<Item>) -> Array<String> {
-		return ["some", "phases", "here"]
+		var allowedPhases = Array<String>()
+		
+		for (index, item) in enumerate(items) {
+			if index == 0 {
+				allowedPhases = item.allowedPhases
+			} else {
+				allowedPhases = allowedPhases.filter() { (phase: String) -> Bool in
+					for allowedItemPhase in item.allowedPhases {
+						if phase == allowedItemPhase {
+							return true
+						}
+					}
+					return false
+				}
+			}
+		}
+		
+		return allowedPhases
 	}
 }
 

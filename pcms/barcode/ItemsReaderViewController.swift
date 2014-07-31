@@ -144,8 +144,14 @@ class ItemsReaderViewController: UIViewController, UIActionSheetDelegate, UIAler
 	}
 	
 	func showBatchPhaseUpdate() {
-		self.state = .SettingPhase
-		self.syncUI()
+		if self.allowedPhases.isEmpty {
+			let alertString = "There are no valid destinations for these scanned items"
+			let alert = UIAlertView(title: "Error", message: alertString, delegate: nil, cancelButtonTitle: "Ok")
+			alert.show()
+		} else {
+			self.state = .SettingPhase
+			self.syncUI()
+		}
 	}
 	
 	func setPhase() {

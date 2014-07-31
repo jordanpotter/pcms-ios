@@ -249,7 +249,7 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		
 		if let item = self.item {
 			item.salesOrder = self.newSalesOrder
-			item.orderFillCount = self.newOrderFillCount
+			item.orderFillCount = self.newOrderFillCount!
 			item.note = self.newNote
 			item.allDimensions = self.newAllDimensions!
 			
