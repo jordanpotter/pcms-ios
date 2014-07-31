@@ -17,13 +17,13 @@ enum ItemDetailsState {
 class ItemDetailsViewController: UIViewController, UITableViewDataSource, UITextViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource  {
 	var state: ItemDetailsState = .Default
 	var item: Item?
-	var allowedSalesOrders = Array<String>()
+	var allowedSalesOrders = Array<ItemSalesOrder>()
 	var saveButton: UIBarButtonItem?
 	var setSalesOrderButton: UIBarButtonItem?
 	var cancelSetSalesOrderButton: UIBarButtonItem?
 	var noteTextViewOriginalBottom = CGFloat(0.0)
 	
-	var newSalesOrder: String?
+	var newSalesOrder: ItemSalesOrder?
 	var newOrderFillCount: Int?
 	var newNote: String?
 	var newAllDimensions: Array<ItemDimensions>?
@@ -83,7 +83,7 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	}
 	
 	func syncUI() {
-		let salesOrderButtonTitle = self.generateSalesOrderButtonTitle(self.newSalesOrder, orderFillCount: self.newOrderFillCount)
+		let salesOrderButtonTitle = self.generateSalesOrderButtonTitle(self.newSalesOrder?.code, orderFillCount: self.newOrderFillCount)
 		self.setTitleForAllButtonStates(self.salesOrderButton, title: salesOrderButtonTitle)
 		self.noteTextView.text = self.newNote
 		
@@ -107,6 +107,8 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		var buttonTitle = ""
 		if salesOrder {
 			buttonTitle += salesOrder!
+		} else {
+			buttonTitle += "no sales order"
 		}
 		
 		if orderFillCount {
@@ -124,7 +126,7 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	}
 	
 	func retrieveSalesOrders() {
-		Api.retrieveSalesOrders() { (retrievedSalesOrders: Array<String>?, error: NSError?) in
+		Api.retrieveSalesOrders() { (retrievedSalesOrders: Array<ItemSalesOrder>?, error: NSError?) in
 			NSOperationQueue.mainQueue().addOperationWithBlock() {
 				if error {
 					let alertString = error!.localizedDescription
@@ -178,9 +180,9 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		self.syncUI()
 	}
 	
-	func selectSalesOrderInPicker(salesOrder: String?, orderFillCount: Int?) {
+	func selectSalesOrderInPicker(salesOrder: ItemSalesOrder?, orderFillCount: Int?) {
 		for (index, allowedSalesOrder) in enumerate(self.allowedSalesOrders) {
-			if salesOrder == allowedSalesOrder {
+			if salesOrder?.code == allowedSalesOrder.code {
 				self.salesOrderPicker.selectRow(index, inComponent: 0, animated: false)
 			}
 		}
@@ -229,7 +231,7 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 	func pickerView(pickerView: UIPickerView!, titleForRow row: Int, forComponent component: Int) -> String! {
 		if pickerView == self.salesOrderPicker {
 			if component == 0 {
-				return self.allowedSalesOrders[row]
+				return self.allowedSalesOrders[row].code
 			} else if component == 1 {
 				return String(row + MIN_ORDER_FILL_COUNT)
 			} else {
@@ -248,6 +250,7 @@ class ItemDetailsViewController: UIViewController, UITableViewDataSource, UIText
 		
 		if let item = self.item {
 			item.salesOrder = self.newSalesOrder
+			item.orderFillCount = self.newOrderFillCount
 			item.note = self.newNote
 			item.allDimensions = self.newAllDimensions!
 			

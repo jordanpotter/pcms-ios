@@ -69,6 +69,8 @@ struct Api {
 				return
 			}
 			
+			NSLog("Received: %@", NSString(data: data!, encoding: NSUTF8StringEncoding))
+			
 			var jsonError: NSError?
 			if let itemJson = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &jsonError) as? NSDictionary {
 				completionHandler(Item(json: itemJson), nil)
@@ -86,6 +88,8 @@ struct Api {
 			completionHandler?(jsonedItem.error)
 			return
 		}
+		
+		NSLog("Sending: %@", NSString(data: jsonedItem.data!, encoding: NSUTF8StringEncoding))
 		
 		let url = NSURL(string: apiRootUrl + "films/\(item.id)")
 		Api.performRequest(url, bodyData: jsonedItem.data!, method: "PUT") { (data: NSData?, error: NSError?) in
@@ -108,6 +112,8 @@ struct Api {
 			return
 		}
 		
+		NSLog("Sending (phase): %@", NSString(data: postData, encoding: NSUTF8StringEncoding))
+		
 		let url = NSURL(string: apiRootUrl + "films/update_multiple")
 		Api.performRequest(url, bodyData: postData, method: "PUT") { (data: NSData?, error: NSError?) in
 			if completionHandler { completionHandler!(error) }
@@ -129,13 +135,15 @@ struct Api {
 			return
 		}
 		
+		NSLog("Sending (shelf): %@", NSString(data: postData, encoding: NSUTF8StringEncoding))
+		
 		let url = NSURL(string: apiRootUrl + "films/update_multiple")
 		Api.performRequest(url, bodyData: postData, method: "PUT") { (data: NSData?, error: NSError?) in
 			if completionHandler { completionHandler!(error) }
 		}
 	}
 	
-	static func retrieveSalesOrders(completionHandler: (Array<String>?, NSError?) -> Void) {
+	static func retrieveSalesOrders(completionHandler: (Array<ItemSalesOrder>?, NSError?) -> Void) {
 		let url = NSURL(string: apiRootUrl + "films/assignable_orders")
 		Api.performRequest(url, bodyData: nil, method: "GET") { (data: NSData?, error: NSError?) in
 			if error {
@@ -143,13 +151,13 @@ struct Api {
 				return
 			}
 			
+			NSLog("Received: %@", NSString(data: data!, encoding: NSUTF8StringEncoding))
+			
 			var jsonError: NSError?
 			if let jsonedSalesOrders = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &jsonError) as? NSDictionary {
-				var salesOrders = Array<String>()
+				var salesOrders = Array<ItemSalesOrder>()
 				for jsonedSalesOrder in jsonedSalesOrders["assignable_orders"] as Array<NSDictionary> {
-					if let salesOrder = jsonedSalesOrder["code"] as? String {
-						salesOrders.append(salesOrder)
-					}
+					salesOrders.append(ItemSalesOrder(json: jsonedSalesOrder))
 				}
 				completionHandler(salesOrders, jsonError)
 			} else if jsonError {
