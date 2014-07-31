@@ -54,7 +54,7 @@ class Item {
 		for dimensions in self.allDimensions {
 			allDimensionsDictionaries.append(dimensions.toDictionary())
 		}
-		dictionary["dimensions"] = allDimensionsDictionaries
+		dictionary["dimensions_attributes"] = allDimensionsDictionaries
 		
 		return dictionary
 	}
