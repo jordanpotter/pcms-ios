@@ -91,8 +91,8 @@ struct Api {
 		
 		NSLog("Sending: %@", NSString(data: jsonedItem.data!, encoding: NSUTF8StringEncoding))
 		
-		let url = NSURL(string: apiRootUrl + "films/\(item.id)")
-		Api.performRequest(url, bodyData: jsonedItem.data!, method: "PUT") { (data: NSData?, error: NSError?) in
+		let url = NSURL(string: apiRootUrl + "films/\(item.serial)")
+		Api.performRequest(url, bodyData: jsonedItem.data!, method: "PATCH") { (data: NSData?, error: NSError?) in
 			if completionHandler { completionHandler!(error) }
 		}
 	}
@@ -115,7 +115,7 @@ struct Api {
 		NSLog("Sending (phase): %@", NSString(data: postData, encoding: NSUTF8StringEncoding))
 		
 		let url = NSURL(string: apiRootUrl + "films/update_multiple")
-		Api.performRequest(url, bodyData: postData, method: "PUT") { (data: NSData?, error: NSError?) in
+		Api.performRequest(url, bodyData: postData, method: "PATCH") { (data: NSData?, error: NSError?) in
 			if completionHandler { completionHandler!(error) }
 		}
 	}
@@ -138,7 +138,7 @@ struct Api {
 		NSLog("Sending (shelf): %@", NSString(data: postData, encoding: NSUTF8StringEncoding))
 		
 		let url = NSURL(string: apiRootUrl + "films/update_multiple")
-		Api.performRequest(url, bodyData: postData, method: "PUT") { (data: NSData?, error: NSError?) in
+		Api.performRequest(url, bodyData: postData, method: "PATCH") { (data: NSData?, error: NSError?) in
 			if completionHandler { completionHandler!(error) }
 		}
 	}
