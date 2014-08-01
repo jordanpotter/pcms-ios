@@ -490,7 +490,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Y45-f5-MKI">
             <objects>
-                <navigationController id="dY5-iZ-OdQ" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="Main App Navigation Controller" id="dY5-iZ-OdQ" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="77v-bg-aay">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

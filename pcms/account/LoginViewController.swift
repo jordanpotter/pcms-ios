@@ -81,8 +81,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 						AccountInformation.setFullName(requestResult!["full_name"] as? String)
 					}
 					
-					let mainAppSplitViewController = self.storyboard.instantiateViewControllerWithIdentifier("Main App Split View Controller") as UIViewController
-					self.view.window.rootViewController = mainAppSplitViewController
+					if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+						let mainAppSplitViewController = self.storyboard.instantiateViewControllerWithIdentifier("Main App Split View Controller") as UIViewController
+						self.view.window.rootViewController = mainAppSplitViewController
+					} else {
+						let mainAppNavigationController = self.storyboard.instantiateViewControllerWithIdentifier("Main App Navigation Controller") as UIViewController
+						self.view.window.rootViewController = mainAppNavigationController
+					}
 				}
 			}
 		}
