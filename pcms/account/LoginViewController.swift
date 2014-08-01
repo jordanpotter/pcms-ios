@@ -58,7 +58,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 		self.loginOverlay.hidden = false
 		self.loginIndicator.startAnimating()
 		
-		Api.login(self.usernameTextField.text, password: self.passwordTextField.text) { (requestError: NSError?) in
+		Api.login(self.usernameTextField.text, password: self.passwordTextField.text) { (requestResult: NSDictionary?, requestError: NSError?) in
 			NSOperationQueue.mainQueue().addOperationWithBlock() {
 				self.loginOverlay.hidden = true
 				self.loginIndicator.stopAnimating()
@@ -69,6 +69,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 					let alert = UIAlertView(title: "Server Error", message: errorMessage, delegate: nil, cancelButtonTitle: "Ok")
 					alert.show()
 				} else {
+					if requestResult {
+						AccountInformation.setFullName(requestResult!["full_name"] as? String)
+					}
+					
 					let mainAppSplitViewController = self.storyboard.instantiateViewControllerWithIdentifier("Main App Split View Controller") as UIViewController
 					self.view.window.rootViewController = mainAppSplitViewController
 				}

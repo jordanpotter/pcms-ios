@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		171088D1198B0F93002980C6 /* LoginStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171088D0198B0F93002980C6 /* LoginStatusViewController.swift */; };
+		171088D3198B1572002980C6 /* AccountInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171088D2198B1572002980C6 /* AccountInformation.swift */; };
 		173106F3197F136500CD9B91 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173106F2197F136500CD9B91 /* AppDelegate.swift */; };
 		173106F8197F136500CD9B91 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 173106F6197F136500CD9B91 /* Main.storyboard */; };
 		173106FA197F136500CD9B91 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 173106F9197F136500CD9B91 /* Images.xcassets */; };
@@ -35,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		171088D0198B0F93002980C6 /* LoginStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginStatusViewController.swift; path = account/LoginStatusViewController.swift; sourceTree = "<group>"; };
+		171088D2198B1572002980C6 /* AccountInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountInformation.swift; path = account/AccountInformation.swift; sourceTree = "<group>"; };
 		173106ED197F136500CD9B91 /* pcms.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pcms.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		173106F1197F136500CD9B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		173106F2197F136500CD9B91 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -148,7 +152,9 @@
 		1745F1AA19860E420035E35B /* account */ = {
 			isa = PBXGroup;
 			children = (
+				171088D2198B1572002980C6 /* AccountInformation.swift */,
 				1745F1AD19860E890035E35B /* LoginViewController.swift */,
+				171088D0198B0F93002980C6 /* LoginStatusViewController.swift */,
 			);
 			name = account;
 			sourceTree = "<group>";
@@ -279,10 +285,12 @@
 				1745F1B11986B2930035E35B /* Api.swift in Sources */,
 				1745F1B3198ACA320035E35B /* AlwaysSplitViewController.swift in Sources */,
 				17DA404B19844C8F00298B3B /* DimensionsTableViewCell.swift in Sources */,
+				171088D3198B1572002980C6 /* AccountInformation.swift in Sources */,
 				17804D4919805ECD00AC101B /* ScannedItemsTableViewController.swift in Sources */,
 				173106F3197F136500CD9B91 /* AppDelegate.swift in Sources */,
 				1745F1AE19860E890035E35B /* LoginViewController.swift in Sources */,
 				17310719197F1F6500CD9B91 /* BarcodeScannerViewController.swift in Sources */,
+				171088D1198B0F93002980C6 /* LoginStatusViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

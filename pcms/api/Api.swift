@@ -38,19 +38,31 @@ struct Api {
 		}
 	}
 	
-	static func login(username: String, password: String, completionHandler: ((NSError?) -> Void)?) {
+	static func login(username: String, password: String, completionHandler: (NSDictionary?, NSError?) -> Void) {
 		let postDictionary = ["username": username, "password": password]
 		
 		var error: NSError?
 		let postData = NSJSONSerialization.dataWithJSONObject(postDictionary, options: NSJSONWritingOptions(0), error: &error)
 		if error {
-			completionHandler?(error)
+			completionHandler(nil, error)
 			return
 		}
 		
 		let url = NSURL(string: apiRootUrl + "login")
 		Api.performRequest(url, bodyData: postData, method: "POST") { (data: NSData?, error: NSError?) in
-			if completionHandler { completionHandler!(error) }
+			if error {
+				completionHandler(nil, error)
+				return
+			}
+
+			var jsonError: NSError?
+			if let resultJson = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &jsonError) as? NSDictionary {
+				completionHandler(resultJson, nil)
+			} else if jsonError {
+				completionHandler(nil, jsonError)
+			} else {
+				completionHandler(nil, NSError(domain: "Server data poorly formed", code: 500, userInfo: nil))
+			}
 		}
 	}
 	
