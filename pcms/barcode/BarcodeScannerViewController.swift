@@ -143,7 +143,7 @@ class BarcodeScannerViewController: UIViewController, AVCaptureMetadataOutputObj
 			case UIDeviceOrientation.PortraitUpsideDown:
 				scannerPreviewLayer.setAffineTransform(CGAffineTransformMakeRotation(CGFloat(M_PI)))
 			default:
-				break // Not handling rotation
+				break // Not handling this orientation
 			}
 		}
 	}

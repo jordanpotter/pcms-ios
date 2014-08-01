@@ -31,5 +31,5 @@ class LoginStatusViewController: UIViewController {
 				}
 			}
 		}
-}
+	}
 }
