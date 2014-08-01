@@ -574,6 +574,7 @@
                             <constraint firstItem="oVe-hv-fQn" firstAttribute="centerY" secondItem="6YB-dv-T6I" secondAttribute="centerY" constant="32" id="1D9-RT-MQW"/>
                             <constraint firstItem="oVe-hv-fQn" firstAttribute="top" secondItem="lKw-ap-IPH" secondAttribute="top" id="1a1-dw-LF3"/>
                             <constraint firstItem="SZJ-iA-CTM" firstAttribute="leading" secondItem="CQs-ZK-uXl" secondAttribute="leading" id="2V8-VE-8cE"/>
+                            <constraint firstItem="lKw-ap-IPH" firstAttribute="top" secondItem="znp-iG-dLi" secondAttribute="bottom" priority="999" id="2dh-6J-xKI"/>
                             <constraint firstItem="oVe-hv-fQn" firstAttribute="trailing" secondItem="lKw-ap-IPH" secondAttribute="trailing" id="4LY-3G-ngU"/>
                             <constraint firstItem="une-hy-tf0" firstAttribute="top" secondItem="znp-iG-dLi" secondAttribute="bottom" constant="172" id="4XZ-dq-KSI">
                                 <variation key="widthClass=compact" constant="0.0"/>
@@ -595,9 +596,6 @@
                             <constraint firstAttribute="trailing" secondItem="une-hy-tf0" secondAttribute="trailing" constant="80" id="ghC-uw-Gs8">
                                 <variation key="widthClass=compact" constant="0.0"/>
                             </constraint>
-                            <constraint firstItem="lKw-ap-IPH" firstAttribute="top" secondItem="znp-iG-dLi" secondAttribute="bottom" priority="999" constant="150" id="i8Q-WI-f8s">
-                                <variation key="widthClass=compact" constant="0.0"/>
-                            </constraint>
                             <constraint firstItem="3gD-ts-QAQ" firstAttribute="top" secondItem="nQ5-YQ-ekB" secondAttribute="bottom" id="lla-ZL-dEU"/>
                             <constraint firstAttribute="trailing" secondItem="lKw-ap-IPH" secondAttribute="trailing" id="mgZ-ZO-Gb9"/>
                             <constraint firstAttribute="trailing" secondItem="SZJ-iA-CTM" secondAttribute="trailing" id="txe-2x-Jaa"/>
@@ -615,7 +613,6 @@
                                 <exclude reference="9f2-6W-Q8k"/>
                                 <exclude reference="ghC-uw-Gs8"/>
                                 <exclude reference="PpV-jZ-BhH"/>
-                                <exclude reference="i8Q-WI-f8s"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -627,7 +624,6 @@
                                 <include reference="9f2-6W-Q8k"/>
                                 <include reference="ghC-uw-Gs8"/>
                                 <include reference="PpV-jZ-BhH"/>
-                                <include reference="i8Q-WI-f8s"/>
                             </mask>
                         </variation>
                     </view>
