@@ -28,6 +28,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 		self.syncLoginButton()
 	}
 	
+	override func supportedInterfaceOrientations() -> Int {
+		if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+			return Int(UIInterfaceOrientationMask.Portrait.toRaw())
+		} else {
+			return Int(UIInterfaceOrientationMask.All.toRaw())
+		}
+	}
+
 	func syncLoginButton() {
 		self.loginButton.enabled = self.usernameTextField.text != "" && self.passwordTextField.text != ""
 	}
